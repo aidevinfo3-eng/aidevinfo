@@ -1,0 +1,129 @@
+import type { Metadata } from 'next';
+
+const siteUrl = 'https://aidevinfo.online';
+
+interface SEOProps {
+  title: string;
+  description: string;
+  path: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  authors?: string[];
+  tags?: string[];
+}
+
+export function generateSEO({
+  title,
+  description,
+  path,
+  image = '/og-image.png',
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  authors,
+  tags,
+}: SEOProps): Metadata {
+  const url = `${siteUrl}${path}`;
+  const fullTitle = title.includes('AI Dev Info') ? title : `${title} | AI Dev Info`;
+
+  return {
+    title: fullTitle,
+    description,
+    alternates: {
+      canonical: path,
+    },
+    openGraph: {
+      type,
+      url,
+      title: fullTitle,
+      description,
+      siteName: 'AI Dev Info',
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      ...(publishedTime && { publishedTime }),
+      ...(modifiedTime && { modifiedTime }),
+      ...(authors && { authors }),
+      ...(tags && { tags }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: fullTitle,
+      description,
+      images: [image],
+    },
+  };
+}
+
+export function generateServiceLd(service: {
+  name: string;
+  description: string;
+  rating: number;
+  reviewCount: number;
+  pricing: string;
+  website: string;
+  category: string;
+  slug: string;
+  lastUpdated: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: service.name,
+    description: service.description,
+    applicationCategory: service.category,
+    url: `${siteUrl}/services/${service.slug}`,
+    offers: {
+      '@type': 'Offer',
+      price: service.pricing === 'Free' || service.pricing === 'Freemium' ? '0' : 'Varies',
+      priceCurrency: 'USD',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: service.rating,
+      ratingCount: service.reviewCount,
+    },
+    dateModified: service.lastUpdated,
+  };
+}
+
+export function generateArticleLd(article: {
+  title: string;
+  description: string;
+  image: string;
+  date: string;
+  author: string;
+  slug: string;
+  tags: string[];
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.description,
+    image: article.image,
+    datePublished: article.date,
+    dateModified: article.date,
+    author: {
+      '@type': 'Person',
+      name: article.author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'AI Dev Info',
+      url: siteUrl,
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${siteUrl}/blog/${article.slug}`,
+    },
+    keywords: article.tags.join(', '),
+  };
+}
