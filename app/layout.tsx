@@ -1,18 +1,20 @@
 import './globals.css';
 import type { Metadata } from 'next';
-import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
+import { DM_Sans, Source_Serif_4 } from 'next/font/google';
 import { Navbar } from '@/components/layout/navbar';
+import { Main } from '@/components/layout/main';
 import { Footer } from '@/components/layout/footer';
 import { ScrollToTop } from '@/components/layout/scroll-to-top';
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
+  weight: ['400', '600'],
   variable: '--font-display',
   display: 'swap',
 });
@@ -22,11 +24,12 @@ const siteUrl = 'https://aidevinfo.online';
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'AI Dev Info — Discover the Best AI Tools, Services & Insights',
+    default:
+      'AI Dev Info — Build Smarter with AI Development, Tools & Expert Insights',
     template: '%s | AI Dev Info',
   },
   description:
-    'Explore cutting-edge AI solutions, in-depth reviews, industry news, tutorials, and expert recommendations. Your trusted source for everything AI.',
+    'AI Dev Info is your all-in-one platform for AI development services, AI tools discovery, expert tutorials, industry news, and sponsored AI promotions.',
   keywords: [
     'AI tools',
     'AI services',
@@ -81,7 +84,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  themeColor: '#2563eb',
+  themeColor: '#0f6b52',
   category: 'technology',
 };
 
@@ -119,7 +122,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${jakarta.variable} font-sans`}>
+      <body className={`${dmSans.variable} ${sourceSerif.variable} font-sans`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -128,7 +131,7 @@ export default function RootLayout({
         />
         <div className="relative flex min-h-screen flex-col">
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <Main>{children}</Main>
           <Footer />
         </div>
         <ScrollToTop />

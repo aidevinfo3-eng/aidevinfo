@@ -3,8 +3,9 @@ import { BlogsClient } from '@/components/blog/blogs-client';
 import { generateSEO } from '@/lib/seo';
 
 export const metadata: Metadata = generateSEO({
-  title: 'AI Blog — Insights, Tutorials & News',
-  description: 'Read expert analysis, in-depth tutorials, and the latest AI news. Stay informed about artificial intelligence trends, tools, and best practices.',
+  title: 'AI Blogs, Tutorials, News & Expert Insights',
+  description:
+    'Stay ahead with expert-written AI blogs, tutorials, tool comparisons, development guides, industry news, and prompt engineering resources.',
   path: '/blogs',
 });
 

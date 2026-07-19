@@ -1,53 +1,76 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { Award, RefreshCw, BookOpen, Layers, Gift, TrendingUp } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { SectionHeading } from '@/components/shared/section-heading';
 
 const reasons = [
-  { icon: Award, title: 'Trusted Reviews', description: 'Every AI tool is thoroughly tested and reviewed by our team of AI experts.' },
-  { icon: RefreshCw, title: 'Updated AI Resources', description: 'We continuously update our directory with the latest AI tools and features.' },
-  { icon: BookOpen, title: 'Expert Guides', description: 'Comprehensive tutorials and guides to help you master AI tools effectively.' },
-  { icon: Layers, title: 'Curated Tools', description: 'Hand-picked AI solutions so you spend less time searching and more time building.' },
-  { icon: Gift, title: 'Free Learning Content', description: 'Access our blog and tutorials completely free — no paywalls, no gates.' },
-  { icon: TrendingUp, title: 'Industry Insights', description: 'Stay ahead with the latest AI trends, news, and expert analysis.' },
+  {
+    title: 'Expert AI Developers',
+    description: 'Skilled in modern AI technologies and frameworks.',
+  },
+  {
+    title: 'High-Quality Solutions',
+    description: 'We deliver secure, scalable, and performance-driven solutions.',
+  },
+  {
+    title: 'AI Tools Marketplace',
+    description: 'Discover, compare, and choose the best AI tools.',
+  },
+  {
+    title: 'Latest AI Insights',
+    description: 'Stay updated with AI news, tutorials, and research.',
+  },
+  {
+    title: 'Sponsored Promotions',
+    description: 'Promote your AI tools, SaaS, and services effectively.',
+  },
+  {
+    title: '24/7 Support',
+    description: "We're here to support your AI journey anytime.",
+  },
 ];
 
 export function WhyChooseSection() {
   return (
-    <section className="bg-muted/30 py-16 sm:py-20">
+    <section className="border-y border-border bg-card py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Why Us"
-          title="Why Choose AI Dev Info"
-          description="We are dedicated to helping you navigate the rapidly evolving world of AI with confidence."
-        />
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-5">
+            <SectionHeading
+              eyebrow="Why Choose Us"
+              title="Building the future with intelligence and innovation"
+              description="We combine cutting-edge AI technology with real-world experience to deliver powerful, scalable, and reliable AI solutions for modern businesses."
+              center={false}
+              className="max-w-md"
+            />
+            <div className="mt-8">
+              <Button asChild variant="outline" size="lg" className="group">
+                <Link href="/contact">
+                  About us
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {reasons.map((reason, index) => (
-            <motion.div
-              key={reason.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.4, delay: index * 0.08 }}
-            >
-              <Card className="group h-full border-border/60 shadow-soft transition-all duration-300 hover:shadow-card hover:-translate-y-1">
-                <CardContent className="p-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-white">
-                    <reason.icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="mt-4 font-display text-lg font-semibold text-foreground">
-                    {reason.title}
-                  </h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-                    {reason.description}
-                  </p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-7">
+            {reasons.map((reason, index) => (
+              <div
+                key={reason.title}
+                className="border border-border bg-background p-6"
+              >
+                <p className="text-[11px] font-medium tabular-nums text-primary">
+                  {String(index + 1).padStart(2, '0')}
+                </p>
+                <h3 className="mt-3 font-display text-xl text-foreground">
+                  {reason.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {reason.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -7,7 +7,7 @@ export const categories: Category[] = [
     description: 'Conversational AI assistants for chat, support, and more.',
     icon: 'MessageSquare',
     count: 8,
-    color: 'from-blue-500 to-blue-600',
+    color: 'from-zinc-700 to-zinc-900',
   },
   {
     name: 'Image Generation',
@@ -15,7 +15,7 @@ export const categories: Category[] = [
     description: 'Create stunning visuals and artwork from text prompts.',
     icon: 'Image',
     count: 6,
-    color: 'from-purple-500 to-purple-600',
+    color: 'from-emerald-800 to-emerald-950',
   },
   {
     name: 'Video Generation',
@@ -23,7 +23,7 @@ export const categories: Category[] = [
     description: 'Generate and edit videos with AI-powered tools.',
     icon: 'Video',
     count: 4,
-    color: 'from-pink-500 to-rose-500',
+    color: 'from-stone-700 to-stone-900',
   },
   {
     name: 'AI Coding',
@@ -31,7 +31,7 @@ export const categories: Category[] = [
     description: 'Code faster with AI pair programmers and assistants.',
     icon: 'Code2',
     count: 5,
-    color: 'from-green-500 to-emerald-600',
+    color: 'from-teal-800 to-teal-950',
   },
   {
     name: 'AI Writing',
@@ -39,7 +39,7 @@ export const categories: Category[] = [
     description: 'Generate articles, copy, and content with AI writers.',
     icon: 'PenTool',
     count: 4,
-    color: 'from-orange-500 to-amber-500',
+    color: 'from-zinc-600 to-zinc-800',
   },
   {
     name: 'Automation',
@@ -47,7 +47,7 @@ export const categories: Category[] = [
     description: 'Automate workflows and repetitive tasks with AI.',
     icon: 'Workflow',
     count: 3,
-    color: 'from-cyan-500 to-teal-500',
+    color: 'from-emerald-700 to-emerald-900',
   },
   {
     name: 'Marketing',
@@ -55,7 +55,7 @@ export const categories: Category[] = [
     description: 'AI-powered marketing tools for growth and analytics.',
     icon: 'Megaphone',
     count: 5,
-    color: 'from-red-500 to-orange-500',
+    color: 'from-stone-600 to-stone-800',
   },
   {
     name: 'Productivity',
@@ -63,7 +63,7 @@ export const categories: Category[] = [
     description: 'Boost your productivity with smart AI assistants.',
     icon: 'Zap',
     count: 4,
-    color: 'from-indigo-500 to-blue-500',
+    color: 'from-zinc-700 to-zinc-900',
   },
   {
     name: 'Voice AI',
@@ -71,7 +71,7 @@ export const categories: Category[] = [
     description: 'Text-to-speech, voice cloning, and audio generation.',
     icon: 'Mic',
     count: 3,
-    color: 'from-violet-500 to-purple-500',
+    color: 'from-teal-700 to-teal-900',
   },
   {
     name: 'Business AI',
@@ -79,7 +79,7 @@ export const categories: Category[] = [
     description: 'Enterprise AI solutions for business operations.',
     icon: 'Building2',
     count: 6,
-    color: 'from-slate-600 to-slate-800',
+    color: 'from-neutral-700 to-neutral-900',
   },
 ];
 

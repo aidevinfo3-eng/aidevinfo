@@ -1,28 +1,34 @@
 import { HeroSection } from '@/components/home/hero-section';
-import { FeaturedServices } from '@/components/home/featured-services';
-import { CategoriesSection } from '@/components/home/categories-section';
+import { TrustedTechSection } from '@/components/home/trusted-tech-section';
+import { DevServicesSection } from '@/components/home/dev-services-section';
 import { WhyChooseSection } from '@/components/home/why-choose-section';
+import { CategoriesSection } from '@/components/home/categories-section';
+import { FeaturedSolutionsSection } from '@/components/home/featured-solutions-section';
+import { HowItWorksSection } from '@/components/home/how-it-works-section';
+import { TrendingToolsSection } from '@/components/home/trending-tools-section';
 import { LatestBlogSection } from '@/components/home/latest-blog-section';
+import { ClientLogosSection } from '@/components/home/client-logos-section';
 import { Newsletter } from '@/components/shared/newsletter';
-import { TestimonialsSection } from '@/components/home/testimonials-section';
-import { FaqSection } from '@/components/home/faq-section';
 import { ContactCtaSection } from '@/components/home/contact-cta-section';
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <FeaturedServices />
-      <CategoriesSection />
+      <TrustedTechSection />
+      <DevServicesSection />
       <WhyChooseSection />
+      <CategoriesSection />
+      <FeaturedSolutionsSection />
+      <HowItWorksSection />
+      <TrendingToolsSection />
       <LatestBlogSection />
-      <section className="py-16 sm:py-20">
+      <ClientLogosSection />
+      <section className="py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <Newsletter />
         </div>
       </section>
-      <TestimonialsSection />
-      <FaqSection />
       <ContactCtaSection />
     </>
   );

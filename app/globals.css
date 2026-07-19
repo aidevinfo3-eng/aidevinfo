@@ -4,34 +4,37 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 217 91% 60%;
+    --background: 40 12% 97%;
+    --foreground: 0 0% 7%;
+    --card: 40 20% 99%;
+    --card-foreground: 0 0% 7%;
+    --popover: 40 20% 99%;
+    --popover-foreground: 0 0% 7%;
+    --primary: 162 72% 28%;
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 224 76% 48%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222 47% 11%;
-    --accent: 262 83% 58%;
-    --accent-foreground: 0 0% 100%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215 16% 47%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 217 91% 60%;
-    --success: 142 71% 45%;
-    --warning: 38 92% 50%;
-    --chart-1: 217 91% 60%;
-    --chart-2: 262 83% 58%;
-    --chart-3: 142 71% 45%;
-    --chart-4: 38 92% 50%;
-    --chart-5: 0 84% 60%;
-    --radius: 0.75rem;
+    --primary-dark: 162 78% 20%;
+    --secondary: 40 10% 92%;
+    --secondary-foreground: 0 0% 12%;
+    --accent: 162 48% 92%;
+    --accent-foreground: 162 72% 20%;
+    --muted: 40 10% 93%;
+    --muted-foreground: 25 6% 34%;
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 40 10% 86%;
+    --input: 40 10% 86%;
+    --ring: 162 72% 28%;
+    --success: 152 60% 36%;
+    --warning: 32 90% 46%;
+    --chart-1: 162 72% 28%;
+    --chart-2: 25 5% 30%;
+    --chart-3: 40 8% 55%;
+    --chart-4: 162 40% 45%;
+    --chart-5: 0 0% 20%;
+    --radius: 0.375rem;
+    --ink: 0 0% 7%;
+    --paper: 40 12% 97%;
+    --rule: 40 10% 82%;
   }
 }
 
@@ -41,10 +44,10 @@
   }
   body {
     @apply bg-background text-foreground antialiased;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings: "ss01" 1, "kern" 1;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply tracking-tight;
+    @apply tracking-tight text-foreground;
   }
 }
 
@@ -52,58 +55,88 @@
   .text-balance {
     text-wrap: balance;
   }
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+  .font-display {
+    font-family: var(--font-display), Georgia, "Times New Roman", serif;
+    font-feature-settings: "ss01" 1;
   }
-  .gradient-primary {
-    background-image: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(224 76% 48%) 50%, hsl(262 83% 58%) 100%);
+  .surface-paper {
+    background-color: hsl(var(--paper));
   }
-  .gradient-hero {
-    background-image: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(217 91% 60% / 0.15), transparent), radial-gradient(ellipse 60% 50% at 80% 50%, hsl(262 83% 58% / 0.08), transparent);
+  .surface-ink {
+    background-color: hsl(var(--ink));
+    color: hsl(40 12% 97%);
+  }
+  .rule {
+    border-color: hsl(var(--rule));
+  }
+  .editorial-grid {
+    background-image:
+      linear-gradient(hsl(var(--rule) / 0.35) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--rule) / 0.35) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
+  }
+  .hero-wash {
+    background:
+      radial-gradient(ellipse 90% 70% at 10% 0%, hsl(162 40% 88% / 0.55), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 100% 20%, hsl(40 20% 90% / 0.9), transparent 50%),
+      hsl(var(--paper));
   }
   .shadow-soft {
-    box-shadow: 0 2px 8px -2px rgb(0 0 0 / 0.05), 0 4px 16px -4px rgb(0 0 0 / 0.06);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 8px 24px -12px rgb(0 0 0 / 0.08);
   }
   .shadow-card {
-    box-shadow: 0 1px 3px -1px rgb(0 0 0 / 0.04), 0 6px 24px -8px rgb(0 0 0 / 0.08);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 0.03), 0 12px 32px -16px rgb(0 0 0 / 0.12);
+  }
+  .nav-blur {
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+  /* Legacy class aliases — keep markup working while we restyle */
+  .gradient-text {
+    color: hsl(var(--primary));
+  }
+  .gradient-primary {
+    background-color: hsl(var(--primary));
+  }
+  .gradient-hero {
+    background: transparent;
   }
   .shadow-glow {
-    box-shadow: 0 0 0 1px rgb(34 94 224 / 0.1), 0 8px 32px -8px rgb(34 94 224 / 0.25);
+    box-shadow: none;
   }
   .glass {
-    background: rgb(255 255 255 / 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: hsl(var(--paper) / 0.86);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
   }
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(210 40% 98%);
+  background: hsl(40 10% 94%);
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(214 32% 88%);
-  border-radius: 6px;
+  background: hsl(40 8% 72%);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(217 91% 60%);
+  background: hsl(162 40% 36%);
 }
 
-/* Prose styles for blog content */
 .prose-content h2 {
-  @apply text-2xl md:text-3xl font-bold mt-10 mb-4 text-foreground;
+  @apply font-display text-2xl md:text-3xl font-normal mt-10 mb-4 text-foreground;
 }
 .prose-content h3 {
-  @apply text-xl md:text-2xl font-bold mt-8 mb-3 text-foreground;
+  @apply font-display text-xl md:text-2xl font-normal mt-8 mb-3 text-foreground;
 }
 .prose-content p {
   @apply text-base leading-7 text-muted-foreground mb-5;
@@ -121,17 +154,17 @@ html {
   @apply text-primary font-medium underline underline-offset-2 hover:text-primary-dark;
 }
 .prose-content blockquote {
-  @apply border-l-4 border-primary pl-6 py-2 my-6 italic text-foreground bg-muted/50 rounded-r-lg;
+  @apply border-l-2 border-primary pl-6 py-1 my-6 italic font-display text-lg text-foreground;
 }
 .prose-content code {
-  @apply bg-muted text-accent px-1.5 py-0.5 rounded text-sm font-mono;
+  @apply bg-muted text-foreground px-1.5 py-0.5 rounded-sm text-sm font-mono;
 }
 .prose-content pre {
-  @apply bg-slate-900 text-slate-100 rounded-xl p-5 my-6 overflow-x-auto;
+  @apply bg-[hsl(0_0%_8%)] text-[hsl(40_12%_92%)] rounded-md p-5 my-6 overflow-x-auto;
 }
 .prose-content pre code {
-  @apply bg-transparent text-slate-100 p-0;
+  @apply bg-transparent text-inherit p-0;
 }
 .prose-content img {
-  @apply rounded-xl my-6 w-full;
+  @apply my-6 w-full;
 }

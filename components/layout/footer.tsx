@@ -1,32 +1,41 @@
 import Link from 'next/link';
-import { Sparkles, Twitter, Linkedin, Github, Youtube, Mail } from 'lucide-react';
+import { Twitter, Linkedin, Github, Youtube, Mail } from 'lucide-react';
 
 const footerSections = [
   {
-    title: 'About',
-    links: [
-      { href: '/about', label: 'About Us' },
-      { href: '/blogs', label: 'Blog' },
-      { href: '/advertising', label: 'Advertising' },
-      { href: '/contact', label: 'Contact' },
-    ],
-  },
-  {
-    title: 'Quick Links',
+    title: 'Platform',
     links: [
       { href: '/services', label: 'AI Services' },
-      { href: '/services', label: 'All Categories' },
-      { href: '/blogs', label: 'Latest Articles' },
-      { href: '/services', label: 'Top Rated' },
+      { href: '/services', label: 'AI Tools' },
+      { href: '/services', label: 'AI Categories' },
+      { href: '/services', label: 'Compare Services' },
     ],
   },
   {
-    title: 'AI Services',
+    title: 'Resources',
     links: [
-      { href: '/services?category=ai-chatbots', label: 'AI Chatbots' },
-      { href: '/services?category=image-generation', label: 'Image Generation' },
-      { href: '/services?category=ai-coding', label: 'AI Coding' },
-      { href: '/services?category=video-generation', label: 'Video Generation' },
+      { href: '/blogs', label: 'Blogs' },
+      { href: '/blogs', label: 'AI News' },
+      { href: '/blogs', label: 'Guides & Tutorials' },
+      { href: '/blogs', label: 'Case Studies' },
+    ],
+  },
+  {
+    title: 'For Businesses',
+    links: [
+      { href: '/advertising', label: 'Advertise With Us' },
+      { href: '/contact', label: 'Submit Your Service' },
+      { href: '/advertising', label: 'Become a Partner' },
+      { href: '/advertising', label: 'Pricing' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { href: '/contact', label: 'About Us' },
+      { href: '/contact', label: 'Contact Us' },
+      { href: '/contact', label: 'Careers' },
+      { href: '/advertising', label: 'Media Kit' },
     ],
   },
   {
@@ -34,8 +43,8 @@ const footerSections = [
     links: [
       { href: '/privacy-policy', label: 'Privacy Policy' },
       { href: '/terms', label: 'Terms of Service' },
-      { href: '/contact', label: 'Contact' },
-      { href: '/advertising', label: 'Advertise' },
+      { href: '/privacy-policy', label: 'Cookie Policy' },
+      { href: '/terms', label: 'Refund Policy' },
     ],
   },
 ];
@@ -50,23 +59,20 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-muted/30">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-6">
+    <footer className="border-t border-border bg-card">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-6">
           <div className="col-span-2">
-            <Link href="/" className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl gradient-primary">
-                <Sparkles className="h-5 w-5 text-white" />
-              </div>
-              <span className="font-display text-lg font-bold">
-                AI Dev <span className="gradient-text">Info</span>
+            <Link href="/" className="inline-block">
+              <span className="font-display text-2xl tracking-tight text-foreground">
+                AI Dev Info
               </span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm text-muted-foreground leading-relaxed">
-              Your trusted source for AI tools, services, reviews, and insights.
-              Discover the best artificial intelligence solutions for your needs.
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
+              Your trusted platform for discovering AI services, tools, expert
+              insights, and verified technology providers.
             </p>
-            <div className="mt-5 flex gap-2">
+            <div className="mt-6 flex gap-1">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
@@ -74,7 +80,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-all hover:border-primary hover:text-primary hover:shadow-soft"
+                  className="flex h-9 w-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <social.icon className="h-4 w-4" />
                 </a>
@@ -84,7 +90,7 @@ export function Footer() {
 
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h4 className="mb-3 text-sm font-semibold text-foreground">
+              <h4 className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
                 {section.title}
               </h4>
               <ul className="space-y-2.5">
@@ -92,7 +98,7 @@ export function Footer() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                      className="text-sm text-foreground/70 transition-colors hover:text-primary"
                     >
                       {link.label}
                     </Link>
@@ -103,13 +109,12 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
+        <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-border pt-8 sm:flex-row sm:items-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} AI Dev Info. All rights reserved.
+            © {new Date().getFullYear()} AI Dev Info. All Rights Reserved.
           </p>
           <p className="text-sm text-muted-foreground">
-            Built for the AI community at{' '}
-            <span className="font-medium text-foreground">aidevinfo.online</span>
+            Made for the AI community
           </p>
         </div>
       </div>
