@@ -31,13 +31,17 @@ import { CTASection } from '@/components/shared/cta-section';
 import { BlogCard } from '@/components/shared/blog-card';
 import { getCategoryName } from '@/lib/categories';
 import { getRelatedServices } from '@/lib/services';
-import { getLatestBlogPosts } from '@/lib/blog-posts';
-import { AIService } from '@/lib/types';
+import { AIService, BlogPost } from '@/lib/types';
 
-export function ServiceDetail({ service }: { service: AIService }) {
+export function ServiceDetail({
+  service,
+  relatedPosts,
+}: {
+  service: AIService;
+  relatedPosts: BlogPost[];
+}) {
   const [bookmarked, setBookmarked] = useState(false);
   const alternatives = getRelatedServices(service.alternatives).filter((s) => s.slug !== service.slug).slice(0, 4);
-  const relatedPosts = getLatestBlogPosts(3);
 
   return (
     <div className="bg-muted/20">

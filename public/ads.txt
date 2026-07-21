@@ -1,0 +1,2 @@
+# AdSense publisher entry — replace pub-XXXXXXXXXXXXXXXX after approval:
+# google.com, pub-XXXXXXXXXXXXXXXX, DIRECT, f08c47fec0942fa0

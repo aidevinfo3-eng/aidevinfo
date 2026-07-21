@@ -1,10 +1,5 @@
-import './globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { DM_Sans, Source_Serif_4 } from 'next/font/google';
-import { Navbar } from '@/components/layout/navbar';
-import { Main } from '@/components/layout/main';
-import { Footer } from '@/components/layout/footer';
-import { ScrollToTop } from '@/components/layout/scroll-to-top';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
@@ -84,8 +79,18 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  themeColor: '#0f6b52',
   category: 'technology',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icon.png', sizes: '32x32', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#0f6b52',
 };
 
 export default function RootLayout({
@@ -93,48 +98,10 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const organizationLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'AI Dev Info',
-    url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
-    description:
-      'A professional platform focused on Artificial Intelligence, AI tools, AI services, tutorials, news, reviews, and advertising opportunities.',
-    sameAs: [
-      'https://twitter.com/aidevinfo',
-      'https://linkedin.com/company/aidevinfo',
-      'https://github.com/aidevinfo',
-    ],
-  };
-
-  const websiteLd = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'AI Dev Info',
-    url: siteUrl,
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${siteUrl}/services?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-    },
-  };
-
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${sourceSerif.variable} font-sans`}>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify([organizationLd, websiteLd]),
-          }}
-        />
-        <div className="relative flex min-h-screen flex-col">
-          <Navbar />
-          <Main>{children}</Main>
-          <Footer />
-        </div>
-        <ScrollToTop />
+      <body className={`${dmSans.variable} ${sourceSerif.variable}`}>
+        {children}
       </body>
     </html>
   );

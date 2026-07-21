@@ -5,8 +5,8 @@ import { BlogCard } from '@/components/shared/blog-card';
 import { SectionHeading } from '@/components/shared/section-heading';
 import { getLatestBlogPosts } from '@/lib/blog-posts';
 
-export function LatestBlogSection() {
-  const posts = getLatestBlogPosts(4);
+export async function LatestBlogSection() {
+  const posts = await getLatestBlogPosts(4);
 
   return (
     <section className="py-16 sm:py-24">

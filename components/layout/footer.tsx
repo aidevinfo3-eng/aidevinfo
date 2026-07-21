@@ -1,41 +1,20 @@
 import Link from 'next/link';
-import { Twitter, Linkedin, Github, Youtube, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 
 const footerSections = [
   {
     title: 'Platform',
     links: [
       { href: '/services', label: 'AI Services' },
-      { href: '/services', label: 'AI Tools' },
-      { href: '/services', label: 'AI Categories' },
-      { href: '/services', label: 'Compare Services' },
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
-      { href: '/blogs', label: 'Blogs' },
-      { href: '/blogs', label: 'AI News' },
-      { href: '/blogs', label: 'Guides & Tutorials' },
-      { href: '/blogs', label: 'Case Studies' },
-    ],
-  },
-  {
-    title: 'For Businesses',
-    links: [
-      { href: '/advertising', label: 'Advertise With Us' },
-      { href: '/contact', label: 'Submit Your Service' },
-      { href: '/advertising', label: 'Become a Partner' },
-      { href: '/advertising', label: 'Pricing' },
+      { href: '/blogs', label: 'Blog' },
+      { href: '/advertising', label: 'Advertising' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { href: '/contact', label: 'About Us' },
-      { href: '/contact', label: 'Contact Us' },
-      { href: '/contact', label: 'Careers' },
-      { href: '/advertising', label: 'Media Kit' },
+      { href: '/contact', label: 'Contact' },
+      { href: '/contact', label: 'Submit a Service' },
     ],
   },
   {
@@ -43,25 +22,16 @@ const footerSections = [
     links: [
       { href: '/privacy-policy', label: 'Privacy Policy' },
       { href: '/terms', label: 'Terms of Service' },
-      { href: '/privacy-policy', label: 'Cookie Policy' },
-      { href: '/terms', label: 'Refund Policy' },
+      { href: '/cookie-policy', label: 'Cookie Policy' },
     ],
   },
-];
-
-const socialLinks = [
-  { href: 'https://twitter.com', icon: Twitter, label: 'Twitter' },
-  { href: 'https://linkedin.com', icon: Linkedin, label: 'LinkedIn' },
-  { href: 'https://github.com', icon: Github, label: 'GitHub' },
-  { href: 'https://youtube.com', icon: Youtube, label: 'YouTube' },
-  { href: 'mailto:hello@aidevinfo.online', icon: Mail, label: 'Email' },
 ];
 
 export function Footer() {
   return (
     <footer className="border-t border-border bg-card">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           <div className="col-span-2">
             <Link href="/" className="inline-block">
               <span className="font-display text-2xl tracking-tight text-foreground">
@@ -72,20 +42,13 @@ export function Footer() {
               Your trusted platform for discovering AI services, tools, expert
               insights, and verified technology providers.
             </p>
-            <div className="mt-6 flex gap-1">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="flex h-9 w-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  <social.icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
+            <a
+              href="mailto:aidevinfo3@gmail.com"
+              className="mt-5 inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <Mail className="h-4 w-4" />
+              aidevinfo3@gmail.com
+            </a>
           </div>
 
           {footerSections.map((section) => (

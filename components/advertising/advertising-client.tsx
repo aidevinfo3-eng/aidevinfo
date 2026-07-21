@@ -258,15 +258,12 @@ export function AdvertisingClient() {
             ))}
           </ul>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button asChild size="lg" className="group">
               <Link href="/contact">
                 Get started today
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link href="/contact">Download media kit</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
               <a href="#pricing">View pricing</a>
@@ -569,8 +566,8 @@ export function AdvertisingClient() {
             description="Reach a highly engaged audience of AI professionals, developers, founders, marketers, and decision-makers. Let's create an advertising campaign that delivers real results."
             primaryLabel="Book a Free Consultation"
             primaryHref="/contact"
-            secondaryLabel="Download Media Kit"
-            secondaryHref="/contact"
+            secondaryLabel="View Pricing"
+            secondaryHref="#pricing"
           />
         </div>
       </section>

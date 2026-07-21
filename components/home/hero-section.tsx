@@ -87,9 +87,9 @@ export function HeroSection() {
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search AI tools, AI services, blogs..."
+              placeholder="Search AI tools & services..."
               className="h-12 rounded-sm border-white/20 bg-white/10 pl-11 pr-28 text-white placeholder:text-white/45 focus-visible:ring-emerald-400/60"
-              aria-label="Search AI tools, services, and blogs"
+              aria-label="Search AI tools and services"
             />
             <Button
               type="submit"

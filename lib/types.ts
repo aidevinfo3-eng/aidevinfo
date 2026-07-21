@@ -57,17 +57,19 @@ export interface BlogPost {
   readingTime: string;
   image: string;
   featured: boolean;
-  content: BlogContentBlock[];
+  /** Portable Text blocks (Sanity) or markdown string (legacy fallback) */
+  content: unknown[] | string;
+  /** Level-2 headings for table of contents */
+  headings: string[];
   tags: string[];
   relatedServices?: string[];
-}
-
-export interface BlogContentBlock {
-  type: 'paragraph' | 'heading' | 'image' | 'quote' | 'code' | 'list';
-  text?: string;
-  items?: string[];
-  language?: string;
-  level?: number;
+  draft?: boolean;
+  faqs?: { question: string; answer: string }[];
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    ogImage?: string;
+  };
 }
 
 export interface Category {

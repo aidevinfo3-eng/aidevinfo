@@ -1,23 +1,18 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
-import {
-  getAllBlogPosts,
-  getFeaturedBlogPost,
-  getLatestBlogPosts,
-  blogCategories,
-} from '@/lib/blog-posts';
 import { BlogCard } from '@/components/shared/blog-card';
 import { SearchBar } from '@/components/shared/search-bar';
 import { Pagination } from '@/components/shared/pagination';
 import { Breadcrumbs } from '@/components/shared/breadcrumbs';
 import { SectionHeading } from '@/components/shared/section-heading';
-import { Newsletter } from '@/components/shared/newsletter';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import type { BlogPost } from '@/lib/types';
 
 const trendingTopics = [
   'AI Agents',
@@ -30,14 +25,6 @@ const trendingTopics = [
   'AI Coding',
   'AI SaaS',
   'AI Marketing',
-];
-
-const editorPicksMeta = [
-  { category: 'Guide', titleIncludes: 'startup' },
-  { category: 'Tutorial', titleIncludes: 'prompt' },
-  { category: 'Guide', titleIncludes: 'automation' },
-  { category: 'Tutorial', titleIncludes: 'cursor' },
-  { category: 'Comparison', titleIncludes: 'claude' },
 ];
 
 const popularCategoryStats = [
@@ -53,26 +40,6 @@ const popularCategoryStats = [
   { name: 'Video AI', count: '450' },
   { name: 'Voice AI', count: '390' },
   { name: 'Business AI', count: '620' },
-];
-
-const tutorials = [
-  'How to Build an AI Chatbot Step by Step',
-  'LangChain Tutorial for Beginners',
-  'OpenAI API Complete Guide',
-];
-
-const newsItems = [
-  'OpenAI launches GPT-4o Mini for developers',
-  'Google DeepMind introduces Gemini 2.0',
-  'Meta releases Llama 3.1',
-  'Microsoft expands AI Copilot features',
-];
-
-const comparisons = [
-  'ChatGPT vs Claude',
-  'Gemini vs Claude',
-  'Midjourney vs FLUX',
-  'Cursor AI vs GitHub Copilot',
 ];
 
 const successStories = [
@@ -91,16 +58,77 @@ const authors = [
 
 const sortTabs = ['Latest', 'Most Popular', 'Trending', 'Most Viewed'];
 
-export function BlogsClient() {
-  const allPosts = getAllBlogPosts();
-  const featuredPost = getFeaturedBlogPost() ?? allPosts[0];
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('All');
-  const [sortTab, setSortTab] = useState('Latest');
-  const [currentPage, setCurrentPage] = useState(1);
+export type BlogsClientProps = {
+  allPosts: BlogPost[];
+  categories: string[];
+  featuredPost: BlogPost | null;
+  editorPicks: BlogPost[];
+  tutorialPosts: BlogPost[];
+  newsPosts: BlogPost[];
+};
+
+function BlogsContent({
+  allPosts,
+  categories: blogCategories,
+  featuredPost,
+  editorPicks,
+  tutorialPosts,
+  newsPosts,
+}: BlogsClientProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const itemsPerPage = 8;
 
-  const editorPicks = getLatestBlogPosts(5);
+  const searchFromUrl = searchParams.get('q') ?? '';
+  const [search, setSearch] = useState(searchFromUrl);
+  const categoryParam = searchParams.get('category') ?? 'All';
+  const category = blogCategories.includes(categoryParam) ? categoryParam : 'All';
+  const sortTabParam = searchParams.get('sort') ?? 'Latest';
+  const sortTab = sortTabs.includes(sortTabParam) ? sortTabParam : 'Latest';
+  const pageParam = Number(searchParams.get('page') ?? '1');
+  const currentPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
+
+  const comparisonPosts = useMemo(
+    () =>
+      allPosts
+        .filter(
+          (p) =>
+            /vs|compared|comparison/i.test(p.title) ||
+            p.tags.some((t) => /comparison/i.test(t))
+        )
+        .slice(0, 4),
+    [allPosts]
+  );
+
+  useEffect(() => {
+    setSearch(searchFromUrl);
+  }, [searchFromUrl]);
+
+  const updateParams = useCallback(
+    (updates: Record<string, string | null>, opts?: { resetPage?: boolean }) => {
+      const params = new URLSearchParams(searchParams.toString());
+      for (const [key, value] of Object.entries(updates)) {
+        if (!value) params.delete(key);
+        else params.set(key, value);
+      }
+      if (opts?.resetPage !== false) {
+        params.delete('page');
+      }
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const next = search.trim();
+      if (next === searchFromUrl) return;
+      updateParams({ q: next || null });
+    }, 350);
+    return () => clearTimeout(timeout);
+  }, [search, searchFromUrl, updateParams]);
 
   const filtered = useMemo(() => {
     let result = allPosts.filter((post) => {
@@ -126,11 +154,16 @@ export function BlogsClient() {
     return result.filter((p) => p.slug !== featuredPost?.slug);
   }, [allPosts, search, category, sortTab, featuredPost?.slug]);
 
-  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  const safePage = Math.min(currentPage, totalPages);
   const currentItems = filtered.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    (safePage - 1) * itemsPerPage,
+    safePage * itemsPerPage
   );
+
+  const scrollToLatest = () => {
+    document.getElementById('latest')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div>
@@ -153,10 +186,7 @@ export function BlogsClient() {
           <div className="mt-8 max-w-xl">
             <SearchBar
               value={search}
-              onChange={(v) => {
-                setSearch(v);
-                setCurrentPage(1);
-              }}
+              onChange={setSearch}
               placeholder="Search AI blogs, tutorials, news, comparisons..."
             />
           </div>
@@ -169,7 +199,7 @@ export function BlogsClient() {
               </a>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <a href="#newsletter">Subscribe newsletter</a>
+              <Link href="/contact">Get in touch</Link>
             </Button>
           </div>
 
@@ -251,12 +281,13 @@ export function BlogsClient() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <h2 className="font-display text-2xl text-foreground">Trending Topics</h2>
-            <Link
-              href="#latest"
+            <button
+              type="button"
+              onClick={scrollToLatest}
               className="text-sm font-medium text-primary hover:underline"
             >
               View all topics →
-            </Link>
+            </button>
           </div>
           <div className="mt-6 flex flex-wrap gap-2">
             {trendingTopics.map((topic) => (
@@ -264,9 +295,8 @@ export function BlogsClient() {
                 key={topic}
                 type="button"
                 onClick={() => {
-                  setSearch(topic);
-                  setCurrentPage(1);
-                  document.getElementById('latest')?.scrollIntoView({ behavior: 'smooth' });
+                  updateParams({ q: topic });
+                  scrollToLatest();
                 }}
                 className="border border-border bg-background px-4 py-2 text-sm text-foreground transition-colors hover:border-foreground/30 hover:bg-muted/50"
               >
@@ -294,14 +324,14 @@ export function BlogsClient() {
             </Button>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-            {editorPicks.map((post, i) => (
+            {editorPicks.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
                 className="group border border-border bg-card p-5 transition-colors hover:bg-muted/40"
               >
                 <p className="text-[11px] uppercase tracking-[0.14em] text-primary">
-                  {editorPicksMeta[i]?.category ?? post.category}
+                  {post.category}
                 </p>
                 <h3 className="mt-3 font-display text-lg leading-snug text-foreground transition-colors group-hover:text-primary">
                   {post.title}
@@ -332,10 +362,9 @@ export function BlogsClient() {
               <button
                 key={tab}
                 type="button"
-                onClick={() => {
-                  setSortTab(tab);
-                  setCurrentPage(1);
-                }}
+                onClick={() =>
+                  updateParams({ sort: tab === 'Latest' ? null : tab })
+                }
                 className={cn(
                   'px-4 py-2 text-sm transition-colors',
                   sortTab === tab
@@ -349,29 +378,13 @@ export function BlogsClient() {
           </div>
 
           <div className="mt-4 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                setCategory('All');
-                setCurrentPage(1);
-              }}
-              className={cn(
-                'px-3 py-1.5 text-xs uppercase tracking-wider',
-                category === 'All'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'border border-border text-muted-foreground hover:text-foreground'
-              )}
-            >
-              All
-            </button>
             {blogCategories.map((cat) => (
               <button
                 key={cat}
                 type="button"
-                onClick={() => {
-                  setCategory(cat);
-                  setCurrentPage(1);
-                }}
+                onClick={() =>
+                  updateParams({ category: cat === 'All' ? null : cat })
+                }
                 className={cn(
                   'px-3 py-1.5 text-xs uppercase tracking-wider',
                   category === cat
@@ -399,9 +412,14 @@ export function BlogsClient() {
           {totalPages > 1 && (
             <div className="mt-10">
               <Pagination
-                currentPage={currentPage}
+                currentPage={safePage}
                 totalPages={totalPages}
-                onPageChange={setCurrentPage}
+                onPageChange={(page) =>
+                  updateParams(
+                    { page: page > 1 ? String(page) : null },
+                    { resetPage: false }
+                  )
+                }
               />
             </div>
           )}
@@ -434,47 +452,77 @@ export function BlogsClient() {
           <div>
             <h2 className="font-display text-2xl text-foreground">Step-by-Step Tutorials</h2>
             <ul className="mt-5 space-y-3">
-              {tutorials.map((item) => (
-                <li key={item}>
-                  <Link href="#latest" className="text-sm text-muted-foreground hover:text-primary">
-                    {item}
+              {tutorialPosts.map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="text-sm text-muted-foreground hover:text-primary"
+                  >
+                    {post.title}
                   </Link>
                 </li>
               ))}
             </ul>
-            <Link href="#latest" className="mt-4 inline-block text-sm font-medium text-primary">
+            <button
+              type="button"
+              onClick={() => {
+                updateParams({ category: 'Tutorials' });
+                scrollToLatest();
+              }}
+              className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
+            >
               View all →
-            </Link>
+            </button>
           </div>
           <div>
             <h2 className="font-display text-2xl text-foreground">Latest AI News</h2>
             <ul className="mt-5 space-y-3">
-              {newsItems.map((item) => (
-                <li key={item}>
-                  <Link href="#latest" className="text-sm text-muted-foreground hover:text-primary">
-                    {item}
+              {newsPosts.map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="text-sm text-muted-foreground hover:text-primary"
+                  >
+                    {post.title}
                   </Link>
                 </li>
               ))}
             </ul>
-            <Link href="#latest" className="mt-4 inline-block text-sm font-medium text-primary">
+            <button
+              type="button"
+              onClick={() => {
+                updateParams({ category: 'News' });
+                scrollToLatest();
+              }}
+              className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
+            >
               View all →
-            </Link>
+            </button>
           </div>
           <div>
             <h2 className="font-display text-2xl text-foreground">AI Comparisons</h2>
             <ul className="mt-5 space-y-3">
-              {comparisons.map((item) => (
-                <li key={item}>
-                  <Link href="#latest" className="text-sm text-muted-foreground hover:text-primary">
-                    {item}
+              {comparisonPosts.map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    className="text-sm text-muted-foreground hover:text-primary"
+                  >
+                    {post.title}
                   </Link>
                 </li>
               ))}
             </ul>
-            <Link href="#latest" className="mt-4 inline-block text-sm font-medium text-primary">
+            <button
+              type="button"
+              onClick={() => {
+                updateParams({ q: 'vs' });
+                scrollToLatest();
+              }}
+              className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
+            >
               View all →
-            </Link>
+            </button>
           </div>
         </div>
       </section>
@@ -553,11 +601,20 @@ export function BlogsClient() {
         </div>
       </section>
 
-      <section id="newsletter" className="scroll-mt-24 pb-16 sm:pb-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Newsletter />
-        </div>
-      </section>
     </div>
+  );
+}
+
+export function BlogsClient(props: BlogsClientProps) {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-7xl px-4 py-20 text-center text-muted-foreground">
+          Loading...
+        </div>
+      }
+    >
+      <BlogsContent {...props} />
+    </Suspense>
   );
 }

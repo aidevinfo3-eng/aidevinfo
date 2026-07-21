@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useMemo, useEffect, Suspense } from 'react';
+import { useState, useMemo, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
 import { aiServices, getFeaturedServices } from '@/lib/services';
 import { categories } from '@/lib/categories';
@@ -11,7 +11,6 @@ import { SearchBar } from '@/components/shared/search-bar';
 import { Pagination } from '@/components/shared/pagination';
 import { Breadcrumbs } from '@/components/shared/breadcrumbs';
 import { SectionHeading } from '@/components/shared/section-heading';
-import { Newsletter } from '@/components/shared/newsletter';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -28,6 +27,7 @@ const sortOptions = [
   { value: 'featured', label: 'Featured' },
 ];
 
+const sortValues = new Set(sortOptions.map((o) => o.value));
 const pricingOptions = ['All', 'Free', 'Freemium', 'Paid', 'Custom Pricing'];
 
 const popularCategories = [
@@ -87,25 +87,53 @@ const clientLogos = [
 ];
 
 function ServicesContent() {
+  const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('All');
-  const [pricing, setPricing] = useState('All');
-  const [sort, setSort] = useState('popular');
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
+
+  const searchFromUrl = searchParams.get('q') ?? '';
+  const [search, setSearch] = useState(searchFromUrl);
+  const sortParam = searchParams.get('sort') ?? 'popular';
+  const sort = sortValues.has(sortParam) ? sortParam : 'popular';
+  const pricingParam = searchParams.get('pricing') ?? 'All';
+  const pricing = pricingOptions.includes(pricingParam) ? pricingParam : 'All';
+  const categorySlug = searchParams.get('category');
+  const category =
+    categories.find((c) => c.slug === categorySlug)?.name ?? 'All';
+  const pageParam = Number(searchParams.get('page') ?? '1');
+  const currentPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
 
   const featured = getFeaturedServices().slice(0, 4);
 
   useEffect(() => {
-    const catSlug = searchParams.get('category');
-    if (catSlug) {
-      const cat = categories.find((c) => c.slug === catSlug);
-      if (cat) setCategory(cat.name);
-    }
-    const q = searchParams.get('q');
-    if (q) setSearch(q);
-  }, [searchParams]);
+    setSearch(searchFromUrl);
+  }, [searchFromUrl]);
+
+  const updateParams = useCallback(
+    (updates: Record<string, string | null>, opts?: { resetPage?: boolean }) => {
+      const params = new URLSearchParams(searchParams.toString());
+      for (const [key, value] of Object.entries(updates)) {
+        if (!value) params.delete(key);
+        else params.set(key, value);
+      }
+      if (opts?.resetPage !== false) {
+        params.delete('page');
+      }
+      const query = params.toString();
+      router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      const next = search.trim();
+      if (next === searchFromUrl) return;
+      updateParams({ q: next || null });
+    }, 350);
+    return () => clearTimeout(timeout);
+  }, [search, searchFromUrl, updateParams]);
 
   const filtered = useMemo(() => {
     let result = aiServices.filter((s) => {
@@ -141,15 +169,18 @@ function ServicesContent() {
     return result;
   }, [search, category, pricing, sort]);
 
-  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
+  const safePage = Math.min(currentPage, totalPages);
   const currentItems = filtered.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    (safePage - 1) * itemsPerPage,
+    safePage * itemsPerPage
   );
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [search, category, pricing, sort]);
+    if (safePage !== currentPage) {
+      updateParams({ page: safePage > 1 ? String(safePage) : null }, { resetPage: false });
+    }
+  }, [safePage, currentPage, updateParams]);
 
   return (
     <div>
@@ -190,7 +221,16 @@ function ServicesContent() {
               />
             </div>
             <div className="flex flex-wrap gap-2">
-              <Select value={category} onValueChange={setCategory}>
+              <Select
+                value={category}
+                onValueChange={(value) => {
+                  const slug =
+                    value === 'All'
+                      ? null
+                      : categories.find((c) => c.name === value)?.slug ?? null;
+                  updateParams({ category: slug });
+                }}
+              >
                 <SelectTrigger className="w-[160px] rounded-sm">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -203,7 +243,12 @@ function ServicesContent() {
                   ))}
                 </SelectContent>
               </Select>
-              <Select value={pricing} onValueChange={setPricing}>
+              <Select
+                value={pricing}
+                onValueChange={(value) =>
+                  updateParams({ pricing: value === 'All' ? null : value })
+                }
+              >
                 <SelectTrigger className="w-[140px] rounded-sm">
                   <SelectValue placeholder="Pricing" />
                 </SelectTrigger>
@@ -215,7 +260,12 @@ function ServicesContent() {
                   ))}
                 </SelectContent>
               </Select>
-              <Select value={sort} onValueChange={setSort}>
+              <Select
+                value={sort}
+                onValueChange={(value) =>
+                  updateParams({ sort: value === 'popular' ? null : value })
+                }
+              >
                 <SelectTrigger className="w-[150px] rounded-sm">
                   <SelectValue placeholder="Sort" />
                 </SelectTrigger>
@@ -262,7 +312,7 @@ function ServicesContent() {
               className="max-w-xl"
             />
             <Button asChild variant="outline" className="shrink-0 self-start group">
-              <Link href="#directory">
+              <Link href="/services?sort=featured#directory">
                 View all featured
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
@@ -291,8 +341,7 @@ function ServicesContent() {
                 key={cat.name}
                 type="button"
                 onClick={() => {
-                  const match = categories.find((c) => c.slug === cat.slug);
-                  if (match) setCategory(match.name);
+                  updateParams({ category: cat.slug });
                   document
                     .getElementById('directory')
                     ?.scrollIntoView({ behavior: 'smooth' });
@@ -339,28 +388,33 @@ function ServicesContent() {
           {totalPages > 1 && (
             <div className="mt-10">
               <Pagination
-                currentPage={currentPage}
+                currentPage={safePage}
                 totalPages={totalPages}
-                onPageChange={setCurrentPage}
+                onPageChange={(page) =>
+                  updateParams(
+                    { page: page > 1 ? String(page) : null },
+                    { resetPage: false }
+                  )
+                }
               />
             </div>
           )}
         </div>
       </section>
 
-      {/* Compare CTA */}
+      {/* Directory CTA */}
       <section className="border-y border-border bg-card py-14">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Compare Top AI Services
+            Looking for a custom AI solution?
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Compare pricing, features, ratings, and capabilities to choose the best
-            AI service for your business.
+            Tell us what you need — we&apos;ll help you find the right tools or connect about
+            development services.
           </p>
           <Button asChild size="lg" className="mt-8 group">
-            <Link href="/services?sort=featured">
-              Compare now
+            <Link href="/contact">
+              Contact us
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
@@ -407,11 +461,6 @@ function ServicesContent() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Newsletter />
-        </div>
-      </section>
     </div>
   );
 }
