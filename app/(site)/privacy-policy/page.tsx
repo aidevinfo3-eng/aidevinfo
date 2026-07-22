@@ -37,7 +37,8 @@ export default function PrivacyPolicyPage() {
             analytics providers, if enabled).
           </li>
           <li>
-            Cookies and similar technologies as described in our Cookie Policy.
+            Cookies and similar technologies used for site functionality, analytics, and advertising
+            (if enabled).
           </li>
         </ul>
       </section>

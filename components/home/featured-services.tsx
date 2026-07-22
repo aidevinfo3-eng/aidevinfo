@@ -15,7 +15,7 @@ export function FeaturedServices() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Featured"
-          title="Featured AI Services"
+          title="Featured AI Tools"
           description="Discover the most popular and highly-rated AI tools handpicked by our experts."
         />
 
@@ -28,7 +28,7 @@ export function FeaturedServices() {
         <div className="mt-10 text-center">
           <Button asChild variant="outline" size="lg" className="border-border bg-background hover:bg-muted group">
             <Link href="/services">
-              View All Services
+              View All Tools
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>

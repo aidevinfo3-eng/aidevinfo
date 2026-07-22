@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { getCategoryName } from '@/lib/categories';
 import { AIService } from '@/lib/types';
-import { RatingStars } from '@/components/shared/rating-stars';
 
 export function ServiceCard({ service }: { service: AIService; index?: number }) {
   return (
@@ -27,8 +26,7 @@ export function ServiceCard({ service }: { service: AIService; index?: number })
         {service.description}
       </p>
 
-      <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-        <RatingStars rating={service.rating} showNumber reviewCount={service.reviewCount} />
+      <div className="mt-5 flex items-center justify-end border-t border-border pt-4">
         <Link
           href={`/services/${service.slug}`}
           className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-primary"

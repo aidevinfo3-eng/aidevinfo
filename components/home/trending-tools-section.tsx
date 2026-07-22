@@ -1,14 +1,11 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { RatingStars } from '@/components/shared/rating-stars';
 import { SectionHeading } from '@/components/shared/section-heading';
 import { getCategoryName } from '@/lib/categories';
-import { getFeaturedServices } from '@/lib/services';
+import type { AIService } from '@/lib/types';
 
-export function TrendingToolsSection() {
-  const services = getFeaturedServices().slice(0, 6);
-
+export function TrendingToolsSection({ tools }: { tools: AIService[] }) {
   return (
     <section className="border-y border-border bg-card py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -29,7 +26,7 @@ export function TrendingToolsSection() {
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {services.map((service) => (
+          {tools.map((service) => (
             <article
               key={service.slug}
               className="flex h-full flex-col border border-border bg-background p-6"
@@ -55,8 +52,7 @@ export function TrendingToolsSection() {
               <p className="mt-3 line-clamp-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {service.description}
               </p>
-              <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
-                <RatingStars rating={service.rating} showNumber />
+              <div className="mt-5 flex items-center justify-end border-t border-border pt-4">
                 <Link
                   href={`/services/${service.slug}`}
                   className="inline-flex items-center gap-1 text-sm font-medium text-foreground transition-colors hover:text-primary"

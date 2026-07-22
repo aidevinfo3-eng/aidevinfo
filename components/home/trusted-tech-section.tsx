@@ -36,7 +36,7 @@ export function TrustedTechSection() {
     <section className="border-y border-border bg-card py-8 sm:py-10">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <p className="text-center text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-          Trusted by leading AI technologies
+          Trusted Partners
         </p>
       </div>
 

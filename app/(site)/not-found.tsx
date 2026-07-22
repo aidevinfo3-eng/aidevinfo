@@ -36,7 +36,7 @@ export default function NotFound() {
           <Button asChild size="lg" variant="outline" className="border-border bg-background hover:bg-muted group">
             <Link href="/services">
               <Search className="mr-2 h-4 w-4" />
-              Browse AI Services
+              Browse AI Tools
             </Link>
           </Button>
         </div>

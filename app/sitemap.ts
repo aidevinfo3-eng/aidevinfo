@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { aiServices } from '@/lib/services';
+import { getAllAiTools } from '@/lib/ai-tools';
 import { getAllBlogPosts } from '@/lib/blog-posts';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -14,12 +14,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${baseUrl}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${baseUrl}/privacy-policy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${baseUrl}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${baseUrl}/cookie-policy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ];
 
-  const servicePages: MetadataRoute.Sitemap = aiServices.map((service) => ({
+  const tools = await getAllAiTools();
+  const servicePages: MetadataRoute.Sitemap = tools.map((service) => ({
     url: `${baseUrl}/services/${service.slug}`,
-    lastModified: new Date(service.lastUpdated),
+    lastModified: service.lastUpdated ? new Date(service.lastUpdated) : now,
     changeFrequency: 'weekly' as const,
     priority: 0.8,
   }));

@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
-import { RatingStars } from '@/components/shared/rating-stars';
 import { Review } from '@/lib/types';
 
 export function ReviewCard({ review, index = 0 }: { review: Review; index?: number }) {
@@ -28,12 +27,15 @@ export function ReviewCard({ review, index = 0 }: { review: Review; index?: numb
               <p className="text-sm font-semibold text-foreground">{review.author}</p>
               <p className="text-xs text-muted-foreground">{review.role}</p>
             </div>
-            <RatingStars rating={review.rating} />
           </div>
           <h4 className="mt-4 font-semibold text-foreground">{review.title}</h4>
           <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{review.content}</p>
           <p className="mt-3 text-xs text-muted-foreground/70">
-            {new Date(review.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            {new Date(review.date).toLocaleDateString('en-US', {
+              month: 'long',
+              day: 'numeric',
+              year: 'numeric',
+            })}
           </p>
         </CardContent>
       </Card>

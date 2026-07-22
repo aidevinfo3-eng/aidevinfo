@@ -1,12 +1,7 @@
 import type { Metadata } from 'next';
 import { BlogsClient } from '@/components/blog/blogs-client';
-import {
-  getAllBlogPosts,
-  getBlogCategories,
-  getBlogPostsByCategory,
-  getFeaturedBlogPost,
-  getLatestBlogPosts,
-} from '@/lib/blog-posts';
+import { getAllBlogPosts } from '@/lib/blog-posts';
+import { getBlogFilterCategories } from '@/lib/blog-categories';
 import { generateSEO } from '@/lib/seo';
 
 export const revalidate = 60;
@@ -19,24 +14,10 @@ export const metadata: Metadata = generateSEO({
 });
 
 export default async function BlogsPage() {
-  const [allPosts, categories, featuredPost, editorPicks, tutorialPosts, newsPosts] =
-    await Promise.all([
-      getAllBlogPosts(),
-      getBlogCategories(),
-      getFeaturedBlogPost(),
-      getLatestBlogPosts(5),
-      getBlogPostsByCategory('Tutorials'),
-      getBlogPostsByCategory('News'),
-    ]);
+  const [allPosts, categories] = await Promise.all([
+    getAllBlogPosts(),
+    getBlogFilterCategories(),
+  ]);
 
-  return (
-    <BlogsClient
-      allPosts={allPosts}
-      categories={categories}
-      featuredPost={featuredPost ?? allPosts[0] ?? null}
-      editorPicks={editorPicks}
-      tutorialPosts={tutorialPosts.slice(0, 4)}
-      newsPosts={newsPosts.slice(0, 4)}
-    />
-  );
+  return <BlogsClient allPosts={allPosts} categories={categories} />;
 }

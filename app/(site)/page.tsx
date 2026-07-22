@@ -7,22 +7,29 @@ import { FeaturedSolutionsSection } from '@/components/home/featured-solutions-s
 import { HowItWorksSection } from '@/components/home/how-it-works-section';
 import { TrendingToolsSection } from '@/components/home/trending-tools-section';
 import { LatestBlogSection } from '@/components/home/latest-blog-section';
-import { ClientLogosSection } from '@/components/home/client-logos-section';
 import { ContactCtaSection } from '@/components/home/contact-cta-section';
+import { getDevelopmentServices } from '@/lib/development-services';
+import { getFeaturedAiTools } from '@/lib/ai-tools';
+import { getAllCategories } from '@/lib/tool-categories';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [developmentServices, trendingTools, categories] = await Promise.all([
+    getDevelopmentServices(),
+    getFeaturedAiTools(6),
+    getAllCategories(),
+  ]);
+
   return (
     <>
       <HeroSection />
       <TrustedTechSection />
-      <DevServicesSection />
+      <DevServicesSection services={developmentServices} />
       <WhyChooseSection />
-      <CategoriesSection />
+      <CategoriesSection categories={categories} />
       <FeaturedSolutionsSection />
       <HowItWorksSection />
-      <TrendingToolsSection />
+      <TrendingToolsSection tools={trendingTools} />
       <LatestBlogSection />
-      <ClientLogosSection />
       <ContactCtaSection />
     </>
   );

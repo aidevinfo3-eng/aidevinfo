@@ -62,7 +62,7 @@ const whyAdvertise = [
 
 const solutions = [
   { title: 'Homepage Hero Banner', desc: 'Appear at the top of the homepage and reach thousands of visitors daily.' },
-  { title: 'Sponsored AI Tool Listing', desc: 'Get premium placement inside the AI Services and AI Tools directory.' },
+  { title: 'Sponsored AI Tool Listing', desc: 'Get premium placement inside the AI Tools directory.' },
   { title: 'Sponsored Blog Article', desc: 'Publish educational content promoting your AI product while improving SEO visibility.' },
   { title: 'Newsletter Sponsorship', desc: 'Reach subscribers directly through our weekly AI newsletter.' },
   { title: 'Sidebar Display Ads', desc: 'Display banner ads across blogs, AI service pages, and category pages.' },
@@ -72,7 +72,7 @@ const solutions = [
 const placements = [
   'Homepage Hero Banner',
   'Homepage Featured Section',
-  'AI Services Directory',
+  'AI Tools Directory',
   'Blog Sidebar Banner',
   'Sponsored Blog Article',
   'Newsletter Placement',
@@ -208,7 +208,7 @@ const advertisingFaqs = [
       'Homepage banners, sponsored listings, sponsored blog posts, newsletters, sidebar banners, category sponsorships, and custom campaigns.',
   },
   {
-    question: 'Can I advertise AI services?',
+    question: 'Can I advertise AI tools?',
     answer:
       'Yes. AI development companies, agencies, SaaS products, APIs, startups, and educational platforms are all welcome.',
   },

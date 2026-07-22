@@ -65,8 +65,6 @@ export function generateSEO({
 export function generateServiceLd(service: {
   name: string;
   description: string;
-  rating: number;
-  reviewCount: number;
   pricing: string;
   website: string;
   category: string;
@@ -84,11 +82,6 @@ export function generateServiceLd(service: {
       '@type': 'Offer',
       price: service.pricing === 'Free' || service.pricing === 'Freemium' ? '0' : 'Varies',
       priceCurrency: 'USD',
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: service.rating,
-      ratingCount: service.reviewCount,
     },
     dateModified: service.lastUpdated,
   };

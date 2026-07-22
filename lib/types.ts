@@ -77,8 +77,13 @@ export interface Category {
   slug: string;
   description: string;
   icon: string;
+  /** Numeric count used as fallback when countLabel is missing */
   count: number;
+  /** Display label for home/explore, e.g. "120+" */
+  countLabel?: string;
   color: string;
+  showOnHome?: boolean;
+  order?: number;
 }
 
 export interface Testimonial {

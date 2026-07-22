@@ -1,12 +1,17 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ServiceDetail } from '@/components/services/service-detail';
-import { aiServices, getServiceBySlug } from '@/lib/services';
+import {
+  getAiToolBySlug,
+  getAiToolSlugs,
+  getRelatedAiTools,
+} from '@/lib/ai-tools';
 import { getLatestBlogPosts } from '@/lib/blog-posts';
 import { generateSEO, generateServiceLd } from '@/lib/seo';
 
-export function generateStaticParams() {
-  return aiServices.map((service) => ({ slug: service.slug }));
+export async function generateStaticParams() {
+  const slugs = await getAiToolSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -15,7 +20,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = await getAiToolBySlug(slug);
   if (!service) return {};
 
   return generateSEO({
@@ -33,11 +38,14 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const service = getServiceBySlug(slug);
+  const service = await getAiToolBySlug(slug);
   if (!service) notFound();
 
-  const ld = generateServiceLd(service);
-  const relatedPosts = await getLatestBlogPosts(3);
+  const [ld, relatedPosts, alternatives] = await Promise.all([
+    Promise.resolve(generateServiceLd(service)),
+    getLatestBlogPosts(3),
+    getRelatedAiTools(service.alternatives),
+  ]);
 
   return (
     <>
@@ -45,7 +53,11 @@ export default async function ServiceDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }}
       />
-      <ServiceDetail service={service} relatedPosts={relatedPosts} />
+      <ServiceDetail
+        service={service}
+        relatedPosts={relatedPosts}
+        alternatives={alternatives.filter((s) => s.slug !== service.slug).slice(0, 4)}
+      />
     </>
   );
 }

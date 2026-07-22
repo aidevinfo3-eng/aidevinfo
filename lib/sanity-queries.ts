@@ -53,3 +53,104 @@ export const postSlugsQuery = groq`
     "slug": slug.current
   }
 `;
+
+export const allDevelopmentServicesQuery = groq`
+  *[_type == "developmentService" && published != false]
+  | order(order asc, title asc) {
+    _id,
+    title,
+    "slug": slug.current,
+    description,
+    icon,
+    order
+  }
+`;
+
+const aiToolFields = `
+  _id,
+  name,
+  "slug": slug.current,
+  tagline,
+  description,
+  longDescription,
+  category,
+  rating,
+  reviewCount,
+  pricing,
+  pricingPlans[] {
+    name,
+    price,
+    period,
+    description,
+    features,
+    highlighted
+  },
+  website,
+  platform,
+  apiAvailable,
+  lastUpdated,
+  dateAdded,
+  tags,
+  features,
+  pros,
+  cons,
+  useCases[] { title, description },
+  screenshots,
+  alternatives,
+  faqs[] { question, answer },
+  reviews[] {
+    author,
+    role,
+    avatar,
+    rating,
+    date,
+    title,
+    content
+  },
+  popular,
+  featured
+`;
+
+export const allAiToolsQuery = groq`
+  *[_type == "aiTool" && published != false && defined(slug.current)]
+  | order(featured desc, reviewCount desc, name asc) {
+    ${aiToolFields}
+  }
+`;
+
+export const aiToolBySlugQuery = groq`
+  *[_type == "aiTool" && published != false && slug.current == $slug][0] {
+    ${aiToolFields}
+  }
+`;
+
+export const aiToolSlugsQuery = groq`
+  *[_type == "aiTool" && published != false && defined(slug.current)]{
+    "slug": slug.current
+  }
+`;
+
+export const allToolCategoriesQuery = groq`
+  *[_type == "toolCategory" && published != false]
+  | order(order asc, name asc) {
+    _id,
+    name,
+    "slug": slug.current,
+    description,
+    icon,
+    countLabel,
+    order,
+    showOnHome
+  }
+`;
+
+export const allBlogCategoriesQuery = groq`
+  *[_type == "blogCategory" && published != false]
+  | order(order asc, name asc) {
+    _id,
+    name,
+    "slug": slug.current,
+    description,
+    order
+  }
+`;

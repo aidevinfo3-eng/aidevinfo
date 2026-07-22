@@ -20,7 +20,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { RatingStars } from '@/components/shared/rating-stars';
 import { Breadcrumbs } from '@/components/shared/breadcrumbs';
 import { FaqAccordion } from '@/components/shared/faq-accordion';
 import { ServiceCard } from '@/components/shared/service-card';
@@ -30,18 +29,18 @@ import { ScreenshotGallery } from '@/components/services/screenshot-gallery';
 import { CTASection } from '@/components/shared/cta-section';
 import { BlogCard } from '@/components/shared/blog-card';
 import { getCategoryName } from '@/lib/categories';
-import { getRelatedServices } from '@/lib/services';
 import { AIService, BlogPost } from '@/lib/types';
 
 export function ServiceDetail({
   service,
   relatedPosts,
+  alternatives = [],
 }: {
   service: AIService;
   relatedPosts: BlogPost[];
+  alternatives?: AIService[];
 }) {
   const [bookmarked, setBookmarked] = useState(false);
-  const alternatives = getRelatedServices(service.alternatives).filter((s) => s.slug !== service.slug).slice(0, 4);
 
   return (
     <div className="bg-muted/20">
@@ -50,7 +49,7 @@ export function ServiceDetail({
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 sm:py-10">
           <Breadcrumbs
             items={[
-              { label: 'AI Services', href: '/services' },
+              { label: 'AI Tools', href: '/services' },
               { label: service.name },
             ]}
             className="mb-6"
@@ -74,9 +73,6 @@ export function ServiceDetail({
                   {service.name}
                 </h1>
                 <p className="mt-1 text-base text-muted-foreground">{service.tagline}</p>
-                <div className="mt-3">
-                  <RatingStars rating={service.rating} size="md" showNumber reviewCount={service.reviewCount} />
-                </div>
               </div>
             </div>
 
@@ -216,7 +212,7 @@ export function ServiceDetail({
             {/* Alternatives */}
             <section>
               <h2 className="font-display text-2xl font-bold text-foreground">Alternatives</h2>
-              <p className="mt-2 text-sm text-muted-foreground">Similar AI services you might want to consider.</p>
+              <p className="mt-2 text-sm text-muted-foreground">Similar AI tools you might want to consider.</p>
               <div className="mt-5 grid gap-5 sm:grid-cols-2">
                 {alternatives.map((alt, index) => (
                   <ServiceCard key={alt.slug} service={alt} index={index} />
@@ -234,10 +230,7 @@ export function ServiceDetail({
 
             {/* Reviews */}
             <section>
-              <div className="flex items-center justify-between">
-                <h2 className="font-display text-2xl font-bold text-foreground">Reviews</h2>
-                <span className="text-sm text-muted-foreground">{service.reviewCount.toLocaleString()} reviews</span>
-              </div>
+              <h2 className="font-display text-2xl font-bold text-foreground">Reviews</h2>
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
                 {service.reviews.map((review, index) => (
                   <ReviewCard key={index} review={review} index={index} />

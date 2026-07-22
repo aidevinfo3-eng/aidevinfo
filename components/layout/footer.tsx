@@ -5,7 +5,7 @@ const footerSections = [
   {
     title: 'Platform',
     links: [
-      { href: '/services', label: 'AI Services' },
+      { href: '/services', label: 'AI Tools' },
       { href: '/blogs', label: 'Blog' },
       { href: '/advertising', label: 'Advertising' },
     ],
@@ -22,7 +22,6 @@ const footerSections = [
     links: [
       { href: '/privacy-policy', label: 'Privacy Policy' },
       { href: '/terms', label: 'Terms of Service' },
-      { href: '/cookie-policy', label: 'Cookie Policy' },
     ],
   },
 ];

@@ -4,13 +4,14 @@ import { useState, useMemo, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
-import { aiServices, getFeaturedServices } from '@/lib/services';
-import { categories } from '@/lib/categories';
+import { categories as fallbackCategories } from '@/lib/categories';
+import type { AIService, Category } from '@/lib/types';
 import { ServiceCard } from '@/components/shared/service-card';
 import { SearchBar } from '@/components/shared/search-bar';
 import { Pagination } from '@/components/shared/pagination';
 import { Breadcrumbs } from '@/components/shared/breadcrumbs';
 import { SectionHeading } from '@/components/shared/section-heading';
+import { TrustedTechSection } from '@/components/home/trusted-tech-section';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -22,71 +23,50 @@ import {
 
 const sortOptions = [
   { value: 'popular', label: 'Most Popular' },
-  { value: 'rating', label: 'Highest Rated' },
   { value: 'newest', label: 'Newest' },
   { value: 'featured', label: 'Featured' },
 ];
 
 const sortValues = new Set(sortOptions.map((o) => o.value));
-const pricingOptions = ['All', 'Free', 'Freemium', 'Paid', 'Custom Pricing'];
-
-const popularCategories = [
-  { name: 'AI Chatbot Development', count: '850+', slug: 'ai-chatbots' },
-  { name: 'AI Agent Development', count: '650+', slug: 'automation' },
-  { name: 'AI Automation Services', count: '750+', slug: 'automation' },
-  { name: 'LLM Integration', count: '620+', slug: 'ai-coding' },
-  { name: 'AI SaaS Development', count: '540+', slug: 'business-ai' },
-  { name: 'AI Consulting', count: '420+', slug: 'business-ai' },
-  { name: 'Machine Learning', count: '670+', slug: 'ai-coding' },
-  { name: 'Computer Vision', count: '380+', slug: 'image-generation' },
-  { name: 'Natural Language Processing', count: '560+', slug: 'ai-writing' },
-  { name: 'AI Voice Solutions', count: '330+', slug: 'voice-ai' },
-  { name: 'AI Image Generation', count: '710+', slug: 'image-generation' },
-  { name: 'AI Video Generation', count: '450+', slug: 'video-generation' },
-];
+const pricingOptions = ['All', 'Free', 'Freemium', 'Paid', 'Add-on', 'Included', 'Open Source', 'Custom'];
 
 const trustFeatures = [
   {
-    title: 'Verified Companies',
+    title: 'Verified Tools',
     description:
-      'Every listed company is manually reviewed and verified by our editorial team.',
+      'Every listed AI tool is manually reviewed and verified by our editorial team.',
   },
   {
     title: 'Real Reviews',
-    description: 'Read authentic reviews and ratings submitted by verified users.',
+    description: 'Read authentic reviews submitted by verified users.',
   },
   {
     title: 'Updated Daily',
-    description: 'New AI services and listings are reviewed and updated every day.',
+    description: 'New AI tools and listings are reviewed and updated every day.',
   },
   {
     title: 'Trusted Platform',
     description:
-      'A reliable AI directory trusted by businesses, startups, and developers worldwide.',
+      'A reliable AI tools directory trusted by businesses, startups, and developers worldwide.',
   },
   {
     title: 'Sponsored Listings',
-    description: 'Promote your AI company or product to thousands of targeted visitors.',
+    description: 'Promote your AI tool or product to thousands of targeted visitors.',
   },
   {
-    title: 'AI Development Experts',
+    title: 'Compare & Discover',
     description:
-      'Connect with experienced AI developers specializing in custom AI solutions.',
+      'Filter by category and pricing to find the right AI tool for your workflow.',
   },
 ];
 
-const clientLogos = [
-  'Google',
-  'Microsoft',
-  'Amazon',
-  'Adobe',
-  'HubSpot',
-  'Notion',
-  'Slack',
-  'Shopify',
-];
-
-function ServicesContent() {
+function ServicesContent({
+  tools,
+  categories,
+}: {
+  tools: AIService[];
+  categories: Category[];
+}) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -103,8 +83,6 @@ function ServicesContent() {
     categories.find((c) => c.slug === categorySlug)?.name ?? 'All';
   const pageParam = Number(searchParams.get('page') ?? '1');
   const currentPage = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
-
-  const featured = getFeaturedServices().slice(0, 4);
 
   useEffect(() => {
     setSearch(searchFromUrl);
@@ -136,7 +114,7 @@ function ServicesContent() {
   }, [search, searchFromUrl, updateParams]);
 
   const filtered = useMemo(() => {
-    let result = aiServices.filter((s) => {
+    let result = tools.filter((s) => {
       const matchesSearch =
         !search ||
         s.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -148,7 +126,7 @@ function ServicesContent() {
       const matchesPricing =
         pricing === 'All' ||
         s.pricing.toLowerCase() === pricing.toLowerCase() ||
-        (pricing === 'Custom Pricing' && s.pricing.toLowerCase().includes('custom'));
+        (pricing === 'Custom' && s.pricing.toLowerCase().includes('custom'));
       return matchesSearch && matchesCategory && matchesPricing;
     });
 
@@ -158,16 +136,14 @@ function ServicesContent() {
       result = [...result].sort(
         (a, b) => new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
       );
-    } else if (sort === 'rating') {
-      result = [...result].sort((a, b) => b.rating - a.rating);
     } else if (sort === 'featured') {
       result = [...result].sort(
-        (a, b) => Number(b.featured) - Number(a.featured) || b.rating - a.rating
+        (a, b) => Number(b.featured) - Number(a.featured) || a.name.localeCompare(b.name)
       );
     }
 
     return result;
-  }, [search, category, pricing, sort]);
+  }, [tools, search, category, pricing, sort]);
 
   const totalPages = Math.ceil(filtered.length / itemsPerPage) || 1;
   const safePage = Math.min(currentPage, totalPages);
@@ -187,21 +163,20 @@ function ServicesContent() {
       {/* Hero */}
       <section className="border-b border-border bg-card">
         <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <Breadcrumbs items={[{ label: 'AI Services' }]} className="mb-6" />
+          <Breadcrumbs items={[{ label: 'AI Tools' }]} className="mb-6" />
 
           <h1 className="max-w-3xl font-display text-3xl font-normal leading-tight text-foreground sm:text-4xl lg:text-5xl">
-            Find the Best AI Services for Every Business Need
+            Find the Best AI Tools for Every Business Need
           </h1>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
-            Discover verified AI development companies, AI automation agencies,
-            chatbot developers, LLM experts, and AI consulting firms — all in one
-            place. Compare services, explore verified providers, and choose the
-            right AI solution for your business with confidence.
+            Discover and compare verified AI tools — chatbots, image generators,
+            coding assistants, writing apps, automation platforms, and more. Filter
+            by category and pricing to choose the right AI tool with confidence.
           </p>
 
           <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-foreground">
             {[
-              '5,000+ Verified AI Services',
+              '5,000+ Verified AI Tools',
               '150+ AI Categories',
               'Updated Daily',
             ].map((item) => (
@@ -212,12 +187,42 @@ function ServicesContent() {
             ))}
           </ul>
 
+          <div className="mt-10 grid grid-cols-2 gap-4 border-t border-border pt-8 sm:grid-cols-4">
+            {[
+              { value: '5,000+', label: 'AI Tools' },
+              { value: '150+', label: 'Categories' },
+              { value: '200K+', label: 'Monthly Visitors' },
+              { value: '1,000+', label: 'Verified Tools' },
+            ].map((stat) => (
+              <div key={stat.label}>
+                <p className="font-display text-2xl text-foreground sm:text-3xl">
+                  {stat.value}
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Directory grid with search & filters */}
+      <section id="directory" className="scroll-mt-24 py-16 sm:py-20">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Directory"
+            title="AI Tools Grid"
+            description={`Showing ${currentItems.length} of ${filtered.length} tools`}
+            center={false}
+          />
+
           <div className="mt-8 flex flex-col gap-3 lg:flex-row lg:items-center">
             <div className="flex-1">
               <SearchBar
                 value={search}
                 onChange={setSearch}
-                placeholder="Search AI services by name, description, or tags..."
+                placeholder="Search AI tools by name, description, or tags..."
               />
             </div>
             <div className="flex flex-wrap gap-2">
@@ -280,99 +285,9 @@ function ServicesContent() {
             </div>
           </div>
 
-          <div className="mt-10 grid grid-cols-2 gap-4 border-t border-border pt-8 sm:grid-cols-4">
-            {[
-              { value: '5,000+', label: 'AI Services' },
-              { value: '150+', label: 'Categories' },
-              { value: '200K+', label: 'Monthly Visitors' },
-              { value: '1,000+', label: 'Verified Companies' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="font-display text-2xl text-foreground sm:text-3xl">
-                  {stat.value}
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <SectionHeading
-              eyebrow="Featured"
-              title="Featured AI Services"
-              description="Hand-picked AI companies and service providers recommended by our experts based on quality, reliability, customer reviews, and innovation."
-              center={false}
-              className="max-w-xl"
-            />
-            <Button asChild variant="outline" className="shrink-0 self-start group">
-              <Link href="/services?sort=featured#directory">
-                View all featured
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-            </Button>
-          </div>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.map((service) => (
-              <ServiceCard key={service.slug} service={service} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Popular categories */}
-      <section className="border-y border-border bg-card py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Browse"
-            title="Popular Categories"
-            description="Browse AI services by category to find the perfect solution for your business requirements."
-            center={false}
-          />
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-            {popularCategories.map((cat) => (
-              <button
-                key={cat.name}
-                type="button"
-                onClick={() => {
-                  updateParams({ category: cat.slug });
-                  document
-                    .getElementById('directory')
-                    ?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="group flex flex-col justify-between border border-border bg-background p-5 text-left transition-colors hover:border-foreground/25 hover:bg-muted/40"
-              >
-                <h3 className="font-display text-lg text-foreground transition-colors group-hover:text-primary">
-                  {cat.name}
-                </h3>
-                <p className="mt-6 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  {cat.count} services
-                </p>
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Directory grid */}
-      <section id="directory" className="scroll-mt-24 py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Directory"
-            title="AI Services Grid"
-            description={`Showing ${currentItems.length} of ${filtered.length} services`}
-            center={false}
-          />
-
           {filtered.length === 0 ? (
             <div className="mt-10 border border-border py-20 text-center">
-              <p className="font-display text-xl text-foreground">No services found</p>
+              <p className="font-display text-xl text-foreground">No tools found</p>
               <p className="mt-2 text-sm text-muted-foreground">
                 Try adjusting your search or filters.
               </p>
@@ -421,24 +336,8 @@ function ServicesContent() {
         </div>
       </section>
 
-      {/* Logos */}
-      <section className="py-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
-            Trusted by Leading Companies Worldwide
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-            {clientLogos.map((name) => (
-              <span
-                key={name}
-                className="font-display text-xl text-foreground/70 sm:text-2xl"
-              >
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Trusted Partners marquee */}
+      <TrustedTechSection />
 
       {/* Trust features */}
       <section className="border-t border-border bg-card py-16 sm:py-20">
@@ -460,12 +359,17 @@ function ServicesContent() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }
 
-export function ServicesClient() {
+export function ServicesClient({
+  tools,
+  categories = fallbackCategories,
+}: {
+  tools: AIService[];
+  categories?: Category[];
+}) {
   return (
     <Suspense
       fallback={
@@ -474,7 +378,7 @@ export function ServicesClient() {
         </div>
       }
     >
-      <ServicesContent />
+      <ServicesContent tools={tools} categories={categories} />
     </Suspense>
   );
 }
