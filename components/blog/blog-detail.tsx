@@ -202,6 +202,11 @@ export function BlogDetail({
                     h3: ({ children }) => (
                       <h3 className="scroll-mt-20">{children}</h3>
                     ),
+                    table: ({ children }) => (
+                      <div className="my-8 overflow-x-auto">
+                        <table className="blog-table">{children}</table>
+                      </div>
+                    ),
                   }}
                 >
                   {post.content as string}

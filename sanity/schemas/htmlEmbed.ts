@@ -9,7 +9,8 @@ export default defineType({
       name: 'code',
       title: 'HTML Code',
       type: 'text',
-      description: 'Paste HTML table or embed code here',
+      description:
+        'Paste HTML here. For tables use: <table class="blog-table">…</table>',
     }),
   ],
 });

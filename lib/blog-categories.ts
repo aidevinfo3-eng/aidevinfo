@@ -21,7 +21,8 @@ export async function getBlogCategoryNames(): Promise<string[]> {
     const docs = await client.fetch<SanityBlogCategory[]>(
       allBlogCategoriesQuery,
       {},
-      { next: { revalidate: 60 } }
+      // { next: { revalidate: 60 } }
+      { cache: 'no-store' }
     );
     if (!docs?.length) {
       return fallbackBlogCategories.filter((c) => c !== 'All');

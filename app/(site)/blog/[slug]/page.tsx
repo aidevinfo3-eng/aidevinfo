@@ -2,18 +2,18 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { BlogDetail } from '@/components/blog/blog-detail';
 import {
-  getAllBlogPosts,
   getBlogBySlug,
   getRelatedBlogPosts,
 } from '@/lib/blog-posts';
 import { generateSEO, generateArticleLd } from '@/lib/seo';
 
-export const revalidate = 60;
+// export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
-export async function generateStaticParams() {
-  const posts = await getAllBlogPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
+// export async function generateStaticParams() {
+//   const posts = await getAllBlogPosts();
+//   return posts.map((post) => ({ slug: post.slug }));
+// }
 
 export async function generateMetadata({
   params,

@@ -11,7 +11,8 @@
     "seed:dev-services": "tsx scripts/seed-development-services.ts",
     "seed:ai-tools": "tsx scripts/seed-ai-tools.ts",
     "seed:tool-categories": "tsx scripts/seed-tool-categories.ts",
-    "seed:blog-categories": "tsx scripts/seed-blog-categories.ts"
+    "seed:blog-categories": "tsx scripts/seed-blog-categories.ts",
+    "delete:sanity-blogs": "tsx scripts/delete-sanity-blogs.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

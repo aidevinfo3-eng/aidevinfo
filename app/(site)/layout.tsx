@@ -6,6 +6,9 @@ import { ScrollToTop } from '@/components/layout/scroll-to-top';
 
 const siteUrl = 'https://aidevinfo.online';
 
+// Disable Next.js page caching site-wide
+export const dynamic = 'force-dynamic';
+
 export default function SiteLayout({
   children,
 }: {

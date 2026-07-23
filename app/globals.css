@@ -168,3 +168,78 @@ html {
 .prose-content img {
   @apply my-6 w-full;
 }
+
+/* Sanity / markdown blog tables — use <table class="blog-table"> */
+.blog-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.blog-table caption {
+  caption-side: bottom;
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: hsl(var(--muted-foreground));
+  text-align: left;
+}
+
+.blog-table thead {
+  background: hsl(var(--muted));
+}
+
+.blog-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: middle;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: hsl(var(--foreground));
+  border-bottom: 1px solid hsl(var(--border));
+  white-space: nowrap;
+}
+
+.blog-table td {
+  padding: 0.75rem 1rem;
+  vertical-align: top;
+  color: hsl(var(--muted-foreground));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.blog-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.blog-table tbody tr:nth-child(even) {
+  background: hsl(var(--muted) / 0.35);
+}
+
+.blog-table tbody tr:hover {
+  background: hsl(var(--accent) / 0.55);
+}
+
+.blog-table a {
+  color: hsl(var(--primary));
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.blog-table a:hover {
+  color: hsl(var(--primary-dark));
+}
+
+@media (max-width: 640px) {
+  .blog-table th,
+  .blog-table td {
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}

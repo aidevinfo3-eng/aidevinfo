@@ -47,10 +47,24 @@ const components: PortableTextComponents = {
     },
     htmlEmbed: ({ value }) => {
       if (!value?.code) return null;
+      // Ensure tables use the global blog-table styles
+      const html = String(value.code).replace(
+        /<table([^>]*)>/gi,
+        (match, attrs: string) => {
+          if (/\bblog-table\b/.test(attrs)) return match;
+          if (/\bclass\s*=\s*(["'])/i.test(attrs)) {
+            return `<table${attrs.replace(
+              /\bclass\s*=\s*(["'])/i,
+              'class=$1blog-table '
+            )}>`;
+          }
+          return `<table class="blog-table"${attrs}>`;
+        }
+      );
       return (
         <div
           className="my-8 overflow-x-auto"
-          dangerouslySetInnerHTML={{ __html: value.code }}
+          dangerouslySetInnerHTML={{ __html: html }}
         />
       );
     },

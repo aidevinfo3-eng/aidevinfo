@@ -94,26 +94,36 @@ function loadMarkdownPosts(): BlogPost[] {
 }
 
 async function loadSanityPosts(): Promise<BlogPost[]> {
-  const posts = await client.fetch<SanityPost[]>(allPostsQuery);
+  const posts = await client.fetch<SanityPost[]>(
+    allPostsQuery,
+    {},
+    { cache: 'no-store' }
+  );
   return (posts ?? []).map((post) =>
     mapSanityPostToBlogPost(post, { includeContent: false })
   );
 }
 
 async function loadSanityPostBySlug(slug: string): Promise<BlogPost | undefined> {
-  const post = await client.fetch<SanityPost | null>(postBySlugQuery, { slug });
+  const post = await client.fetch<SanityPost | null>(
+    postBySlugQuery,
+    { slug },
+    { cache: 'no-store' }
+  );
   if (!post) return undefined;
   return mapSanityPostToBlogPost(post, { includeContent: true });
 }
 
-let markdownCache: BlogPost[] | null = null;
+// let markdownCache: BlogPost[] | null = null;
 
 function getMarkdownPosts(): BlogPost[] {
-  if (process.env.NODE_ENV === 'development') {
-    return loadMarkdownPosts();
-  }
-  if (!markdownCache) markdownCache = loadMarkdownPosts();
-  return markdownCache;
+  // Always reload — caching disabled
+  return loadMarkdownPosts();
+  // if (process.env.NODE_ENV === 'development') {
+  //   return loadMarkdownPosts();
+  // }
+  // if (!markdownCache) markdownCache = loadMarkdownPosts();
+  // return markdownCache;
 }
 
 export async function getAllBlogPosts(): Promise<BlogPost[]> {

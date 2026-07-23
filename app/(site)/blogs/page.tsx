@@ -4,7 +4,8 @@ import { getAllBlogPosts } from '@/lib/blog-posts';
 import { getBlogFilterCategories } from '@/lib/blog-categories';
 import { generateSEO } from '@/lib/seo';
 
-export const revalidate = 60;
+// export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = generateSEO({
   title: 'AI Blogs, Tutorials, News & Expert Insights',

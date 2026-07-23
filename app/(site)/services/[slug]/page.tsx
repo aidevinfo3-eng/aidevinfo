@@ -3,16 +3,17 @@ import { notFound } from 'next/navigation';
 import { ServiceDetail } from '@/components/services/service-detail';
 import {
   getAiToolBySlug,
-  getAiToolSlugs,
   getRelatedAiTools,
 } from '@/lib/ai-tools';
 import { getLatestBlogPosts } from '@/lib/blog-posts';
 import { generateSEO, generateServiceLd } from '@/lib/seo';
 
-export async function generateStaticParams() {
-  const slugs = await getAiToolSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
+export const dynamic = 'force-dynamic';
+
+// export async function generateStaticParams() {
+//   const slugs = await getAiToolSlugs();
+//   return slugs.map((slug) => ({ slug }));
+// }
 
 export async function generateMetadata({
   params,
