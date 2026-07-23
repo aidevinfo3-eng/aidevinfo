@@ -13,6 +13,7 @@ const footerSections = [
   {
     title: 'Company',
     links: [
+      { href: '/about', label: 'About Us' },
       { href: '/contact', label: 'Contact' },
       { href: '/contact', label: 'Submit a Service' },
     ],
