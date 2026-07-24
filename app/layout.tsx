@@ -80,6 +80,9 @@ export const metadata: Metadata = {
     },
   },
   category: 'technology',
+  verification: {
+    google: 'RyIjF3PbFua0QQuQOJ4PjlHmd3Sws15xXWPBIdJszzk',
+  },
   icons: {
     icon: [
       { url: '/favicon.svg', type: 'image/svg+xml' },
