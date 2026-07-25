@@ -7,7 +7,10 @@ const postFields = `
   publishedAt,
   excerpt,
   featured,
-  category,
+  "category": select(
+    defined(category->name) => category->name,
+    category
+  ),
   tags,
   relatedServices,
   mainImage {

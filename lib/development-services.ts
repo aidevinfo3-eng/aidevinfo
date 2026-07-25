@@ -124,3 +124,10 @@ export async function getDevelopmentServices(): Promise<DevelopmentService[]> {
     return fallbackDevelopmentServices;
   }
 }
+
+export async function getDevelopmentServiceBySlug(
+  slug: string
+): Promise<DevelopmentService | null> {
+  const services = await getDevelopmentServices();
+  return services.find((service) => service.slug === slug) ?? null;
+}

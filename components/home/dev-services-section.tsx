@@ -108,8 +108,9 @@ export function DevServicesSection({
             {currentItems.map((service) => {
               const Icon = iconMap[service.icon] ?? Bot;
               return (
-                <article
+                <Link
                   key={service.id}
+                  href={`/development-services/${service.slug}`}
                   className="group flex h-full flex-col border border-border bg-card p-6 transition-colors hover:border-foreground/25 hover:bg-muted/40"
                 >
                   <div className="flex h-11 w-11 items-center justify-center border border-border bg-background text-primary">
@@ -121,7 +122,7 @@ export function DevServicesSection({
                   <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
                     {service.description}
                   </p>
-                </article>
+                </Link>
               );
             })}
           </div>

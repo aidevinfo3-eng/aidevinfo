@@ -9,7 +9,7 @@ export default defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
-      description: 'Must match the category value used on blog posts (e.g. "AI Coding").',
+      description: 'Display name shown on the site and in the blog post category picker.',
       validation: (Rule) => Rule.required(),
     }),
     defineField({

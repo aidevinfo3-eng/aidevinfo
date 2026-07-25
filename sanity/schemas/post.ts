@@ -1,19 +1,5 @@
 import { defineArrayMember, defineField, defineType } from 'sanity';
 
-const categories = [
-  { title: 'AI Coding', value: 'AI Coding' },
-  { title: 'AI Writing', value: 'AI Writing' },
-  { title: 'Image Generation', value: 'Image Generation' },
-  { title: 'Video Generation', value: 'Video Generation' },
-  { title: 'Voice AI', value: 'Voice AI' },
-  { title: 'Marketing', value: 'Marketing' },
-  { title: 'Automation', value: 'Automation' },
-  { title: 'Business AI', value: 'Business AI' },
-  { title: 'Productivity', value: 'Productivity' },
-  { title: 'News', value: 'News' },
-  { title: 'Tutorials', value: 'Tutorials' },
-];
-
 export default defineType({
   name: 'post',
   title: 'Blog Post',
@@ -69,8 +55,12 @@ export default defineType({
     defineField({
       name: 'category',
       title: 'Category',
-      type: 'string',
-      options: { list: categories },
+      type: 'reference',
+      to: [{ type: 'blogCategory' }],
+      options: {
+        filter: 'published != false',
+        disableNew: false,
+      },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
@@ -160,13 +150,16 @@ export default defineType({
     select: {
       title: 'title',
       author: 'author.name',
+      category: 'category.name',
       media: 'mainImage',
     },
-    prepare({ title, author, media }) {
+    prepare({ title, author, category, media }) {
       return {
         title,
         media,
-        subtitle: author ? `by ${author}` : 'No author',
+        subtitle: [category, author ? `by ${author}` : null]
+          .filter(Boolean)
+          .join(' · ') || 'No author',
       };
     },
   },
