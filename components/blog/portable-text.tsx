@@ -21,12 +21,12 @@ const components: PortableTextComponents = {
           .join('') || '';
       const id = slugify(text);
       return (
-        <h2 id={id} className="scroll-mt-20">
+        <h2 id={id} className="scroll-mt-24">
           {children}
         </h2>
       );
     },
-    h3: ({ children }) => <h3 className="scroll-mt-20">{children}</h3>,
+    h3: ({ children }) => <h3 className="scroll-mt-24">{children}</h3>,
     normal: ({ children }) => <p>{children}</p>,
     blockquote: ({ children }) => <blockquote>{children}</blockquote>,
   },
