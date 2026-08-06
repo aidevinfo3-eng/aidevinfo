@@ -12,6 +12,8 @@ interface SEOProps {
   modifiedTime?: string;
   authors?: string[];
   tags?: string[];
+  /** When false, skip appending "| AI Dev Info" (and bypass the root title template). */
+  branded?: boolean;
 }
 
 export function generateSEO({
@@ -24,12 +26,18 @@ export function generateSEO({
   modifiedTime,
   authors,
   tags,
+  branded = true,
 }: SEOProps): Metadata {
   const url = `${siteUrl}${path}`;
-  const fullTitle = title.includes('AI Dev Info') ? title : `${title} | AI Dev Info`;
+  const hasBrand = /AI Dev Info/i.test(title);
+  const bareTitle = hasBrand
+    ? title.replace(/\s*\|\s*AI Dev Info\s*$/i, '').trim()
+    : title;
+  const displayTitle = branded ? `${bareTitle} | AI Dev Info` : bareTitle;
 
   return {
-    title: fullTitle,
+    // Root layout template appends "| AI Dev Info"; use absolute when we want no brand.
+    title: branded ? bareTitle : { absolute: bareTitle },
     description,
     alternates: {
       canonical: path,
@@ -37,7 +45,7 @@ export function generateSEO({
     openGraph: {
       type,
       url,
-      title: fullTitle,
+      title: displayTitle,
       description,
       siteName: 'AI Dev Info',
       images: [
@@ -45,7 +53,7 @@ export function generateSEO({
           url: image,
           width: 1200,
           height: 630,
-          alt: title,
+          alt: bareTitle,
         },
       ],
       ...(publishedTime && { publishedTime }),
@@ -55,7 +63,7 @@ export function generateSEO({
     },
     twitter: {
       card: 'summary_large_image',
-      title: fullTitle,
+      title: displayTitle,
       description,
       images: [image],
     },

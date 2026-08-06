@@ -51,9 +51,10 @@ export async function generateMetadata({
   if (!service) return {};
 
   return generateSEO({
-    title: `${service.title} — AI Development Service`,
+    title: service.title,
     description: service.description,
     path: `/development-services/${service.slug}`,
+    branded: false,
   });
 }
 
