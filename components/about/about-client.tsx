@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SectionHeading } from '@/components/shared/section-heading';
 import { Breadcrumbs } from '@/components/shared/breadcrumbs';
+import { PageHeroBackdrop } from '@/components/shared/page-hero-backdrop';
 import { FaqAccordion } from '@/components/shared/faq-accordion';
 import { CTASection } from '@/components/shared/cta-section';
 
@@ -271,16 +272,21 @@ export function AboutClient() {
   return (
     <div>
       {/* Hero */}
-      <section className="border-b border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <Breadcrumbs items={[{ label: 'About Us' }]} className="mb-6" />
-          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+      <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
+        <PageHeroBackdrop />
+        <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <Breadcrumbs
+            items={[{ label: 'About Us' }]}
+            tone="light"
+            className="mb-6"
+          />
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-emerald-300/90">
             About AI Dev Info
           </p>
-          <h1 className="mt-4 max-w-3xl font-display text-3xl font-normal leading-tight text-foreground sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 max-w-3xl font-display text-3xl font-normal leading-tight text-white sm:text-4xl lg:text-5xl">
             Building the Future of AI Through Innovation, Knowledge & Technology
           </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/70 sm:text-base">
             AI Dev Info is a complete AI ecosystem that empowers businesses, developers,
             startups, marketers, and creators to discover the best AI tools, build
             intelligent AI solutions, learn from expert-written resources, and promote
@@ -288,19 +294,28 @@ export function AboutClient() {
             make artificial intelligence accessible for everyone.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg" className="group">
+            <Button
+              asChild
+              size="lg"
+              className="h-12 bg-white text-foreground hover:bg-white/90 group"
+            >
               <Link href="/services">
                 Explore AI Services
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 border-white/35 bg-transparent text-white hover:border-white hover:bg-white hover:text-foreground"
+            >
               <Link href="/contact">Contact Our Team</Link>
             </Button>
           </div>
-          <p className="mt-8 text-sm text-muted-foreground">
+          <p className="mt-8 text-sm text-white/60">
             Trusted by thousands of businesses & AI professionals worldwide ·{' '}
-            <span className="text-foreground">20,000+ happy users</span>
+            <span className="text-white">20,000+ happy users</span>
           </p>
         </div>
       </section>

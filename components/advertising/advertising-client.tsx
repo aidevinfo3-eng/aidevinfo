@@ -5,6 +5,7 @@ import { ArrowRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SectionHeading } from '@/components/shared/section-heading';
 import { Breadcrumbs } from '@/components/shared/breadcrumbs';
+import { PageHeroBackdrop } from '@/components/shared/page-hero-backdrop';
 import { FaqAccordion } from '@/components/shared/faq-accordion';
 import { CTASection } from '@/components/shared/cta-section';
 import { cn } from '@/lib/utils';
@@ -233,39 +234,53 @@ export function AdvertisingClient() {
   return (
     <div>
       {/* Hero */}
-      <section className="border-b border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <Breadcrumbs items={[{ label: 'Advertising' }]} className="mb-6" />
-          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+      <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
+        <PageHeroBackdrop />
+        <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <Breadcrumbs
+            items={[{ label: 'Advertising' }]}
+            tone="light"
+            className="mb-6"
+          />
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-emerald-300/90">
             Grow Your AI Business
           </p>
-          <h1 className="mt-4 max-w-3xl font-display text-3xl font-normal leading-tight text-foreground sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 max-w-3xl font-display text-3xl font-normal leading-tight text-white sm:text-4xl lg:text-5xl">
             Reach Thousands of AI Buyers Every Month
           </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/70 sm:text-base">
             Promote your AI tools, SaaS products, AI development services, APIs, AI
             startups, and technology brands to a highly targeted audience of developers,
             founders, marketers, business owners, and decision-makers actively searching
             for AI solutions.
           </p>
 
-          <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-foreground">
+          <ul className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-white">
             {trustPoints.map((item) => (
               <li key={item} className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-primary" />
+                <Check className="h-4 w-4 text-emerald-300" />
                 {item}
               </li>
             ))}
           </ul>
 
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg" className="group">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button
+              asChild
+              size="lg"
+              className="h-12 bg-white text-foreground hover:bg-white/90 group"
+            >
               <Link href="/contact">
                 Get started today
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 border-white/35 bg-transparent text-white hover:border-white hover:bg-white hover:text-foreground"
+            >
               <a href="#pricing">View pricing</a>
             </Button>
           </div>

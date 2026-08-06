@@ -7,7 +7,15 @@ export interface BreadcrumbItem {
   href?: string;
 }
 
-export function Breadcrumbs({ items, className }: { items: BreadcrumbItem[]; className?: string }) {
+export function Breadcrumbs({
+  items,
+  className,
+  tone = 'default',
+}: {
+  items: BreadcrumbItem[];
+  className?: string;
+  tone?: 'default' | 'light';
+}) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -19,6 +27,14 @@ export function Breadcrumbs({ items, className }: { items: BreadcrumbItem[]; cla
     })),
   };
 
+  const muted =
+    tone === 'light'
+      ? 'text-white/60 hover:text-white'
+      : 'text-muted-foreground hover:text-primary';
+  const current = tone === 'light' ? 'text-white' : 'text-foreground';
+  const chevron =
+    tone === 'light' ? 'text-white/35' : 'text-muted-foreground/50';
+
   return (
     <nav aria-label="Breadcrumb" className={cn('flex', className)}>
       <script
@@ -29,7 +45,7 @@ export function Breadcrumbs({ items, className }: { items: BreadcrumbItem[]; cla
         <li>
           <Link
             href="/"
-            className="flex items-center text-muted-foreground transition-colors hover:text-primary"
+            className={cn('flex items-center transition-colors', muted)}
             aria-label="Home"
           >
             <Home className="h-4 w-4" />
@@ -37,16 +53,13 @@ export function Breadcrumbs({ items, className }: { items: BreadcrumbItem[]; cla
         </li>
         {items.map((item, index) => (
           <li key={index} className="flex items-center gap-1.5">
-            <ChevronRight className="h-4 w-4 text-muted-foreground/50" />
+            <ChevronRight className={cn('h-4 w-4', chevron)} />
             {item.href ? (
-              <Link
-                href={item.href}
-                className="text-muted-foreground transition-colors hover:text-primary"
-              >
+              <Link href={item.href} className={cn('transition-colors', muted)}>
                 {item.label}
               </Link>
             ) : (
-              <span className="font-medium text-foreground">{item.label}</span>
+              <span className={cn('font-medium', current)}>{item.label}</span>
             )}
           </li>
         ))}

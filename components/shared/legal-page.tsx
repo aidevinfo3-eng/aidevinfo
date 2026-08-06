@@ -6,6 +6,7 @@ interface LegalPageProps {
   description: string;
   breadcrumbLabel: string;
   lastUpdated?: string;
+  updatedLabel?: string;
   children: React.ReactNode;
 }
 
@@ -14,6 +15,7 @@ export function LegalPage({
   description,
   breadcrumbLabel,
   lastUpdated = 'July 20, 2026',
+  updatedLabel = 'Last updated',
   children,
 }: LegalPageProps) {
   return (
@@ -28,7 +30,7 @@ export function LegalPage({
             {description}
           </p>
           <p className="mt-4 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-            Last updated: {lastUpdated}
+            {updatedLabel}: {lastUpdated}
           </p>
         </div>
       </section>

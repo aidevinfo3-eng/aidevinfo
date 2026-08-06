@@ -152,7 +152,19 @@ export function BlogDetail({
             <h1 className="mt-5 max-w-4xl text-balance font-display text-3xl font-normal leading-[1.15] tracking-tight text-foreground sm:text-4xl lg:text-[2.75rem]">
               {post.title}
             </h1>
-            <p className="mt-5 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
+
+            <div className="relative mt-8 aspect-[2/1] overflow-hidden border border-border sm:aspect-[21/9]">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                sizes="(max-width: 1152px) 100vw, 1152px"
+                className="object-cover"
+                priority
+              />
+            </div>
+
+            <p className="mt-6 max-w-3xl text-pretty text-base leading-relaxed text-muted-foreground sm:text-lg">
               {post.excerpt}
             </p>
 
@@ -226,19 +238,6 @@ export function BlogDetail({
                 </button>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="relative -mt-4 aspect-[2/1] overflow-hidden border border-border sm:-mt-6 sm:aspect-[21/9]">
-            <Image
-              src={post.image}
-              alt={post.title}
-              fill
-              sizes="(max-width: 1152px) 100vw, 1152px"
-              className="object-cover"
-              priority
-            />
           </div>
         </div>
 

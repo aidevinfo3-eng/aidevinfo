@@ -6,6 +6,7 @@ import { BlogCard } from '@/components/shared/blog-card';
 import { SearchBar } from '@/components/shared/search-bar';
 import { Pagination } from '@/components/shared/pagination';
 import { Breadcrumbs } from '@/components/shared/breadcrumbs';
+import { PageHeroBackdrop } from '@/components/shared/page-hero-backdrop';
 import { SectionHeading } from '@/components/shared/section-heading';
 import {
   Select,
@@ -119,22 +120,28 @@ function BlogsContent({ allPosts, categories: blogCategories }: BlogsClientProps
   return (
     <div>
       {/* Hero */}
-      <section className="border-b border-border bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-          <Breadcrumbs items={[{ label: 'Blog' }]} className="mb-6" />
-          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-primary">
+      <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
+        <PageHeroBackdrop />
+
+        <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <Breadcrumbs
+            items={[{ label: 'Blog' }]}
+            tone="light"
+            className="mb-6"
+          />
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-emerald-300/90">
             AI Knowledge Hub
           </p>
-          <h1 className="mt-4 max-w-3xl font-display text-3xl font-normal leading-tight text-foreground sm:text-4xl lg:text-5xl">
+          <h1 className="mt-4 max-w-3xl font-display text-3xl font-normal leading-tight text-white sm:text-4xl lg:text-5xl">
             AI Blogs, Tutorials, News &amp; Expert Insights
           </h1>
-          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/70 sm:text-base">
             Stay ahead in the rapidly evolving world of artificial intelligence with
             expert-written blogs, in-depth tutorials, AI tool comparisons, development
             guides, industry news, and practical insights.
           </p>
 
-          <div className="mt-10 grid grid-cols-2 gap-4 border-t border-border pt-8 sm:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-4 border-t border-white/15 pt-8 sm:grid-cols-4">
             {[
               { value: '10,000+', label: 'Articles Published' },
               { value: '250+', label: 'Step-by-Step Tutorials' },
@@ -142,10 +149,10 @@ function BlogsContent({ allPosts, categories: blogCategories }: BlogsClientProps
               { value: '500K+', label: 'Monthly Readers' },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="font-display text-2xl text-foreground sm:text-3xl">
+                <p className="font-display text-2xl text-white sm:text-3xl">
                   {stat.value}
                 </p>
-                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/50">
                   {stat.label}
                 </p>
               </div>

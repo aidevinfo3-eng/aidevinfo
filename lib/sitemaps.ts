@@ -78,6 +78,12 @@ export async function getStaticSitemapEntries(): Promise<MetadataRoute.Sitemap> 
       changeFrequency: 'yearly',
       priority: 0.3,
     },
+    {
+      url: `${baseUrl}/advertising-policy`,
+      lastModified: now,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
   ];
 }
 

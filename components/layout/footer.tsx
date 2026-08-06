@@ -23,6 +23,7 @@ const footerSections = [
     links: [
       { href: '/privacy-policy', label: 'Privacy Policy' },
       { href: '/terms', label: 'Terms of Service' },
+      { href: '/advertising-policy', label: 'Advertising Policy' },
     ],
   },
 ];
