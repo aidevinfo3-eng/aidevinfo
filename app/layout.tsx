@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import Script from 'next/script';
 import { DM_Sans, Source_Serif_4 } from 'next/font/google';
 
 const dmSans = DM_Sans({
@@ -104,13 +103,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${dmSans.variable} ${sourceSerif.variable}`}>
-        <Script
+      <head>
+        {/* AdSense requires this literal <script> in the initial HTML for site verification */}
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5921444110732355"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
+      </head>
+      <body className={`${dmSans.variable} ${sourceSerif.variable}`}>
         {children}
       </body>
     </html>
