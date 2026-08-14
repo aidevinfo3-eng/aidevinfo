@@ -1,12 +1,11 @@
-'use client';
-
-import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { ArrowRight, Search, Star } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { HeroSearch } from '@/components/home/hero-search';
+
+const HERO_IMAGE =
+  'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1600';
 
 const stats = [
   { value: '5,000+', label: 'AI Tools' },
@@ -16,19 +15,10 @@ const stats = [
 ];
 
 export function HeroSection() {
-  const router = useRouter();
-  const [query, setQuery] = useState('');
-
-  const handleSearch = (e: FormEvent) => {
-    e.preventDefault();
-    const q = query.trim();
-    router.push(q ? `/services?q=${encodeURIComponent(q)}` : '/services');
-  };
-
   return (
     <section className="relative isolate min-h-[100svh] overflow-hidden bg-foreground">
       <Image
-        src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=2400"
+        src={HERO_IMAGE}
         alt=""
         fill
         priority
@@ -50,8 +40,6 @@ export function HeroSection() {
           <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-emerald-300/90">
             Trusted AI Development Company &amp; AI Tools Platform
           </p>
-
-
 
           <h1 className="mt-6 max-w-xl font-display text-2xl font-normal leading-snug text-white/95 sm:text-3xl lg:text-[2.15rem] lg:leading-[1.25]">
             Build smarter with AI development. Discover powerful tools &amp; stay ahead with expert insights.
@@ -82,23 +70,7 @@ export function HeroSection() {
             </Button>
           </div>
 
-          <form onSubmit={handleSearch} className="relative mt-6 max-w-lg">
-            <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/45" />
-            <Input
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search AI tools & services..."
-              className="h-12 rounded-sm border-white/20 bg-white/10 pl-11 pr-28 text-white placeholder:text-white/45 focus-visible:ring-emerald-400/60"
-              aria-label="Search AI tools and services"
-            />
-            <Button
-              type="submit"
-              size="sm"
-              className="absolute right-1.5 top-1/2 h-9 -translate-y-1/2 bg-primary text-primary-foreground hover:bg-primary-dark"
-            >
-              Search
-            </Button>
-          </form>
+          <HeroSearch />
 
           <div className="mt-5 flex items-center gap-2 text-sm">
             <div className="flex items-center gap-0.5 text-amber-400">

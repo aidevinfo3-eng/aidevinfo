@@ -39,8 +39,7 @@ export async function getAllCategories(): Promise<Category[]> {
     const docs = await client.fetch<SanityToolCategory[]>(
       allToolCategoriesQuery,
       {},
-      // { next: { revalidate: 60 } }
-      { cache: 'no-store' }
+      { next: { revalidate: 60 } }
     );
     if (!docs?.length) return fallbackCategories;
     return docs.map(mapSanityCategory);

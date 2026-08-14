@@ -54,9 +54,9 @@ export function Footer() {
 
           {footerSections.map((section) => (
             <div key={section.title}>
-              <h4 className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+              <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
                 {section.title}
-              </h4>
+              </p>
               <ul className="space-y-2.5">
                 {section.links.map((link) => (
                   <li key={link.label}>

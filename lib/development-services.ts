@@ -114,8 +114,7 @@ export async function getDevelopmentServices(): Promise<DevelopmentService[]> {
     const docs = await client.fetch<SanityDevelopmentService[]>(
       allDevelopmentServicesQuery,
       {},
-      // { next: { revalidate: 60 } }
-      { cache: 'no-store' }
+      { next: { revalidate: 60 } }
     );
     if (!docs?.length) return fallbackDevelopmentServices;
     return docs.map(mapSanityService);

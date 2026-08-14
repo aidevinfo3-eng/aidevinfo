@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 export const HERO_BG_IMAGE =
-  'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=2400';
+  'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1600';
 
 /** Shared full-bleed hero image + overlays used on home-style page heroes. */
 export function PageHeroBackdrop() {

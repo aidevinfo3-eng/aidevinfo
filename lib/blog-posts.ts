@@ -97,7 +97,7 @@ async function loadSanityPosts(): Promise<BlogPost[]> {
   const posts = await client.fetch<SanityPost[]>(
     allPostsQuery,
     {},
-    { cache: 'no-store' }
+    { next: { revalidate: 60 } }
   );
   return (posts ?? []).map((post) =>
     mapSanityPostToBlogPost(post, { includeContent: false })
@@ -108,7 +108,7 @@ async function loadSanityPostBySlug(slug: string): Promise<BlogPost | undefined>
   const post = await client.fetch<SanityPost | null>(
     postBySlugQuery,
     { slug },
-    { cache: 'no-store' }
+    { next: { revalidate: 60 } }
   );
   if (!post) return undefined;
   return mapSanityPostToBlogPost(post, { includeContent: true });

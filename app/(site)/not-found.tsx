@@ -1,19 +1,11 @@
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { Home, Search, ArrowLeft, Compass } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   return (
     <div className="flex min-h-[70vh] items-center justify-center px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center"
-      >
+      <div className="text-center">
         <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl gradient-primary shadow-glow">
           <Compass className="h-10 w-10 text-white" />
         </div>
@@ -47,7 +39,7 @@ export default function NotFound() {
             Return to AI Dev Info
           </Link>
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 }

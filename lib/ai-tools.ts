@@ -80,8 +80,7 @@ export async function getAllAiTools(): Promise<AIService[]> {
     const docs = await client.fetch<SanityAiTool[]>(
       allAiToolsQuery,
       {},
-      // { next: { revalidate: 60 } }
-      { cache: 'no-store' }
+      { next: { revalidate: 60 } }
     );
     if (!docs?.length) return fallbackAiServices;
     return docs.map(mapSanityAiTool);
@@ -102,8 +101,7 @@ export async function getAiToolBySlug(
     const doc = await client.fetch<SanityAiTool | null>(
       aiToolBySlugQuery,
       { slug },
-      // { next: { revalidate: 60 } }
-      { cache: 'no-store' }
+      { next: { revalidate: 60 } }
     );
     if (doc) return mapSanityAiTool(doc);
   } catch (error) {
@@ -137,8 +135,7 @@ export async function getAiToolSlugs(): Promise<string[]> {
     const docs = await client.fetch<{ slug: string }[]>(
       aiToolSlugsQuery,
       {},
-      // { next: { revalidate: 60 } }
-      { cache: 'no-store' }
+      { next: { revalidate: 60 } }
     );
     if (docs?.length) return docs.map((d) => d.slug);
   } catch (error) {

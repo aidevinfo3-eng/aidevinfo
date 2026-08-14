@@ -12,7 +12,7 @@ const technologies = [
 function LogoItem({ name, src }: { name: string; src: string }) {
   return (
     <div
-      className="flex shrink-0 items-center gap-2.5 text-foreground/55"
+      className="flex shrink-0 items-center gap-2.5 text-foreground/70"
       title={name}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
