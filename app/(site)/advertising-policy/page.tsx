@@ -3,7 +3,7 @@ import { LegalPage } from '@/components/shared/legal-page';
 import { generateSEO } from '@/lib/seo';
 
 export const metadata: Metadata = generateSEO({
-  title: 'Advertising Policy',
+  title: 'Advertising Policy — Sponsored Content and Ad Disclosure',
   description:
     'Learn how advertisements, sponsored content, affiliate partnerships, and promotional materials are displayed on AI Dev Info, and how we maintain editorial independence and transparency.',
   path: '/advertising-policy',

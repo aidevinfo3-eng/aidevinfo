@@ -3,7 +3,7 @@ import { LegalPage } from '@/components/shared/legal-page';
 import { generateSEO } from '@/lib/seo';
 
 export const metadata: Metadata = generateSEO({
-  title: 'Privacy Policy',
+  title: 'Privacy Policy — How We Collect and Protect Your Data',
   description:
     'Learn how AI Dev Info collects, uses, stores, and protects your personal information when you visit aidevinfo.online or use our services.',
   path: '/privacy-policy',

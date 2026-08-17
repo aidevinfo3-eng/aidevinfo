@@ -4,7 +4,7 @@ import { LegalPage } from '@/components/shared/legal-page';
 import { generateSEO } from '@/lib/seo';
 
 export const metadata: Metadata = generateSEO({
-  title: 'Terms of Service',
+  title: 'Terms of Service — Rules for Using Our AI Platform',
   description:
     'Terms of Service for AI Dev Info covering use of aidevinfo.online, AI services, tools directory, content, and advertising.',
   path: '/terms',
