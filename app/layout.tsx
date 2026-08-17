@@ -21,7 +21,6 @@ export const metadata: Metadata = {
   title: {
     default:
       'AI Dev Info — Build Smarter with AI Development, Tools & Expert Insights',
-    template: '%s | AI Dev Info',
   },
   description:
     'AI Dev Info is your all-in-one platform for AI development services, AI tools discovery, expert tutorials, industry news, and sponsored AI promotions.',
