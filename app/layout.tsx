@@ -18,10 +18,8 @@ const siteUrl = 'https://aidevinfo.online';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: {
-    default:
-      'AI Dev Info — Build Smarter with AI Development, Tools & Expert Insights',
-  },
+  title:
+    'AI Dev Info — Build Smarter with AI Development, Tools & Expert Insights',
   description:
     'AI Dev Info is your all-in-one platform for AI development services, AI tools discovery, expert tutorials, industry news, and sponsored AI promotions.',
   keywords: [
