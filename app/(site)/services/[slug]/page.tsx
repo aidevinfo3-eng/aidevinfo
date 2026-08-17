@@ -30,7 +30,6 @@ export async function generateMetadata({
     path: `/services/${service.slug}`,
     type: 'article',
     tags: service.tags,
-    branded: false,
   });
 }
 

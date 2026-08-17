@@ -54,7 +54,6 @@ export async function generateMetadata({
     title: service.title,
     description: service.description,
     path: `/development-services/${service.slug}`,
-    branded: false,
   });
 }
 

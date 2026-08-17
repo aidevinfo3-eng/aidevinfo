@@ -9,7 +9,6 @@ export const metadata: Metadata = generateSEO({
   description:
     'Discover and compare verified AI tools — chatbots, image generators, coding assistants, writing apps, and automation platforms. Filter by category and pricing.',
   path: '/services',
-  branded: false,
 });
 
 export default async function ServicesPage() {
