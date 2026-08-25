@@ -15,6 +15,7 @@ export type SanityAiTool = {
   slug: string | null;
   tagline?: string | null;
   description?: string | null;
+  metaDescription?: string | null;
   longDescription?: string | null;
   category?: string | null;
   rating?: number | null;
@@ -40,11 +41,15 @@ export type SanityAiTool = {
 };
 
 function mapSanityAiTool(doc: SanityAiTool): AIService {
+  const slug = doc.slug || doc._id;
+  const fallback = fallbackAiServices.find((s) => s.slug === slug);
+
   return {
-    slug: doc.slug || doc._id,
+    slug,
     name: doc.name,
     tagline: doc.tagline || '',
     description: doc.description || '',
+    metaDescription: doc.metaDescription || fallback?.metaDescription,
     longDescription: doc.longDescription || doc.description || '',
     category: doc.category || 'ai-chatbots',
     rating: doc.rating ?? 0,

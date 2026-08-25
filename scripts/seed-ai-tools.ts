@@ -56,6 +56,7 @@ async function seed() {
       slug: { _type: 'slug', current: tool.slug },
       tagline: tool.tagline,
       description: tool.description,
+      metaDescription: tool.metaDescription || undefined,
       longDescription: tool.longDescription,
       category: tool.category,
       rating: tool.rating,

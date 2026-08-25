@@ -64,6 +64,8 @@ export const allDevelopmentServicesQuery = groq`
     title,
     "slug": slug.current,
     description,
+    metaTitle,
+    metaDescription,
     icon,
     order
   }
@@ -75,6 +77,7 @@ const aiToolFields = `
   "slug": slug.current,
   tagline,
   description,
+  metaDescription,
   longDescription,
   category,
   rating,

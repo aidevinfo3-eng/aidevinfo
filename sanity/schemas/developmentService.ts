@@ -44,6 +44,19 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'metaTitle',
+      title: 'SEO Meta Title',
+      type: 'string',
+      description: 'Optional. Overrides the page title tag. Keep the display Title short for H1.',
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'SEO Meta Description',
+      type: 'text',
+      rows: 3,
+      description: 'Optional. Overrides the meta description. Falls back to Description.',
+    }),
+    defineField({
       name: 'icon',
       title: 'Icon',
       type: 'string',

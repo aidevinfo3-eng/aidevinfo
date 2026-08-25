@@ -51,8 +51,8 @@ export async function generateMetadata({
   if (!service) return {};
 
   return generateSEO({
-    title: service.title,
-    description: service.description,
+    title: service.metaTitle || service.title,
+    description: service.metaDescription || service.description,
     path: `/development-services/${service.slug}`,
   });
 }

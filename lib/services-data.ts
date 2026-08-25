@@ -7,6 +7,8 @@ export const aiServices: AIService[] = [
     name: 'ChatGPT',
     tagline: 'Conversational AI by OpenAI',
     description: 'Advanced AI chatbot for writing, coding, analysis, and conversation.',
+    metaDescription:
+      'Explore ChatGPT features, pricing, use cases, pros and cons. Learn how ChatGPT helps with AI, coding, content creation and productivity.',
     longDescription:
       'ChatGPT is a leading conversational AI developed by OpenAI. It excels at natural language understanding, content generation, code assistance, and complex reasoning. With GPT-4o, it supports text, voice, and image inputs, making it one of the most versatile AI assistants available. Whether you need help drafting emails, debugging code, brainstorming ideas, or analyzing data, ChatGPT delivers high-quality responses with remarkable speed and accuracy.',
     category: 'ai-chatbots',
@@ -166,6 +168,8 @@ export const aiServices: AIService[] = [
     name: 'Midjourney',
     tagline: 'AI art generation pioneer',
     description: 'Create breathtaking AI-generated art from text descriptions.',
+    metaDescription:
+      'Midjourney AI, its features, pricing, image generation capabilities, use cases, pros, cons, and alternatives for creators and businesses.',
     longDescription:
       'Midjourney is one of the most popular and acclaimed AI image generation tools, known for its artistic quality and distinctive aesthetic. It transforms text prompts into stunning visuals, from photorealistic images to abstract art. With version 6, Midjourney offers improved prompt understanding, text rendering within images, and higher resolution output. It is widely used by designers, artists, marketers, and creators who want professional-quality visuals.',
     category: 'image-generation',
@@ -272,6 +276,8 @@ export const aiServices: AIService[] = [
     name: 'Notion AI',
     tagline: 'AI built into your workspace',
     description: 'AI writing, summarization, and search integrated into Notion.',
+    metaDescription:
+      'Notion AI, including features, pricing, use cases, and benefits. See how AI can improve writing, research, notes, and team productivity.',
     longDescription:
       'Notion AI brings artificial intelligence directly into your Notion workspace, allowing you to write, summarize, translate, and search across all your content without leaving the app. It can draft documents, generate action items from meeting notes, answer questions about your workspace data, and even create custom AI blocks. For teams already using Notion, the AI integration is seamless and adds significant productivity value.',
     category: 'productivity',
@@ -431,6 +437,8 @@ export const aiServices: AIService[] = [
     name: 'Stable Diffusion',
     tagline: 'Open-source image AI',
     description: 'Open-source text-to-image model you can run locally or in the cloud.',
+    metaDescription:
+      'Stable Diffusion for AI image generation, custom models, ControlNet, img2img, inpainting, pricing, features, and real-world use cases.',
     longDescription:
       'Stable Diffusion is the leading open-source AI image generation model, developed by Stability AI. Unlike proprietary tools, it can be run locally on your own hardware, giving you complete control, privacy, and customization. With a massive community of developers creating custom models, LoRAs, and extensions, Stable Diffusion offers unparalleled flexibility for artists, developers, and businesses who want to generate images without subscription fees or usage limits.',
     category: 'image-generation',
@@ -537,6 +545,8 @@ export const aiServices: AIService[] = [
     name: 'Jasper',
     tagline: 'AI content platform for marketing',
     description: 'Enterprise-grade AI writing tool built for marketing teams.',
+    metaDescription:
+      'Explore Jasper AI features, pricing, reviews, and use cases. See how Jasper helps marketers create SEO content, manage campaigns, and scale marketing.',
     longDescription:
       'Jasper is an AI content platform specifically designed for marketing teams and businesses. It goes beyond simple text generation by offering brand voice training, marketing campaign templates, SEO optimization, and team collaboration features. Jasper helps marketing teams scale content production while maintaining consistent brand voice across all channels. With integration into popular marketing tools, it streamlines the entire content creation workflow from ideation to publication.',
     category: 'marketing',
@@ -696,6 +706,8 @@ export const aiServices: AIService[] = [
     name: 'Copy.ai',
     tagline: 'AI marketing content generator',
     description: 'Generate marketing copy, blogs, and social content with AI templates.',
+    metaDescription:
+      'Explore Copy.ai features, pricing, pros, cons, and use cases. See how this AI writing tool helps create content, marketing copy, and more.',
     longDescription:
       'Copy.ai is an AI-powered content generation platform focused on marketing and sales copy. It offers 90+ tools and templates for creating blog posts, social media content, email campaigns, product descriptions, and ad copy. With its GTM AI platform, teams can automate entire marketing workflows. Copy.ai is designed for marketers, entrepreneurs, and small businesses who need to produce content quickly without deep AI expertise.',
     category: 'ai-writing',

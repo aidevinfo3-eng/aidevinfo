@@ -54,6 +54,13 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'metaDescription',
+      title: 'SEO Meta Description',
+      type: 'text',
+      rows: 3,
+      description: 'Optional. Overrides the meta description. Falls back to Short description.',
+    }),
+    defineField({
       name: 'longDescription',
       title: 'Long description',
       type: 'text',

@@ -26,7 +26,7 @@ export async function generateMetadata({
 
   return generateSEO({
     title: `${service.name} — Review, Pricing & Features`,
-    description: service.description,
+    description: service.metaDescription || service.description,
     path: `/services/${service.slug}`,
     type: 'article',
     tags: service.tags,

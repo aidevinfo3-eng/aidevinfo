@@ -3,6 +3,8 @@ export interface AIService {
   name: string;
   tagline: string;
   description: string;
+  /** SEO meta description; falls back to description when omitted */
+  metaDescription?: string;
   longDescription: string;
   category: string;
   rating: number;
