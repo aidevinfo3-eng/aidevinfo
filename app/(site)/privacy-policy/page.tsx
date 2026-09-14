@@ -7,6 +7,13 @@ export const metadata: Metadata = generateSEO({
   description:
     'Learn how AI Dev Info collects, uses, stores, and protects your personal information when you visit aidevinfo.online or use our services.',
   path: '/privacy-policy',
+  keywords: [
+    'privacy policy',
+    'data protection',
+    'personal information handling',
+    'cookie usage',
+    'GDPR compliance',
+  ],
 });
 
 export default function PrivacyPolicyPage() {

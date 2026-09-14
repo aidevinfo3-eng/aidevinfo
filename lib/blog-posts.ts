@@ -5,7 +5,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import type { BlogPost } from './types';
 import { client, hasSanityConfig } from './sanity';
-import { allPostsQuery, postBySlugQuery } from './sanity-queries';
+import { allPostsQuery, postBySlugQuery, postSlugsQuery } from './sanity-queries';
 import { mapSanityPostToBlogPost, type SanityPost } from './sanity-mappers';
 
 const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
@@ -114,6 +114,20 @@ async function loadSanityPostBySlug(slug: string): Promise<BlogPost | undefined>
   return mapSanityPostToBlogPost(post, { includeContent: true });
 }
 
+/**
+ * Finds the untrimmed slug stored in Sanity for a clean URL slug. Needed
+ * because some documents were saved with surrounding whitespace, which GROQ
+ * matches literally.
+ */
+async function resolveStoredSlug(slug: string): Promise<string | undefined> {
+  const rows = await client.fetch<{ slug: string | null }[]>(
+    postSlugsQuery,
+    {},
+    { next: { revalidate: 60 } }
+  );
+  return rows?.find((row) => row.slug?.trim() === slug)?.slug ?? undefined;
+}
+
 // let markdownCache: BlogPost[] | null = null;
 
 function getMarkdownPosts(): BlogPost[] {
@@ -138,15 +152,23 @@ export async function getAllBlogPosts(): Promise<BlogPost[]> {
 }
 
 export async function getBlogBySlug(slug: string): Promise<BlogPost | undefined> {
+  const normalized = slug.trim();
+
   if (hasSanityConfig) {
     try {
-      const post = await loadSanityPostBySlug(slug);
+      const post = await loadSanityPostBySlug(normalized);
       if (post) return post;
+
+      const storedSlug = await resolveStoredSlug(normalized);
+      if (storedSlug && storedSlug !== normalized) {
+        const stored = await loadSanityPostBySlug(storedSlug);
+        if (stored) return stored;
+      }
     } catch (error) {
       console.error('Sanity post fetch failed, falling back to markdown:', error);
     }
   }
-  return getMarkdownPosts().find((b) => b.slug === slug);
+  return getMarkdownPosts().find((b) => b.slug === normalized);
 }
 
 export async function getFeaturedBlogPost(): Promise<BlogPost | undefined> {

@@ -5,8 +5,15 @@ import { generateSEO } from '@/lib/seo';
 export const metadata: Metadata = generateSEO({
   title: 'Advertising Policy — Sponsored Content and Ad Disclosure',
   description:
-    'Learn how advertisements, sponsored content, affiliate partnerships, and promotional materials are displayed on AI Dev Info, and how we maintain editorial independence and transparency.',
+    'How advertisements, sponsored content, and affiliate partnerships appear on AI Dev Info, and how we protect our editorial independence.',
   path: '/advertising-policy',
+  keywords: [
+    'advertising policy',
+    'sponsored content disclosure',
+    'affiliate disclosure',
+    'ad transparency',
+    'editorial independence',
+  ],
 });
 
 export default function AdvertisingPolicyPage() {

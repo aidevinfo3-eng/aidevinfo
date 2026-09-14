@@ -6,6 +6,11 @@ interface SEOProps {
   title: string;
   description: string;
   path: string;
+  /**
+   * Page-specific meta keywords. Every page must supply its own set — a shared
+   * site-wide list gets flagged as duplicate keywords by SEO crawlers.
+   */
+  keywords?: string[];
   image?: string;
   type?: 'website' | 'article';
   publishedTime?: string;
@@ -18,10 +23,23 @@ function stripBrandSuffix(title: string): string {
   return title.replace(/\s*[|–—-]\s*AI Dev Info\s*$/i, '').trim();
 }
 
+/** Drops blanks, trims, and de-duplicates case-insensitively. */
+export function normalizeKeywords(values: (string | undefined)[]): string[] {
+  const seen = new Map<string, string>();
+  for (const value of values) {
+    const keyword = value?.trim();
+    if (!keyword) continue;
+    const key = keyword.toLowerCase();
+    if (!seen.has(key)) seen.set(key, keyword);
+  }
+  return Array.from(seen.values());
+}
+
 export function generateSEO({
   title,
   description,
   path,
+  keywords,
   image = '/og-image.png',
   type = 'website',
   publishedTime,
@@ -31,11 +49,15 @@ export function generateSEO({
 }: SEOProps): Metadata {
   const url = `${siteUrl}${path}`;
   const displayTitle = stripBrandSuffix(title);
+  const pageKeywords = normalizeKeywords(keywords ?? []);
 
   return {
     // Absolute so the root layout template cannot append "| AI Dev Info".
     title: { absolute: displayTitle },
     description,
+    // Explicit null clears the inherited value when a page has no keywords,
+    // so pages never silently share one list.
+    keywords: pageKeywords.length ? pageKeywords : null,
     alternates: {
       canonical: path,
     },

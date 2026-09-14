@@ -3,17 +3,24 @@ import Image from 'next/image';
 export const HERO_BG_IMAGE =
   'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1600';
 
+export const HERO_BG_ALT = 'AI technology development and digital workspace';
+
 /** Shared full-bleed hero image + overlays used on home-style page heroes. */
 export function PageHeroBackdrop() {
   return (
     <>
+      {/*
+        Explicit width/height (not `fill`) so the rendered <img> carries real
+        size attributes and reserves its aspect ratio before loading.
+      */}
       <Image
         src={HERO_BG_IMAGE}
-        alt=""
-        fill
+        alt={HERO_BG_ALT}
+        width={1600}
+        height={900}
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className="absolute inset-0 h-full w-full object-cover object-center"
       />
       <div
         className="absolute inset-0"

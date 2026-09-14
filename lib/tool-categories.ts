@@ -54,3 +54,15 @@ export async function getHomeCategories(): Promise<Category[]> {
   const home = all.filter((c) => c.showOnHome !== false);
   return home.length ? home : all;
 }
+
+export async function findCategoryBySlug(
+  slug: string
+): Promise<Category | undefined> {
+  const all = await getAllCategories();
+  return all.find((c) => c.slug === slug);
+}
+
+export async function getCategorySlugs(): Promise<string[]> {
+  const all = await getAllCategories();
+  return all.map((c) => c.slug);
+}

@@ -1,19 +1,49 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { ServiceDetail } from '@/components/services/service-detail';
+import { ServicesClient } from '@/components/services/services-client';
+import { ServicesHero } from '@/components/services/services-hero';
 import {
+  getAllAiTools,
   getAiToolBySlug,
   getRelatedAiTools,
 } from '@/lib/ai-tools';
 import { getLatestBlogPosts } from '@/lib/blog-posts';
+import { findCategoryBySlug, getAllCategories } from '@/lib/tool-categories';
+import type { Category } from '@/lib/types';
 import { generateSEO, generateServiceLd } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
 
-// export async function generateStaticParams() {
-//   const slugs = await getAiToolSlugs();
-//   return slugs.map((slug) => ({ slug }));
-// }
+/**
+ * Category listings live at /services/<category> rather than
+ * /services?category=<category> so each one is a crawlable, indexable URL.
+ */
+function categoryTitle(category: Category): string {
+  return `${category.name} — Best AI Tools & Reviews`;
+}
+
+function categoryHeading(category: Category): string {
+  return `${category.name}: Compare the Best Tools`;
+}
+
+function categoryDescription(category: Category): string {
+  const summary = `Compare verified ${category.name} tools by features, pricing, and real user reviews on AI Dev Info.`;
+  const intro = category.description?.trim().replace(/\s+/g, ' ') ?? '';
+  if (intro && `${intro} ${summary}`.length <= 158) return `${intro} ${summary}`;
+  return summary;
+}
+
+function categoryKeywords(category: Category): string[] {
+  const name = category.name;
+  return [
+    `${name} tools`,
+    `best ${name.toLowerCase()} tools`,
+    `${name.toLowerCase()} software`,
+    `top ${name.toLowerCase()} platforms`,
+    `${name.toLowerCase()} comparison`,
+  ];
+}
 
 export async function generateMetadata({
   params,
@@ -21,6 +51,17 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+
+  const category = await findCategoryBySlug(slug);
+  if (category) {
+    return generateSEO({
+      title: categoryTitle(category),
+      description: categoryDescription(category),
+      path: `/services/${category.slug}`,
+      keywords: categoryKeywords(category),
+    });
+  }
+
   const service = await getAiToolBySlug(slug);
   if (!service) return {};
 
@@ -30,7 +71,40 @@ export async function generateMetadata({
     path: `/services/${service.slug}`,
     type: 'article',
     tags: service.tags,
+    keywords: [
+      service.name,
+      `${service.name} review`,
+      `${service.name} pricing`,
+      `${service.name} features`,
+      `${service.name} alternatives`,
+      ...service.tags,
+    ],
   });
+}
+
+async function CategoryListing({ category }: { category: Category }) {
+  const [tools, categories] = await Promise.all([
+    getAllAiTools(),
+    getAllCategories(),
+  ]);
+
+  return (
+    <>
+      <ServicesHero
+        heading={categoryHeading(category)}
+        description={categoryDescription(category)}
+        breadcrumbs={[
+          { label: 'AI Tools', href: '/services' },
+          { label: category.name },
+        ]}
+      />
+      <ServicesClient
+        tools={tools}
+        categories={categories}
+        activeCategorySlug={category.slug}
+      />
+    </>
+  );
 }
 
 export default async function ServiceDetailPage({
@@ -39,6 +113,10 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+
+  const category = await findCategoryBySlug(slug);
+  if (category) return <CategoryListing category={category} />;
+
   const service = await getAiToolBySlug(slug);
   if (!service) notFound();
 

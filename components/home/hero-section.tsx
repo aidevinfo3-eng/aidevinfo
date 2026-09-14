@@ -3,9 +3,7 @@ import Image from 'next/image';
 import { ArrowRight, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { HeroSearch } from '@/components/home/hero-search';
-
-const HERO_IMAGE =
-  'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1600';
+import { HERO_BG_ALT, HERO_BG_IMAGE } from '@/components/shared/page-hero-backdrop';
 
 const stats = [
   { value: '5,000+', label: 'AI Tools' },
@@ -18,12 +16,13 @@ export function HeroSection() {
   return (
     <section className="relative isolate min-h-[100svh] overflow-hidden bg-foreground">
       <Image
-        src={HERO_IMAGE}
-        alt=""
-        fill
+        src={HERO_BG_IMAGE}
+        alt={HERO_BG_ALT}
+        width={1600}
+        height={900}
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className="absolute inset-0 h-full w-full object-cover object-center"
       />
 
       <div

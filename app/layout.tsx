@@ -18,24 +18,11 @@ const siteUrl = 'https://aidevinfo.online';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title:
-    'AI Dev Info — Build Smarter with AI Development, Tools & Expert Insights',
+  title: 'AI Dev Info — AI Development Services, Tools & Insights',
   description:
     'AI Dev Info is your all-in-one platform for AI development services, AI tools discovery, expert tutorials, industry news, and sponsored AI promotions.',
-  keywords: [
-    'AI tools',
-    'AI services',
-    'artificial intelligence',
-    'AI directory',
-    'AI reviews',
-    'AI blog',
-    'ChatGPT',
-    'Claude',
-    'Gemini',
-    'Midjourney',
-    'AI tutorials',
-    'AI news',
-  ],
+  // Keywords are intentionally set per page (see lib/seo.ts) so no two pages
+  // ship an identical list.
   authors: [{ name: 'AI Dev Info' }],
   creator: 'AI Dev Info',
   publisher: 'AI Dev Info',

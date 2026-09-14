@@ -27,9 +27,10 @@ export function ScreenshotGallery({ screenshots, name }: { screenshots: string[]
             <Image
               src={screenshot}
               alt={`${name} screenshot ${index + 1}`}
-              fill
+              width={1600}
+              height={900}
               sizes="(max-width: 768px) 100vw, 33vw"
-              className="object-cover transition-transform duration-300 group-hover:scale-105"
+              className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
             <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/20" />
           </button>

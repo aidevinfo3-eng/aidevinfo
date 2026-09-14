@@ -5,6 +5,8 @@ import type { PortableTextComponents, PortableTextBlock } from '@portabletext/re
 import Image from 'next/image';
 import { urlFor } from '@/lib/sanity';
 
+const SITE_ORIGIN = 'https://aidevinfo.online';
+
 function slugify(text: string) {
   return text
     .toLowerCase()
@@ -12,20 +14,47 @@ function slugify(text: string) {
     .replace(/[^\w-]/g, '');
 }
 
+function blockText(value?: { children?: unknown[] }) {
+  return (
+    (value?.children as { text?: string }[] | undefined)
+      ?.map((child) => String(child?.text ?? ''))
+      .join('') || ''
+  );
+}
+
+/**
+ * Repairs hrefs authored in the CMS: strips encoded/literal whitespace that
+ * would otherwise resolve to a 404, and makes same-origin links relative.
+ */
+function normalizeHref(href: string): string {
+  let next = href.trim().replace(/%20/gi, ' ').trim();
+  if (next.startsWith(SITE_ORIGIN)) {
+    next = next.slice(SITE_ORIGIN.length) || '/';
+  }
+  if (next.startsWith('/')) {
+    const [pathname, rest] = next.split(/([?#].*)$/, 2);
+    next =
+      pathname
+        .split('/')
+        .map((segment) => segment.trim())
+        .join('/') + (rest ?? '');
+  }
+  return next;
+}
+
 const components: PortableTextComponents = {
   block: {
-    h2: ({ children, value }) => {
-      const text =
-        value?.children
-          ?.map((child) => ('text' in child ? String(child.text ?? '') : ''))
-          .join('') || '';
-      const id = slugify(text);
-      return (
-        <h2 id={id} className="scroll-mt-24">
-          {children}
-        </h2>
-      );
-    },
+    // Article titles are the page's only <h1>; body headings start at <h2>.
+    h1: ({ children, value }) => (
+      <h2 id={slugify(blockText(value))} className="scroll-mt-24">
+        {children}
+      </h2>
+    ),
+    h2: ({ children, value }) => (
+      <h2 id={slugify(blockText(value))} className="scroll-mt-24">
+        {children}
+      </h2>
+    ),
     h3: ({ children }) => <h3 className="scroll-mt-24">{children}</h3>,
     normal: ({ children }) => <p>{children}</p>,
     blockquote: ({ children }) => <blockquote>{children}</blockquote>,
@@ -38,8 +67,9 @@ const components: PortableTextComponents = {
           <Image
             src={urlFor(value).width(1200).url()}
             alt={value.alt || 'Article image'}
-            fill
-            className="object-cover"
+            width={1200}
+            height={675}
+            className="absolute inset-0 h-full w-full object-cover"
             sizes="(max-width: 768px) 100vw, 800px"
           />
         </div>
@@ -74,7 +104,7 @@ const components: PortableTextComponents = {
     em: ({ children }) => <em>{children}</em>,
     code: ({ children }) => <code>{children}</code>,
     link: ({ children, value }) => {
-      const href = value?.href ?? '#';
+      const href = normalizeHref(value?.href ?? '#');
       const rel = href.startsWith('/') ? undefined : 'noreferrer noopener';
       return (
         <a href={href} rel={rel} target={rel ? '_blank' : undefined}>

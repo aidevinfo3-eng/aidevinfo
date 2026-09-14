@@ -8,6 +8,13 @@ export const metadata: Metadata = generateSEO({
   description:
     'Terms of Service for AI Dev Info covering use of aidevinfo.online, AI services, tools directory, content, and advertising.',
   path: '/terms',
+  keywords: [
+    'terms of service',
+    'website terms and conditions',
+    'user agreement',
+    'acceptable use policy',
+    'AI platform terms',
+  ],
 });
 
 export default function TermsPage() {

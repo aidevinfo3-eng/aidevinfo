@@ -20,8 +20,9 @@ function LogoItem({ name, src }: { name: string; src: string }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={src}
-        alt=""
-        aria-hidden
+        alt={`${name} logo`}
+        width={24}
+        height={24}
         className="h-5 w-5 shrink-0 sm:h-6 sm:w-6"
       />
       <span className="whitespace-nowrap font-display text-xl sm:text-2xl">

@@ -43,6 +43,14 @@ export const metadata: Metadata = generateSEO({
   description:
     'Explore AI development services including chatbots, agents, automation, custom GPTs, SaaS, LLM integration, RAG apps, and consulting.',
   path: '/development-services',
+  keywords: [
+    'AI development services',
+    'custom AI development',
+    'AI development company',
+    'AI software development',
+    'hire AI developers',
+    'enterprise AI solutions',
+  ],
 });
 
 export default async function DevelopmentServicesPage() {
@@ -53,6 +61,7 @@ export default async function DevelopmentServicesPage() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <SectionHeading
+            as="h1"
             eyebrow="Our Expertise"
             title="AI Development Services"
             description="We build custom AI solutions that help businesses automate, innovate, and grow."

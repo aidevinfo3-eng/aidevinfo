@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { getAllAiTools } from '@/lib/ai-tools';
 import { getAllBlogPosts } from '@/lib/blog-posts';
 import { getDevelopmentServices } from '@/lib/development-services';
+import { getAllCategories } from '@/lib/tool-categories';
 
 export const baseUrl = 'https://aidevinfo.online';
 
@@ -89,7 +90,10 @@ export async function getStaticSitemapEntries(): Promise<MetadataRoute.Sitemap> 
 
 export async function getServicesSitemapEntries(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const tools = await getAllAiTools();
+  const [tools, categories] = await Promise.all([
+    getAllAiTools(),
+    getAllCategories(),
+  ]);
 
   return [
     {
@@ -98,6 +102,12 @@ export async function getServicesSitemapEntries(): Promise<MetadataRoute.Sitemap
       changeFrequency: 'daily',
       priority: 0.9,
     },
+    ...categories.map((category) => ({
+      url: `${baseUrl}/services/${category.slug}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    })),
     ...tools.map((service) => ({
       url: `${baseUrl}/services/${service.slug}`,
       lastModified: service.lastUpdated ? new Date(service.lastUpdated) : now,

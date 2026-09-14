@@ -65,7 +65,7 @@ export function CategoriesSection({ categories }: { categories: Category[] }) {
             {currentItems.map((category) => (
               <Link
                 key={category.slug}
-                href={`/services?category=${category.slug}`}
+                href={`/services/${category.slug}`}
                 className="group flex h-full flex-col justify-between border border-border bg-card p-5 transition-colors hover:border-foreground/25 hover:bg-muted/40 sm:p-6"
               >
                 <h3 className="font-display text-lg text-foreground transition-colors group-hover:text-primary sm:text-xl">

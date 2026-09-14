@@ -8,10 +8,18 @@ import { generateSEO } from '@/lib/seo';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = generateSEO({
-  title: 'AI Blogs, Tutorials, News & Expert Insights',
+  title: 'AI Blog — Tutorials, Guides & Industry News',
   description:
     'Stay ahead with expert-written AI blogs, tutorials, tool comparisons, development guides, industry news, and prompt engineering resources.',
   path: '/blogs',
+  keywords: [
+    'AI blog',
+    'AI tutorials',
+    'AI news',
+    'AI guides',
+    'machine learning articles',
+    'prompt engineering',
+  ],
 });
 
 export default async function BlogsPage() {

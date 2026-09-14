@@ -50,13 +50,13 @@ function readingTimeFromBlocks(blocks?: PortableTextBlock[]): string {
 
 function extractHeadings(blocks?: PortableTextBlock[]): string[] {
   if (!blocks?.length) return [];
+  // Body h1 blocks are rendered as h2, so both belong in the table of contents.
   return blocks
-    .filter(
-      (block) =>
-        block._type === 'block' &&
-        'style' in block &&
-        (block as { style?: string }).style === 'h2'
-    )
+    .filter((block) => {
+      if (block._type !== 'block' || !('style' in block)) return false;
+      const style = (block as { style?: string }).style;
+      return style === 'h1' || style === 'h2';
+    })
     .map((block) => {
       const children = (block as { children?: { text?: string }[] }).children;
       return children?.map((c) => c.text ?? '').join('') ?? '';
@@ -97,7 +97,8 @@ export function mapSanityPostToBlogPost(
   const content = includeContent ? post.content ?? [] : [];
 
   return {
-    slug: post.slug ?? post._id,
+    // Trimmed: stray whitespace in a CMS slug produces %20 URLs that 404.
+    slug: (post.slug ?? post._id).trim(),
     title: post.title ?? 'Untitled',
     excerpt: post.excerpt ?? '',
     category: post.category ?? 'News',

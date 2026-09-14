@@ -157,9 +157,10 @@ export function BlogDetail({
               <Image
                 src={post.image}
                 alt={post.title}
-                fill
+                width={1600}
+                height={800}
                 sizes="(max-width: 1152px) 100vw, 1152px"
-                className="object-cover"
+                className="absolute inset-0 h-full w-full object-cover"
                 priority
               />
             </div>

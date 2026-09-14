@@ -54,6 +54,13 @@ export async function generateMetadata({
     title: service.metaTitle || service.title,
     description: service.metaDescription || service.description,
     path: `/development-services/${service.slug}`,
+    keywords: [
+      service.title,
+      `${service.title} services`,
+      `${service.title} company`,
+      `custom ${service.title.toLowerCase()}`,
+      `hire ${service.title.toLowerCase()} developers`,
+    ],
   });
 }
 

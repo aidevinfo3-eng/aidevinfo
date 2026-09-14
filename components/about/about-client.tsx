@@ -209,14 +209,22 @@ const caseStudies = [
 ];
 
 const partners = [
-  { name: 'OpenAI', src: '/logos/openai.svg' },
-  { name: 'Microsoft', src: '/logos/microsoft.svg' },
-  { name: 'Google Cloud', src: '/logos/google.svg' },
-  { name: 'Amazon Web Services', src: '/logos/aws.svg' },
-  { name: 'Anthropic', src: '/logos/anthropic.svg' },
-  { name: 'Hugging Face', src: '/logos/huggingface.svg' },
-  { name: 'Meta AI', src: '/logos/meta.svg' },
-  { name: 'NVIDIA', src: '/logos/nvidia.svg' },
+  { name: 'OpenAI', src: '/logos/openai.svg', alt: 'OpenAI logo' },
+  { name: 'Microsoft', src: '/logos/microsoft.svg', alt: 'Microsoft logo' },
+  { name: 'Google Cloud', src: '/logos/google.svg', alt: 'Google AI logo' },
+  {
+    name: 'Amazon Web Services',
+    src: '/logos/aws.svg',
+    alt: 'Amazon Web Services (AWS) logo',
+  },
+  { name: 'Anthropic', src: '/logos/anthropic.svg', alt: 'Anthropic logo' },
+  {
+    name: 'Hugging Face',
+    src: '/logos/huggingface.svg',
+    alt: 'Hugging Face AI platform logo',
+  },
+  { name: 'Meta AI', src: '/logos/meta.svg', alt: 'Meta AI logo' },
+  { name: 'NVIDIA', src: '/logos/nvidia.svg', alt: 'NVIDIA AI technology logo' },
 ];
 
 const testimonials = [
@@ -594,8 +602,9 @@ export function AboutClient() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={partner.src}
-                  alt=""
-                  aria-hidden
+                  alt={partner.alt}
+                  width={24}
+                  height={24}
                   className="h-5 w-5 shrink-0 sm:h-6 sm:w-6"
                 />
                 <span className="whitespace-nowrap font-display text-xl sm:text-2xl">
