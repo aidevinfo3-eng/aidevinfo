@@ -3,11 +3,19 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { BlogPost } from '@/lib/types';
 
-export function BlogCard({ post }: { post: BlogPost; index?: number }) {
+export function BlogCard({
+  post,
+  elevated,
+}: {
+  post: BlogPost;
+  index?: number;
+  elevated?: boolean;
+}) {
   return (
-    <article className="group flex h-full flex-col">
+    <article className={cn('group flex h-full flex-col', elevated && 'home-card overflow-hidden')}>
       <Link
         href={`/blog/${post.slug}`}
         className="relative block aspect-[16/10] overflow-hidden bg-muted"
@@ -22,7 +30,12 @@ export function BlogCard({ post }: { post: BlogPost; index?: number }) {
         />
       </Link>
 
-      <div className="flex flex-1 flex-col border border-t-0 border-border p-5">
+      <div
+        className={cn(
+          'flex flex-1 flex-col p-5',
+          elevated ? 'border-0' : 'border border-t-0 border-border'
+        )}
+      >
         <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
           <span className="text-primary">{post.category}</span>
           <span aria-hidden>·</span>

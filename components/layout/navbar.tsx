@@ -4,7 +4,7 @@ import { useState, useEffect, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { HeroSearch } from '@/components/home/hero-search';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
@@ -103,17 +103,7 @@ export function Navbar() {
         </ul>
 
         <div className="hidden shrink-0 md:block">
-          <Button
-            asChild
-            size="sm"
-            className={
-              solid
-                ? 'bg-primary text-white hover:bg-primary-dark'
-                : 'bg-white text-neutral-950 hover:bg-white/90'
-            }
-          >
-            <Link href="/services">Explore tools</Link>
-          </Button>
+          <HeroSearch variant="header" onDark={!solid} />
         </div>
 
         <button
@@ -150,9 +140,9 @@ export function Navbar() {
                 </Link>
               );
             })}
-            <Button asChild className="mt-3 w-full">
-              <Link href="/services">Explore tools</Link>
-            </Button>
+            <div className="mt-4 max-w-none">
+              <HeroSearch variant="header" />
+            </div>
           </div>
         </div>
       )}

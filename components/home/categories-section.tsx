@@ -72,7 +72,7 @@ export function CategoriesSection({ categories }: { categories: Category[] }) {
                   {category.name}
                 </h3>
                 <p className="mt-8 text-xs uppercase tracking-[0.16em] text-muted-foreground">
-                  {category.countLabel ?? `${category.count}+`} tools
+                  {category.countLabel ?? `${category.count} tools`}
                 </p>
               </Link>
             ))}

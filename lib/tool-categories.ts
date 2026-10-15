@@ -1,6 +1,8 @@
 import 'server-only';
 
 import type { Category } from './types';
+import { getAllAiTools } from './ai-tools';
+import { enrichCategoriesWithToolCounts } from './category-tool-counts';
 import { client, hasSanityConfig } from './sanity';
 import { allToolCategoriesQuery } from './sanity-queries';
 import { categories as fallbackCategories } from './categories';
@@ -17,15 +19,12 @@ type SanityToolCategory = {
 };
 
 function mapSanityCategory(doc: SanityToolCategory): Category {
-  const countLabel = doc.countLabel || '10+';
-  const numeric = Number.parseInt(countLabel.replace(/[^\d]/g, ''), 10);
   return {
     name: doc.name,
     slug: doc.slug || doc._id,
     description: doc.description || '',
     icon: doc.icon || 'Zap',
-    count: Number.isFinite(numeric) ? numeric : 0,
-    countLabel,
+    count: 0,
     color: 'from-zinc-700 to-zinc-900',
     showOnHome: doc.showOnHome !== false,
     order: doc.order ?? 0,
@@ -53,6 +52,24 @@ export async function getHomeCategories(): Promise<Category[]> {
   const all = await getAllCategories();
   const home = all.filter((c) => c.showOnHome !== false);
   return home.length ? home : all;
+}
+
+/** Home categories with live tool counts from published AI tools. */
+export async function getHomeCategoriesWithCounts(): Promise<Category[]> {
+  const [categories, tools] = await Promise.all([
+    getHomeCategories(),
+    getAllAiTools(),
+  ]);
+  return enrichCategoriesWithToolCounts(categories, tools);
+}
+
+/** All categories with live tool counts. */
+export async function getAllCategoriesWithCounts(): Promise<Category[]> {
+  const [categories, tools] = await Promise.all([
+    getAllCategories(),
+    getAllAiTools(),
+  ]);
+  return enrichCategoriesWithToolCounts(categories, tools);
 }
 
 export async function findCategoryBySlug(

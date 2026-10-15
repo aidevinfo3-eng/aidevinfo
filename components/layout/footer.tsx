@@ -3,19 +3,19 @@ import { Mail } from 'lucide-react';
 
 const footerSections = [
   {
-    title: 'Platform',
+    title: 'Explore',
     links: [
       { href: '/services', label: 'AI Tools' },
-      { href: '/blogs', label: 'Blog' },
-      { href: '/advertising', label: 'Advertising' },
+      { href: '/blogs', label: 'AI Guides' },
+      { href: '/development-services', label: 'AI Development' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { href: '/about', label: 'About Us' },
+      { href: '/about', label: 'About' },
       { href: '/contact', label: 'Contact' },
-      { href: '/contact', label: 'Submit a Service' },
+      { href: '/advertising', label: 'Advertising' },
     ],
   },
   {

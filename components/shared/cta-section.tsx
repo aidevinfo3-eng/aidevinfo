@@ -11,6 +11,8 @@ interface CTASectionProps {
   primaryHref: string;
   secondaryLabel?: string;
   secondaryHref?: string;
+  /** Decorative wash + grid behind content (homepage CTA). */
+  decorative?: boolean;
 }
 
 export function CTASection({
@@ -20,10 +22,23 @@ export function CTASection({
   primaryHref,
   secondaryLabel,
   secondaryHref,
+  decorative = false,
 }: CTASectionProps) {
   return (
-    <section className="border border-border bg-card px-6 py-14 sm:px-12 sm:py-16">
-      <div className="mx-auto max-w-2xl text-center">
+    <section
+      className={
+        decorative
+          ? 'home-card relative overflow-hidden px-6 py-14 sm:px-12 sm:py-16'
+          : 'home-card px-6 py-14 sm:px-12 sm:py-16'
+      }
+    >
+      {decorative ? (
+        <>
+          <div className="cta-card-wash pointer-events-none absolute inset-0" aria-hidden />
+          <div className="cta-card-grid pointer-events-none absolute inset-0 opacity-80" aria-hidden />
+        </>
+      ) : null}
+      <div className="relative z-10 mx-auto max-w-2xl text-center">
         <h2 className="font-display text-3xl font-normal text-foreground sm:text-4xl text-balance">
           {title}
         </h2>

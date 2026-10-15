@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ServicesClient } from '@/components/services/services-client';
 import { ServicesHero } from '@/components/services/services-hero';
 import { getAllAiTools } from '@/lib/ai-tools';
-import { getAllCategories } from '@/lib/tool-categories';
+import { getAllCategoriesWithCounts } from '@/lib/tool-categories';
 import { generateSEO } from '@/lib/seo';
 
 export const metadata: Metadata = generateSEO({
@@ -23,7 +23,7 @@ export const metadata: Metadata = generateSEO({
 export default async function ServicesPage() {
   const [tools, categories] = await Promise.all([
     getAllAiTools(),
-    getAllCategories(),
+    getAllCategoriesWithCounts(),
   ]);
   return (
     <>

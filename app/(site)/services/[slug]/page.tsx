@@ -9,7 +9,10 @@ import {
   getRelatedAiTools,
 } from '@/lib/ai-tools';
 import { getLatestBlogPosts } from '@/lib/blog-posts';
-import { findCategoryBySlug, getAllCategories } from '@/lib/tool-categories';
+import {
+  findCategoryBySlug,
+  getAllCategoriesWithCounts,
+} from '@/lib/tool-categories';
 import type { Category } from '@/lib/types';
 import { generateSEO, generateServiceLd } from '@/lib/seo';
 
@@ -85,7 +88,7 @@ export async function generateMetadata({
 async function CategoryListing({ category }: { category: Category }) {
   const [tools, categories] = await Promise.all([
     getAllAiTools(),
-    getAllCategories(),
+    getAllCategoriesWithCounts(),
   ]);
 
   return (
