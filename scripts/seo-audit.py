@@ -44,7 +44,7 @@ STATIC_PATHS = [
     "/blogs",
     "/about",
     "/contact",
-    "/advertising",
+    "/advertise",
     "/advertising-policy",
     "/privacy-policy",
     "/terms",

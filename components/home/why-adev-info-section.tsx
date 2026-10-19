@@ -47,7 +47,7 @@ export function WhyAdevInfoSection() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
           {principles.map((item) => (
-            <div key={item.title} className={`${HOME_CARD_INSET} p-6`}>
+            <div key={item.title} className={`${HOME_CARD_INSET} p-6 sm:p-7`}>
               <h3 className="font-display text-xl text-foreground">{item.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {item.description}

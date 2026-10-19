@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { HomeAtmosphereShell } from '@/components/home/home-atmosphere-shell';
 
 interface CTASectionProps {
   title: string;
@@ -11,8 +12,6 @@ interface CTASectionProps {
   primaryHref: string;
   secondaryLabel?: string;
   secondaryHref?: string;
-  /** Decorative wash + grid behind content (homepage CTA). */
-  decorative?: boolean;
 }
 
 export function CTASection({
@@ -22,43 +21,39 @@ export function CTASection({
   primaryHref,
   secondaryLabel,
   secondaryHref,
-  decorative = false,
 }: CTASectionProps) {
   return (
-    <section
-      className={
-        decorative
-          ? 'home-card relative overflow-hidden px-6 py-14 sm:px-12 sm:py-16'
-          : 'home-card px-6 py-14 sm:px-12 sm:py-16'
-      }
-    >
-      {decorative ? (
-        <>
-          <div className="cta-card-wash pointer-events-none absolute inset-0" aria-hidden />
-          <div className="cta-card-grid pointer-events-none absolute inset-0 opacity-80" aria-hidden />
-        </>
-      ) : null}
-      <div className="relative z-10 mx-auto max-w-2xl text-center">
-        <h2 className="font-display text-3xl font-normal text-foreground sm:text-4xl text-balance">
+    <HomeAtmosphereShell>
+      <div className="mx-auto max-w-2xl text-center">
+        <h2 className="font-display text-3xl font-normal leading-[1.12] text-white/95 sm:text-4xl text-balance">
           {title}
         </h2>
-        <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground sm:text-base text-balance">
+        <p className="mt-4 text-[15px] leading-relaxed text-white/65 sm:text-base text-balance">
           {description}
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button asChild size="lg" className="group">
+          <Button
+            asChild
+            size="lg"
+            className="h-12 bg-white text-foreground hover:bg-white/90 group"
+          >
             <Link href={primaryHref}>
               {primaryLabel}
-              <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </Link>
           </Button>
-          {secondaryLabel && secondaryHref && (
-            <Button asChild size="lg" variant="outline">
+          {secondaryLabel && secondaryHref ? (
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-12 border-white/35 bg-white/5 text-white backdrop-blur-sm hover:border-white hover:bg-white hover:text-foreground"
+            >
               <Link href={secondaryHref}>{secondaryLabel}</Link>
             </Button>
-          )}
+          ) : null}
         </div>
       </div>
-    </section>
+    </HomeAtmosphereShell>
   );
 }

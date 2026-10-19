@@ -1,6 +1,6 @@
-import Image from 'next/image';
-
-export const HERO_BG_IMAGE = '/images/hero-bg.jpg';
+export const HERO_BG_POSTER = '/poster-hero.png';
+export const HERO_BG_IMAGE = HERO_BG_POSTER;
+export const HERO_BG_VIDEO = '/hero-bg-2.mp4';
 
 export const HERO_BG_ALT =
   'Developers researching and building with AI tools';
@@ -40,23 +40,22 @@ type PageHeroBackdropProps = {
   priority?: boolean;
 };
 
-/** Shared full-bleed hero image + overlays used on home-style page heroes. */
+/** Shared full-bleed hero video + overlays used on all page heroes. */
 export function PageHeroBackdrop({ priority = false }: PageHeroBackdropProps) {
   return (
     <>
-      {/*
-        Explicit width/height (not `fill`) so the rendered <img> carries real
-        size attributes and reserves its aspect ratio before loading.
-      */}
-      <Image
-        src={HERO_BG_IMAGE}
-        alt={HERO_BG_ALT}
-        width={1600}
-        height={900}
-        priority={priority}
-        sizes="100vw"
-        className="absolute inset-0 h-full w-full object-cover object-right"
-      />
+      <video
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload={priority ? 'auto' : 'metadata'}
+        poster={HERO_BG_POSTER}
+        aria-hidden
+      >
+        <source src={HERO_BG_VIDEO} type="video/mp4" />
+      </video>
       <div
         className="absolute inset-0"
         style={{
@@ -64,7 +63,10 @@ export function PageHeroBackdrop({ priority = false }: PageHeroBackdropProps) {
             'linear-gradient(105deg, hsl(0 0% 5% / 0.92) 0%, hsl(0 0% 5% / 0.78) 42%, hsl(0 0% 5% / 0.45) 72%, hsl(0 0% 5% / 0.28) 100%)',
         }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,hsl(162_50%_28%/0.28),transparent_50%)]" />
+      {/* Soft emerald wash over the media */}
+      <div className="absolute inset-0 bg-emerald-950/35 mix-blend-multiply" aria-hidden />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,hsl(162_55%_32%/0.38),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_85%_70%,hsl(158_40%_28%/0.22),transparent_45%)]" />
       <div className="absolute inset-0 hero-backdrop-grid" />
       <HeroNetworkMotif />
       <div

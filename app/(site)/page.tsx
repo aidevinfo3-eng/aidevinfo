@@ -7,7 +7,6 @@ import { EvaluateToolsSection } from '@/components/home/evaluate-tools-section';
 import { LearnTopicsSection } from '@/components/home/learn-topics-section';
 import { LifecycleSection } from '@/components/home/lifecycle-section';
 import { WhyAdevInfoSection } from '@/components/home/why-adev-info-section';
-import { LatestBlogSection } from '@/components/home/latest-blog-section';
 import { ContactCtaSection } from '@/components/home/contact-cta-section';
 import { getFeaturedAiTools } from '@/lib/ai-tools';
 import { getHomeCategoriesWithCounts } from '@/lib/tool-categories';
@@ -38,7 +37,7 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Visual rhythm: dark → paper/tint stripes → dark lifecycle → paper/tint → dark CTA */}
+      {/* Visual rhythm: dark hero → paper → emerald bands → dark footer CTA */}
       <HeroSection />
       <PillarsSection />
       <PopularCategoriesSection categories={categories} />
@@ -47,7 +46,6 @@ export default async function HomePage() {
       <LearnTopicsSection />
       <LifecycleSection />
       <WhyAdevInfoSection />
-      <LatestBlogSection />
       <ContactCtaSection />
     </>
   );

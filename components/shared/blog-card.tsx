@@ -36,10 +36,8 @@ export function BlogCard({
           elevated ? 'border-0' : 'border border-t-0 border-border'
         )}
       >
-        <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+        <div className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
           <span className="text-primary">{post.category}</span>
-          <span aria-hidden>·</span>
-          <span>{post.readingTime}</span>
         </div>
 
         <h3 className="mt-3 font-display text-xl leading-snug text-foreground transition-colors group-hover:text-primary">

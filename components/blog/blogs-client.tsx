@@ -140,24 +140,6 @@ function BlogsContent({ allPosts, categories: blogCategories }: BlogsClientProps
             expert-written blogs, in-depth tutorials, AI tool comparisons, development
             guides, industry news, and practical insights.
           </p>
-
-          <div className="mt-10 grid grid-cols-2 gap-4 border-t border-white/15 pt-8 sm:grid-cols-4">
-            {[
-              { value: '10,000+', label: 'Articles Published' },
-              { value: '250+', label: 'Step-by-Step Tutorials' },
-              { value: '100+', label: 'AI Categories' },
-              { value: '500K+', label: 'Monthly Readers' },
-            ].map((stat) => (
-              <div key={stat.label}>
-                <p className="font-display text-2xl text-white sm:text-3xl">
-                  {stat.value}
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/50">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

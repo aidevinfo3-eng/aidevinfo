@@ -56,7 +56,7 @@ export async function getStaticSitemapEntries(): Promise<MetadataRoute.Sitemap> 
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/advertising`,
+      url: `${baseUrl}/advertise`,
       lastModified: now,
       changeFrequency: 'weekly',
       priority: 0.7,

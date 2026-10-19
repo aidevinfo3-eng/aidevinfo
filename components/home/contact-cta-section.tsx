@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Bot, Database, Sparkles, Workflow } from 'lucide-react';
+import { ArrowRight, Bot, Database, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { HomeAtmosphereShell } from '@/components/home/home-atmosphere-shell';
 
@@ -32,11 +32,7 @@ export function ContactCtaSection() {
     <HomeAtmosphereShell>
       <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-6 xl:col-span-5">
-          <p className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.2em] text-emerald-200/90">
-            <Workflow className="h-3.5 w-3.5" aria-hidden />
-            From idea to production
-          </p>
-          <h2 className="mt-6 font-display text-3xl font-normal leading-[1.12] text-white/95 sm:text-4xl lg:text-[2.65rem] text-balance">
+          <h2 className="font-display text-3xl font-normal leading-[1.12] text-white/95 sm:text-4xl lg:text-[2.65rem] text-balance">
             Need help with an AI project?
           </h2>
           <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-white/65 sm:text-base">

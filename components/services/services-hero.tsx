@@ -3,16 +3,9 @@ import { Breadcrumbs, type BreadcrumbItem } from '@/components/shared/breadcrumb
 import { PageHeroBackdrop } from '@/components/shared/page-hero-backdrop';
 
 const highlights = [
-  '5,000+ Verified AI Tools',
-  '150+ AI Categories',
-  'Updated Daily',
-];
-
-const stats = [
-  { value: '5,000+', label: 'AI Tools' },
-  { value: '150+', label: 'Categories' },
-  { value: '200K+', label: 'Monthly Visitors' },
-  { value: '1,000+', label: 'Verified Tools' },
+  'Tools organized by category and use case',
+  'Practical reviews and comparisons',
+  'Updated as the AI ecosystem evolves',
 ];
 
 /**
@@ -41,7 +34,7 @@ export function ServicesHero({
           {description}
         </p>
 
-        <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-sm text-white">
+        <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 border-t border-white/15 pt-8 text-sm text-white">
           {highlights.map((item) => (
             <li key={item} className="flex items-center gap-2">
               <Check className="h-4 w-4 text-emerald-300" />
@@ -49,19 +42,6 @@ export function ServicesHero({
             </li>
           ))}
         </ul>
-
-        <div className="mt-10 grid grid-cols-2 gap-4 border-t border-white/15 pt-8 sm:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label}>
-              <p className="font-display text-2xl text-white sm:text-3xl">
-                {stat.value}
-              </p>
-              <p className="mt-1 text-xs uppercase tracking-[0.14em] text-white/50">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );

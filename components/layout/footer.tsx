@@ -15,7 +15,7 @@ const footerSections = [
     links: [
       { href: '/about', label: 'About' },
       { href: '/contact', label: 'Contact' },
-      { href: '/advertising', label: 'Advertising' },
+      { href: '/advertise', label: 'Advertising' },
     ],
   },
   {

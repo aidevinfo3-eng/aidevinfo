@@ -1,250 +1,194 @@
-'use client';
-
+import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpen,
+  Bot,
+  Brain,
+  Check,
+  CircleDollarSign,
+  Compass,
+  GitCompare,
+  Layers,
+  Lightbulb,
+  MessageSquare,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  type LucideIcon,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SectionHeading } from '@/components/shared/section-heading';
 import { Breadcrumbs } from '@/components/shared/breadcrumbs';
 import { PageHeroBackdrop } from '@/components/shared/page-hero-backdrop';
 import { FaqAccordion } from '@/components/shared/faq-accordion';
 import { CTASection } from '@/components/shared/cta-section';
+import { EmeraldGradientSection } from '@/components/shared/emerald-gradient-section';
+import { EmeraldGlassCard } from '@/components/shared/emerald-glass-card';
+import { ProcessStepGrid } from '@/components/shared/process-step-grid';
+import { HomeSection, HOME_CARD_INSET } from '@/components/home/home-section';
+import { cn } from '@/lib/utils';
 
-const stats = [
-  { value: '5,000+', label: 'AI Tools Listed' },
-  { value: '250+', label: 'Expert Articles' },
-  { value: '150+', label: 'AI Categories' },
-  { value: '100+', label: 'Satisfied Clients' },
-  { value: '20K+', label: 'Monthly Readers' },
-  { value: '99%', label: 'Positive Feedback' },
-];
+export type AboutPageStats = {
+  toolCount: number;
+  articleCount: number;
+  categoryCount: number;
+};
 
-const whatWeDo = [
-  {
-    title: 'AI Development',
-    description:
-      'Build custom AI applications, chatbots, AI agents, automation systems, SaaS platforms, and enterprise AI solutions tailored to your business.',
-  },
-  {
-    title: 'AI Tools Directory',
-    description:
-      'Explore thousands of carefully curated AI tools across hundreds of categories with detailed information and comparisons.',
-  },
-  {
-    title: 'AI Learning Hub',
-    description:
-      'Access expert-written blogs, tutorials, implementation guides, comparisons, and industry news to stay ahead in AI.',
-  },
-  {
-    title: 'Sponsored Advertising',
-    description:
-      'Promote your AI products, SaaS platforms, services, or startup to a targeted audience through featured listings and advertising opportunities.',
-  },
-  {
-    title: 'AI Consulting',
-    description:
-      'Receive strategic consulting services that help businesses adopt AI technologies and improve operational efficiency.',
-  },
-  {
-    title: 'AI Research',
-    description:
-      'Stay informed with the latest AI research, technology trends, product launches, and industry insights.',
-  },
-];
+type AboutClientProps = {
+  stats: AboutPageStats;
+};
 
-const whyChoose = [
+const whatYouFind: {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  href: string;
+}[] = [
   {
-    title: 'Verified Resources',
-    description:
-      'Every AI tool and service listed on our platform is carefully reviewed for quality and relevance.',
+    icon: Sparkles,
+    title: 'AI development',
+    description: 'Concepts, implementation notes, and services when you need hands-on help.',
+    href: '/development-services',
   },
   {
-    title: 'Expert Team',
-    description:
-      'Our specialists have expertise in AI development, automation, SEO, and digital transformation.',
+    icon: Search,
+    title: 'AI tools directory',
+    description: 'Browse tools by category with practical details—not just feature marketing.',
+    href: '/services',
   },
   {
-    title: 'Daily Updates',
-    description:
-      'We continuously publish new AI tools, articles, tutorials, and industry news.',
+    icon: BookOpen,
+    title: 'Guides & articles',
+    description: 'Explainers, comparisons, and how-tos written for builders and decision-makers.',
+    href: '/blogs',
   },
   {
-    title: 'Transparent Reviews',
-    description:
-      'We provide unbiased information and practical insights to help users make informed decisions.',
+    icon: Bot,
+    title: 'Agents & automation',
+    description: 'Coverage of agents, workflows, and automation patterns as the space evolves.',
+    href: '/blogs',
   },
   {
-    title: 'Community Focused',
-    description:
-      'Our growing community includes developers, founders, marketers, researchers, and AI enthusiasts from around the world.',
+    icon: Brain,
+    title: 'ML & LLM fundamentals',
+    description: 'Core ideas behind models, retrieval, evaluation, and responsible use.',
+    href: '/blogs',
   },
   {
-    title: 'Results Driven',
-    description:
-      'We focus on practical AI solutions that deliver measurable business outcomes.',
+    icon: Layers,
+    title: 'Real-world applications',
+    description: 'How teams apply AI across product, support, content, and operations.',
+    href: '/services',
   },
 ];
 
-const values = [
+const editorialSteps = [
   {
-    title: 'Innovation',
-    description:
-      'We embrace emerging technologies and continuously explore new possibilities in artificial intelligence.',
+    title: 'Research',
+    description: 'Start from primary sources, docs, and reputable references—not rumor or recycled listicles.',
   },
   {
-    title: 'Transparency',
-    description:
-      'We believe in honest recommendations, clear communication, and unbiased information.',
+    title: 'Verify',
+    description: 'Check pricing, features, and claims against official pages, especially for fast-moving tools.',
   },
   {
-    title: 'Quality',
-    description:
-      'Every resource, service, and article is created with accuracy, reliability, and real-world value.',
+    title: 'Explain',
+    description: 'Write so someone can understand the idea and know when it applies to their work.',
   },
   {
-    title: 'Community',
-    description:
-      'We believe knowledge grows stronger when shared with a supportive community.',
+    title: 'Add practical context',
+    description: 'Include use cases, trade-offs, alternatives, and limitations—not only upside.',
   },
   {
-    title: 'Trust',
-    description:
-      'We build long-term relationships through reliability, professionalism, and integrity.',
-  },
-  {
-    title: 'Growth',
-    description:
-      'We help businesses and individuals unlock new opportunities through AI innovation.',
+    title: 'Review',
+    description: 'Human editors refine structure, accuracy, and clarity before anything goes live.',
   },
 ];
 
-const team = [
+const evaluationCriteria = [
+  'Primary use case and who it is for',
+  'Capabilities and notable limitations',
+  'Pricing model and transparency',
+  'Integrations, platforms, and API access where relevant',
+  'Alternatives and when to choose something else',
+  'Last reviewed or updated when we revisit a listing',
+];
+
+const standFor: {
+  title: string;
+  description: string;
+  href?: string;
+}[] = [
   {
-    name: 'Zainab Ghafoor',
-    role: 'Founder & CEO',
-    bio: 'Leading the vision and strategy behind AI Dev Info while driving innovation in AI solutions and digital growth.',
+    title: 'Accuracy over hype',
+    description: 'We avoid exaggerated claims and vague “game-changing” language without evidence.',
   },
   {
-    name: 'Areeb Hassan',
-    role: 'Lead AI Engineer',
-    bio: 'Specializes in AI application development, LLM integration, automation, and scalable AI systems.',
+    title: 'Original value over rewriting',
+    description: 'Pages should help someone decide or learn—not republish the same bullet list as everyone else.',
   },
   {
-    name: 'Fatima Khan',
-    role: 'AI Content Lead',
-    bio: 'Creates educational resources, tutorials, and research-based AI content.',
+    title: 'Transparency over unsupported claims',
+    description: 'We cite sources where it matters and say when we have not verified something ourselves.',
   },
   {
-    name: 'David Kim',
-    role: 'Machine Learning Engineer',
-    bio: 'Focuses on predictive models, data science, and intelligent automation.',
-  },
-  {
-    name: 'Jessica Martinez',
-    role: 'UI/UX Designer',
-    bio: 'Designs modern user experiences that make AI platforms intuitive and engaging.',
-  },
-  {
-    name: 'Michael Brown',
-    role: 'Marketing Manager',
-    bio: 'Leads brand strategy, partnerships, and AI product marketing initiatives.',
+    title: 'Clear commercial disclosure',
+    description: 'Sponsored placements and affiliate relationships are labeled. See our advertising policy.',
+    href: '/advertising-policy',
   },
 ];
 
-const processSteps = [
+const editorialChecks = [
+  'Human review before publication',
+  'Fact-checking on time-sensitive product details',
+  'Updates when tools or pricing change materially',
+  'Disclosure of sponsorship and paid placement',
+];
+
+const userJourney = [
   {
+    icon: Compass,
     title: 'Discover',
-    description: 'We understand your goals, challenges, and business requirements.',
+    description: 'Find tools and topics through the directory, categories, and guides.',
   },
   {
-    title: 'Plan',
-    description: 'We define a clear strategy, roadmap, and AI implementation plan.',
+    icon: Lightbulb,
+    title: 'Understand',
+    description: 'Read explainers that connect concepts to real constraints and workflows.',
   },
   {
-    title: 'Develop',
-    description: 'Our experts build scalable, secure, and intelligent AI solutions.',
+    icon: GitCompare,
+    title: 'Evaluate',
+    description: 'Compare options using our framework—not hype or star ratings alone.',
   },
   {
-    title: 'Test',
-    description: 'Every solution is thoroughly tested for performance, security, and reliability.',
-  },
-  {
-    title: 'Deploy',
-    description: 'We launch and integrate AI solutions seamlessly into your workflow.',
-  },
-  {
-    title: 'Support',
-    description: 'Continuous optimization, maintenance, and long-term support.',
+    icon: Check,
+    title: 'Apply',
+    description: 'Move forward with clearer choices, or contact us about custom development.',
   },
 ];
 
-const industries = [
-  'Startups',
-  'Small Businesses (SMEs)',
-  'Enterprises',
-  'Developers',
-  'Agencies',
-  'Educators',
-  'Content Creators',
-  'Marketing Teams',
-];
-
-const caseStudies = [
+const audiences = [
   {
-    title: 'Healthcare AI Assistant',
-    result:
-      'Improved patient response time by 65% through AI-powered automation and intelligent support systems.',
+    title: 'Developers',
+    description: 'Integrating models, building agents, and shipping AI features responsibly.',
   },
   {
-    title: 'AI Automation Platform',
-    result: 'Reduced manual processes and operational costs by 40% using workflow automation.',
+    title: 'Businesses & operators',
+    description: 'Choosing tools, vendors, and workflows without drowning in noise.',
   },
   {
-    title: 'AI Customer Support Chatbot',
-    result: 'Provided 24/7 customer assistance and increased customer satisfaction by 70%.',
+    title: 'Founders & product teams',
+    description: 'Scoping MVPs, comparing stacks, and planning what to build vs buy.',
   },
   {
-    title: 'AI Analytics Dashboard',
-    result: 'Enhanced reporting accuracy and improved decision-making efficiency by 55%.',
-  },
-];
-
-const partners = [
-  { name: 'OpenAI', src: '/logos/openai.svg', alt: 'OpenAI logo' },
-  { name: 'Microsoft', src: '/logos/microsoft.svg', alt: 'Microsoft logo' },
-  { name: 'Google Cloud', src: '/logos/google.svg', alt: 'Google AI logo' },
-  {
-    name: 'Amazon Web Services',
-    src: '/logos/aws.svg',
-    alt: 'Amazon Web Services (AWS) logo',
-  },
-  { name: 'Anthropic', src: '/logos/anthropic.svg', alt: 'Anthropic logo' },
-  {
-    name: 'Hugging Face',
-    src: '/logos/huggingface.svg',
-    alt: 'Hugging Face AI platform logo',
-  },
-  { name: 'Meta AI', src: '/logos/meta.svg', alt: 'Meta AI logo' },
-  { name: 'NVIDIA', src: '/logos/nvidia.svg', alt: 'NVIDIA AI technology logo' },
-];
-
-const testimonials = [
-  {
-    quote:
-      'AI Dev Info helped us discover the perfect AI stack and guided us through implementing a chatbot solution that exceeded our expectations.',
-    name: 'Sarah Johnson',
-    role: 'CEO, TechVision',
+    title: 'AI learners',
+    description: 'Building literacy from fundamentals through applied examples.',
   },
   {
-    quote:
-      'Their AI consulting services helped us reduce development time and launch our product faster.',
-    name: 'Michael Lee',
-    role: 'CTO, Innovate Labs',
-  },
-  {
-    quote:
-      'One of the most valuable AI platforms for discovering tools, learning resources, and trusted development services.',
-    name: 'Emily Carter',
-    role: 'Founder, AI Startup',
+    title: 'Technology professionals',
+    description: 'Staying current without chasing every launch or trend piece.',
   },
 ];
 
@@ -252,55 +196,81 @@ const aboutFaqs = [
   {
     question: 'What is AI Dev Info?',
     answer:
-      'AI Dev Info is a platform that combines AI services, AI tools, educational resources, expert insights, and business promotion opportunities.',
+      'AI Dev Info is an independent technology publication and directory. We help people discover AI tools, learn through guides and articles, and—when it fits—connect with development or advertising options on the site.',
   },
   {
     question: 'Do you develop custom AI solutions?',
     answer:
-      'Yes. We specialize in AI chatbots, AI agents, automation systems, custom AI applications, SaaS products, and LLM integrations.',
+      'Yes, for selected projects. We work on chatbots, agents, RAG systems, integrations, and related software. See Development Services for scope, or contact us to discuss fit.',
   },
   {
-    question: 'Can I advertise my AI business?',
+    question: 'How do you list and review AI tools?',
     answer:
-      'Absolutely. We provide sponsored listings, featured articles, banner advertising, and promotional campaigns for AI companies.',
+      'Listings focus on practical information: use case, capabilities, pricing, limitations, and alternatives. We verify details against official sources when we can and revisit pages when products change.',
   },
   {
-    question: 'How often is your platform updated?',
+    question: 'Do you use AI to write content?',
     answer:
-      'Our directory, articles, tutorials, and AI resources are updated regularly to ensure users always have access to the latest information.',
+      'AI may assist with research or drafting. Every piece is edited and reviewed by humans before publication—we do not publish unreviewed auto-generated pages.',
   },
   {
-    question: 'Do you review AI tools?',
+    question: 'Can I advertise on AI Dev Info?',
     answer:
-      'Yes. We evaluate AI tools based on usability, features, pricing, performance, and overall value to help users make informed decisions.',
+      'Yes. We offer sponsored listings and advertising for AI products and services. Campaigns are labeled clearly for readers. Start from the Advertising page or contact us.',
+  },
+  {
+    question: 'How often is content updated?',
+    answer:
+      'We add tools and articles as the ecosystem evolves and update existing pages when pricing, features, or positioning change in meaningful ways—not on a fixed “daily” schedule.',
   },
 ];
 
-export function AboutClient() {
+function StatLine({ stats }: { stats: AboutPageStats }) {
+  const parts: string[] = [];
+  if (stats.toolCount > 0) {
+    parts.push(`${stats.toolCount} ${stats.toolCount === 1 ? 'tool' : 'tools'} listed`);
+  }
+  if (stats.articleCount > 0) {
+    parts.push(`${stats.articleCount} ${stats.articleCount === 1 ? 'article' : 'articles'}`);
+  }
+  if (stats.categoryCount > 0) {
+    parts.push(`${stats.categoryCount} ${stats.categoryCount === 1 ? 'category' : 'categories'}`);
+  }
+  if (parts.length === 0) return null;
+
+  return (
+    <p className="mt-6 text-sm text-white/55">
+      {parts.join(' · ')} <span className="text-white/40">(live from our directory)</span>
+    </p>
+  );
+}
+
+function ContentCard({ className, children }: { className?: string; children: ReactNode }) {
+  return (
+    <div className={cn(HOME_CARD_INSET, 'p-6 sm:p-7', className)}>{children}</div>
+  );
+}
+
+export function AboutClient({ stats }: AboutClientProps) {
   return (
     <div>
       {/* Hero */}
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
         <PageHeroBackdrop />
         <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-          <Breadcrumbs
-            items={[{ label: 'About Us' }]}
-            tone="light"
-            className="mb-6"
-          />
+          <Breadcrumbs items={[{ label: 'About' }]} tone="light" className="mb-6" />
           <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-emerald-300/90">
             About AI Dev Info
           </p>
-          <h1 className="mt-4 max-w-3xl font-display text-3xl font-normal leading-tight text-white sm:text-4xl lg:text-5xl">
-            Building the Future of AI Through Innovation, Knowledge & Technology
+          <h1 className="mt-4 max-w-3xl font-display text-3xl font-normal leading-tight text-white sm:text-4xl lg:text-[2.75rem] text-balance">
+            Practical AI knowledge for people who build, evaluate, and use AI
           </h1>
           <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-white/70 sm:text-base">
-            AI Dev Info is a complete AI ecosystem that empowers businesses, developers,
-            startups, marketers, and creators to discover the best AI tools, build
-            intelligent AI solutions, learn from expert-written resources, and promote
-            innovative AI products. We combine technology, education, and innovation to
-            make artificial intelligence accessible for everyone.
+            AI Dev Info is an independent platform for tool discovery, explainers, and
+            implementation guidance. We focus on useful detail—so you can compare options,
+            understand trade-offs, and move forward with clearer decisions.
           </p>
+          <StatLine stats={stats} />
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button
               asChild
@@ -308,7 +278,7 @@ export function AboutClient() {
               className="h-12 bg-white text-foreground hover:bg-white/90 group"
             >
               <Link href="/services">
-                Explore AI Services
+                Explore AI tools
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
@@ -318,353 +288,344 @@ export function AboutClient() {
               variant="outline"
               className="h-12 border-white/35 bg-transparent text-white hover:border-white hover:bg-white hover:text-foreground"
             >
-              <Link href="/contact">Contact Our Team</Link>
+              <Link href="/blogs">Read guides</Link>
             </Button>
           </div>
-          <p className="mt-8 text-sm text-white/60">
-            Trusted by thousands of businesses & AI professionals worldwide ·{' '}
-            <span className="text-white">20,000+ happy users</span>
-          </p>
         </div>
       </section>
 
-      {/* Our Story */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-5">
+      {/* Rhythm: dark hero → paper / emerald bands → dark CTA */}
+      <HomeSection band="paper">
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+            <div>
               <SectionHeading
-                eyebrow="Our Journey"
-                title="Our Story"
+                eyebrow="What we are"
+                title="What is AI Dev Info?"
                 center={false}
-                className="max-w-md"
+                className="max-w-none"
               />
+              <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+                A curated directory of AI tools, editorial guides, and optional development
+                services—not a generic news feed or an affiliate list with no context. We
+                publish information meant to help you evaluate products and understand how AI
+                fits real work.
+              </p>
             </div>
-            <div className="space-y-5 text-[15px] leading-relaxed text-muted-foreground sm:text-base lg:col-span-7">
-              <p>
-                AI Dev Info was founded with one clear vision: to create a trusted platform
-                where businesses and individuals can discover, learn, build, and grow with
-                artificial intelligence.
-              </p>
-              <p>
-                As AI technology rapidly transforms industries around the world, finding
-                reliable AI tools, professional development services, and educational
-                resources has become increasingly difficult. We built AI Dev Info to solve
-                this challenge by bringing everything together into one centralized platform.
-              </p>
-              <p>
-                Today, AI Dev Info is more than a directory. It is a growing AI ecosystem
-                that connects businesses with AI services, developers with learning
-                resources, startups with promotional opportunities, and professionals with
-                the latest AI innovations.
-              </p>
-              <p>
-                Our goal is to simplify AI adoption by making advanced technologies easier
-                to understand, easier to implement, and more valuable for businesses of
-                every size.
+            <div>
+              <SectionHeading
+                eyebrow="Why we exist"
+                title="Why we built it"
+                center={false}
+                className="max-w-none"
+              />
+              <p className="mt-6 text-[15px] leading-relaxed text-muted-foreground sm:text-base">
+                AI moves quickly, and much of what gets published online is outdated, recycled,
+                or written to rank—not to help. We built AI Dev Info to cut through that noise
+                with structured listings, honest limitations, and explainers you can actually
+                use when choosing tools or planning a project.
               </p>
             </div>
           </div>
-        </div>
-      </section>
+      </HomeSection>
 
-      {/* Mission & Vision */}
-      <section className="border-y border-border bg-card py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="border border-border bg-background p-6 sm:p-8">
-              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-primary">
-                Mission
+      <EmeraldGradientSection>
+        <SectionHeading
+          eyebrow="Editorial"
+          title="How we create content"
+          description="Our process is built for accuracy and usefulness—not volume for its own sake."
+          center={false}
+          tone="inverse"
+          className="max-w-2xl"
+        />
+        <ProcessStepGrid
+          columns={5}
+          steps={editorialSteps.map((step, index) => ({
+            step: String(index + 1).padStart(2, '0'),
+            title: step.title,
+            description: step.description,
+          }))}
+        />
+      </EmeraldGradientSection>
+
+      <HomeSection band="paper">
+        <SectionHeading
+          eyebrow="On the site"
+          title={"What you'll find here"}
+          description="Each area links to live sections of AI Dev Info—browse, read, or reach out when you need more."
+          center={false}
+          className="max-w-2xl"
+        />
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {whatYouFind.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className={cn(
+                HOME_CARD_INSET,
+                'group flex flex-col p-6 hover:border-foreground/25 sm:p-7'
+              )}
+            >
+              <div className="flex h-11 w-11 items-center justify-center border border-primary/15 bg-primary/5 text-primary">
+                <item.icon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+              </div>
+              <h3 className="mt-4 font-display text-xl text-foreground group-hover:text-primary">
+                {item.title}
+              </h3>
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                {item.description}
               </p>
-              <h2 className="mt-3 font-display text-2xl text-foreground sm:text-3xl">
-                Our Mission
-              </h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-                Our mission is to simplify AI adoption by connecting people with trusted AI
-                services, verified AI tools, educational resources, and expert guidance that
-                help organizations innovate and grow.
-              </p>
-            </div>
-            <div className="border border-border bg-background p-6 sm:p-8">
-              <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-primary">
-                Vision
-              </p>
-              <h2 className="mt-3 font-display text-2xl text-foreground sm:text-3xl">
-                Our Vision
-              </h2>
-              <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-                Our vision is to become one of the world&apos;s most trusted AI platforms
-                where businesses, developers, startups, and creators discover, build, and
-                grow with artificial intelligence.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What We Do */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="What We Do"
-            title="Everything You Need to Succeed with AI"
-            description="We provide a complete ecosystem of AI services, educational resources, and business solutions to help organizations leverage artificial intelligence with confidence."
-            center={false}
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {whatWeDo.map((item, index) => (
-              <div key={item.title} className="border border-border p-6">
-                <p className="text-[11px] font-medium tabular-nums text-primary">
-                  {String(index + 1).padStart(2, '0')}
-                </p>
-                <h3 className="mt-3 font-display text-xl text-foreground">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="border-y border-border bg-card py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="By The Numbers"
-            title="AI Dev Info in Numbers"
-            center={false}
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {stats.map((stat) => (
-              <div key={stat.label} className="border border-border bg-background p-6">
-                <p className="font-display text-3xl text-foreground sm:text-4xl">
-                  {stat.value}
-                </p>
-                <p className="mt-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Why Us"
-            title="Your Trusted AI Partner"
-            center={false}
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {whyChoose.map((item) => (
-              <div key={item.title} className="border border-border p-6">
-                <h3 className="font-display text-xl text-foreground">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Core Values */}
-      <section className="border-y border-border bg-card py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="Principles" title="Our Core Values" center={false} />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {values.map((value) => (
-              <div key={value.title} className="border border-border bg-background p-6">
-                <h3 className="font-display text-xl text-foreground">{value.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {value.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Team */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Our Team"
-            title="Meet the People Behind AI Dev Info"
-            center={false}
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {team.map((member) => (
-              <div key={member.name} className="border border-border p-6">
-                <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-primary">
-                  {member.role}
-                </p>
-                <h3 className="mt-3 font-display text-xl text-foreground">{member.name}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {member.bio}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="border-y border-border bg-card py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="How We Work"
-            title="Our Simple Process to Deliver Powerful AI Solutions"
-            center={false}
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {processSteps.map((step, index) => (
-              <div key={step.title} className="border border-border bg-background p-6">
-                <p className="text-[11px] font-medium tabular-nums text-primary">
-                  {String(index + 1).padStart(2, '0')}
-                </p>
-                <h3 className="mt-3 font-display text-xl text-foreground">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Who We Help */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Industries"
-            title="AI Solutions for Every Industry"
-            description="We proudly work with organizations across multiple industries, helping them adopt AI to solve real-world challenges."
-            center={false}
-          />
-          <div className="mt-10 flex flex-wrap gap-3">
-            {industries.map((industry) => (
-              <span
-                key={industry}
-                className="border border-border px-4 py-2.5 text-sm text-foreground"
-              >
-                {industry}
+              <span className="mt-4 inline-flex items-center text-sm font-medium text-primary">
+                Explore
+                <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </span>
-            ))}
+            </Link>
+          ))}
+        </div>
+      </HomeSection>
+
+      <EmeraldGradientSection id="tool-evaluation" className="scroll-mt-20">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-5">
+            <SectionHeading
+              eyebrow="Directory"
+              title="How we evaluate AI tools"
+              description="AI tools change fast. Our goal is useful information that helps you decide—not to recommend every product on the market."
+              center={false}
+              tone="inverse"
+              className="max-w-none"
+            />
+            <ul className="mt-8 space-y-4">
+              {[
+                {
+                  icon: GitCompare,
+                  title: 'Beyond feature lists',
+                  text: 'Capabilities, use cases, pricing, and limitations—not marketing copy alone.',
+                },
+                {
+                  icon: CircleDollarSign,
+                  title: 'Fit for real work',
+                  text: 'Alternatives and practical fit for development, business, and creative workflows.',
+                },
+                {
+                  icon: ShieldCheck,
+                  title: 'Checked when we can',
+                  text: 'Important details verified against official sources as products change.',
+                },
+              ].map((item) => (
+                <li key={item.title} className="flex gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-emerald-400/25 bg-emerald-500/10 text-emerald-200">
+                    <item.icon className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                  </div>
+                  <div>
+                    <p className="font-display text-white/95">{item.title}</p>
+                    <p className="mt-1 text-sm text-white/60">{item.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="mt-8 h-12 border-white/35 bg-white/5 text-white backdrop-blur-sm hover:border-white hover:bg-white hover:text-foreground group"
+            >
+              <Link href="/services">
+                Browse the directory
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              </Link>
+            </Button>
+          </div>
+          <div className="lg:col-span-7">
+            <EmeraldGlassCard className="p-6 sm:p-8">
+              <h3 className="font-display text-xl text-white/95">Tool evaluation framework</h3>
+              <p className="mt-2 text-sm text-white/60">
+                When we write or update a listing, we aim to cover:
+              </p>
+              <ul className="mt-6 space-y-3">
+                {evaluationCriteria.map((item) => (
+                  <li key={item} className="flex gap-3 text-sm text-white/65">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-300" aria-hidden />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </EmeraldGlassCard>
           </div>
         </div>
-      </section>
+      </EmeraldGradientSection>
 
-      {/* Case Studies */}
-      <section className="border-y border-border bg-card py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Results"
-            title="Real Results with AI"
-            center={false}
-          />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {caseStudies.map((study) => (
-              <div key={study.title} className="border border-border bg-background p-6">
-                <h3 className="font-display text-xl text-foreground">{study.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {study.result}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Partners */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            eyebrow="Partners"
-            title="Powered by Leading Technology Partners"
-          />
-        </div>
-
-        <div className="relative mt-12 overflow-hidden">
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-background to-transparent sm:w-20" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-background to-transparent sm:w-20" />
-
-          <div className="flex w-max animate-marquee gap-10 pe-10 motion-reduce:animate-none sm:gap-14 sm:pe-14 hover:[animation-play-state:paused]">
-            {[...partners, ...partners].map((partner, i) => (
-              <div
-                key={`${partner.name}-${i}`}
-                className="flex shrink-0 items-center gap-2.5 text-foreground/55"
-                title={partner.name}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={partner.src}
-                  alt={partner.alt}
-                  width={24}
-                  height={24}
-                  className="h-5 w-5 shrink-0 sm:h-6 sm:w-6"
-                />
-                <span className="whitespace-nowrap font-display text-xl sm:text-2xl">
-                  {partner.name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="border-y border-border bg-card py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading eyebrow="Testimonials" title="Loved by AI Builders" center={false} />
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {testimonials.map((item) => (
-              <blockquote key={item.name} className="border border-border bg-background p-6">
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  &ldquo;{item.quote}&rdquo;
-                </p>
-                <footer className="mt-5">
-                  <p className="font-display text-lg text-foreground">{item.name}</p>
-                  <p className="mt-0.5 text-xs uppercase tracking-[0.14em] text-muted-foreground">
-                    {item.role}
+      <HomeSection band="paper">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+          <div>
+            <SectionHeading
+              eyebrow="Principles"
+              title="What we stand for"
+              center={false}
+              className="max-w-none"
+            />
+            <ul className="mt-8 space-y-4">
+              {standFor.map((item) => (
+                <li key={item.title} className="border-l-2 border-primary/30 pl-5">
+                  <h3 className="font-display text-lg text-foreground">{item.title}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {item.description}
+                    {item.href ? (
+                      <>
+                        {' '}
+                        <Link href={item.href} className="text-primary underline-offset-4 hover:underline">
+                          Read the policy
+                        </Link>
+                        .
+                      </>
+                    ) : null}
                   </p>
-                </footer>
-              </blockquote>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <ContentCard>
+            <SectionHeading
+              eyebrow="Trust"
+              title="Transparent. Responsible. Human-reviewed."
+              center={false}
+              className="max-w-none"
+            />
+            <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+              AI may assist with research or early drafts, but we do not publish unreviewed
+              content. Editors check claims, structure, and clarity before a page goes live.
+            </p>
+            <ul className="mt-6 space-y-2">
+              {editorialChecks.map((item) => (
+                <li key={item} className="flex gap-2 text-sm text-muted-foreground">
+                  <Check className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </ContentCard>
+        </div>
+      </HomeSection>
+
+      <EmeraldGradientSection>
+        <SectionHeading
+          eyebrow="Your path"
+          title="How readers use AI Dev Info"
+          description="From first search to a concrete next step—without forcing you through a sales funnel."
+          center={false}
+          tone="inverse"
+          className="max-w-2xl"
+        />
+        <div className="relative mt-12">
+          <div
+            className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-emerald-400/35 to-transparent lg:block"
+            aria-hidden
+          />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
+            {userJourney.map((step) => (
+              <EmeraldGlassCard key={step.title} className="p-6 sm:p-7">
+                <step.icon className="h-5 w-5 text-emerald-300" strokeWidth={1.75} aria-hidden />
+                <h3 className="mt-3 font-display text-lg text-white/95">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/60">{step.description}</p>
+              </EmeraldGlassCard>
             ))}
           </div>
         </div>
-      </section>
+      </EmeraldGradientSection>
 
-      {/* FAQ */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <HomeSection band="paper">
+          <SectionHeading
+            eyebrow="Audience"
+            title="Who we serve"
+            center={false}
+            className="max-w-2xl"
+          />
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {audiences.map((item) => (
+              <ContentCard key={item.title}>
+                <h3 className="font-display text-lg text-foreground">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.description}
+                </p>
+              </ContentCard>
+            ))}
+          </div>
+
+          <ContentCard className="mt-14 max-w-3xl">
+            <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-primary">
+              Mission
+            </p>
+            <p className="mt-3 font-display text-2xl text-foreground sm:text-3xl text-balance">
+              Make AI easier to evaluate and apply—with honest information, not hype.
+            </p>
+            <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
+              We are a small editorial and development team. If you spot an error, have feedback,
+              or want to discuss a project, we would rather hear from you than add another thin
+              page to the internet.
+            </p>
+          </ContentCard>
+      </HomeSection>
+
+      <EmeraldGradientSection>
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+          <blockquote className="lg:col-span-7">
+            <p className="font-display text-2xl leading-snug text-white/95 sm:text-3xl text-balance">
+              Don&apos;t add AI information just to add pages. Add information that helps
+              someone make a better decision, understand a difficult concept, or accomplish
+              something useful.
+            </p>
+          </blockquote>
+          <div className="lg:col-span-5">
+            <SectionHeading
+              eyebrow="Feedback"
+              title="We value your input"
+              description="Corrections, suggestions, and partnership inquiries are welcome."
+              center={false}
+              tone="inverse"
+              className="max-w-none"
+            />
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+              <Button
+                asChild
+                size="lg"
+                className="h-12 bg-white text-foreground hover:bg-white/90 group"
+              >
+                <Link href="/contact">
+                  <MessageSquare className="mr-2 h-4 w-4" aria-hidden />
+                  Contact us
+                </Link>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="h-12 border-white/35 bg-white/5 text-white backdrop-blur-sm hover:border-white hover:bg-white hover:text-foreground"
+              >
+                <Link href="/advertise">Advertising</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </EmeraldGradientSection>
+
+      <HomeSection band="paper">
           <SectionHeading
             eyebrow="FAQ"
-            title="Frequently Asked Questions"
-            description="Quick answers about AI Dev Info and how we help."
+            title="Frequently asked questions"
+            description="Quick answers about how AI Dev Info works."
           />
-          <div className="mt-10">
+          <div className="mt-10 mx-auto max-w-3xl">
             <FaqAccordion faqs={aboutFaqs} />
           </div>
-        </div>
-      </section>
+      </HomeSection>
 
-      {/* CTA */}
-      <section className="pb-16 sm:pb-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <CTASection
-            title="Ready to Build the Future with AI?"
-            description="Join thousands of businesses, developers, and AI enthusiasts who trust AI Dev Info to discover powerful AI tools, build innovative solutions, and stay informed with expert insights."
-            primaryLabel="Explore AI Services"
-            primaryHref="/services"
-            secondaryLabel="Contact Us"
-            secondaryHref="/contact"
-          />
-        </div>
-      </section>
+      <CTASection
+        title="Explore tools, read guides, or get in touch"
+        description="Browse the directory at your own pace, learn from our articles, or contact us if you need help scoping an AI project."
+        primaryLabel="Explore AI tools"
+        primaryHref="/services"
+        secondaryLabel="Contact us"
+        secondaryHref="/contact"
+      />
     </div>
   );
 }

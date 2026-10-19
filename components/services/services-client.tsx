@@ -11,6 +11,7 @@ import { SearchBar } from '@/components/shared/search-bar';
 import { Pagination } from '@/components/shared/pagination';
 import { SectionHeading } from '@/components/shared/section-heading';
 import { TrustedTechSection } from '@/components/home/trusted-tech-section';
+import { CTASection } from '@/components/shared/cta-section';
 import { Button } from '@/components/ui/button';
 import {
   Select,
@@ -271,24 +272,14 @@ function ServicesContent({
         </div>
       </section>
 
-      {/* Directory CTA */}
-      <section className="border-y border-border bg-card py-14">
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="font-display text-3xl text-foreground sm:text-4xl">
-            Looking for a custom AI solution?
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-muted-foreground">
-            Tell us what you need — we&apos;ll help you find the right tools or connect about
-            development services.
-          </p>
-          <Button asChild size="lg" className="mt-8 group">
-            <Link href="/contact">
-              Contact us
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </Button>
-        </div>
-      </section>
+      <CTASection
+        title="Looking for a custom AI solution?"
+        description="Tell us what you need — we'll help you find the right tools or connect about development services."
+        primaryLabel="Contact us"
+        primaryHref="/contact"
+        secondaryLabel="AI development services"
+        secondaryHref="/development-services"
+      />
 
       {/* Trusted Partners marquee */}
       <TrustedTechSection />

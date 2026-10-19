@@ -115,9 +115,9 @@
   }
   .section-tint {
     background:
-      radial-gradient(ellipse 95% 75% at 0% 0%, hsl(162 50% 80% / 0.9), transparent 52%),
-      radial-gradient(ellipse 65% 55% at 100% 100%, hsl(162 42% 76% / 0.55), transparent 48%),
-      linear-gradient(180deg, hsl(162 38% 94%) 0%, hsl(162 28% 96%) 100%);
+      radial-gradient(ellipse 90% 70% at 8% 0%, hsl(162 42% 88% / 0.45), transparent 55%),
+      radial-gradient(ellipse 60% 50% at 100% 100%, hsl(162 38% 86% / 0.3), transparent 50%),
+      linear-gradient(180deg, hsl(162 28% 97%) 0%, hsl(40 22% 98%) 100%);
   }
   .section-muted {
     background-color: hsl(var(--muted) / 0.65);
@@ -136,34 +136,70 @@
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.65;
+    opacity: 0.35;
     background-image:
-      linear-gradient(hsl(162 35% 38% / 0.09) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(162 35% 38% / 0.09) 1px, transparent 1px);
+      linear-gradient(hsl(162 35% 38% / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(162 35% 38% / 0.06) 1px, transparent 1px);
     background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 15%, transparent 78%);
-    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 15%, transparent 78%);
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 10%, transparent 82%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, black 10%, transparent 82%);
   }
   .section-textured > * {
     position: relative;
     z-index: 1;
   }
-  /* Full-width grid (accent tint sections) */
-  .section-textured-full::before {
-    mask-image: none;
-    -webkit-mask-image: none;
-    opacity: 0.5;
-  }
-  .section-tint-accent::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
+  /* Emerald gradient band — lifecycle & process sections (no photo) */
+  .section-emerald-gradient {
     background:
-      radial-gradient(ellipse 55% 45% at 0% 0%, hsl(162 52% 72% / 0.4), transparent 55%),
-      radial-gradient(ellipse 50% 40% at 100% 100%, hsl(162 45% 78% / 0.28), transparent 50%),
-      radial-gradient(ellipse 35% 30% at 100% 0%, hsl(162 40% 85% / 0.2), transparent 45%);
+      radial-gradient(ellipse 80% 60% at 0% 0%, hsl(162 48% 22% / 0.7), transparent 55%),
+      radial-gradient(ellipse 70% 55% at 100% 100%, hsl(158 40% 12% / 0.65), transparent 52%),
+      radial-gradient(ellipse 45% 35% at 100% 0%, hsl(165 42% 18% / 0.45), transparent 48%),
+      linear-gradient(
+        155deg,
+        hsl(162 38% 14%) 0%,
+        hsl(163 36% 10%) 45%,
+        hsl(165 32% 7%) 100%
+      );
+    color: hsl(40 12% 97%);
+  }
+  .section-emerald-gradient__grid {
+    opacity: 0.45;
+    background-image:
+      linear-gradient(hsl(0 0% 100% / 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(0 0% 100% / 0.08) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 95% 80% at 50% 20%, black 12%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 95% 80% at 50% 20%, black 12%, transparent 75%);
+  }
+  .section-emerald-gradient__glow {
+    border-radius: 50%;
+    filter: blur(72px);
+    pointer-events: none;
+  }
+  .section-emerald-gradient__glow--a {
+    top: -25%;
+    right: -5%;
+    width: min(480px, 60vw);
+    height: min(480px, 60vw);
+    background: hsl(162 50% 28% / 0.45);
+  }
+  .section-emerald-gradient__glow--b {
+    bottom: -35%;
+    left: 20%;
+    width: min(360px, 50vw);
+    height: min(360px, 50vw);
+    background: hsl(158 38% 16% / 0.55);
+  }
+  .emerald-step-card {
+    border: 1px solid hsl(0 0% 100% / 0.12);
+    background: linear-gradient(
+      135deg,
+      hsl(0 0% 100% / 0.1) 0%,
+      hsl(0 0% 100% / 0.04) 100%
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 12px 40px -16px rgb(0 0 0 / 0.55);
   }
   .home-card {
     border: 1px solid hsl(var(--border) / 0.65);

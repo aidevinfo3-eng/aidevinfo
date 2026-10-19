@@ -6,7 +6,6 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { PortableTextBlock } from '@portabletext/react';
 import {
-  Clock,
   Calendar,
   Twitter,
   Linkedin,
@@ -190,10 +189,6 @@ export function BlogDetail({
                         day: 'numeric',
                         year: 'numeric',
                       })}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="h-3.5 w-3.5" />
-                      {post.readingTime}
                     </span>
                   </div>
                 </div>

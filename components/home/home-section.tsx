@@ -6,22 +6,18 @@ type HomeSectionProps = {
   band: HomeBand;
   children: React.ReactNode;
   className?: string;
-  /** Stronger emerald wash + grid lines across the full section width. */
-  tintAccent?: boolean;
+  id?: string;
 };
 
-/** Homepage light bands — strict paper / tinted alternation. */
-export function HomeSection({ band, children, className, tintAccent }: HomeSectionProps) {
+/** Homepage light bands — paper / soft mint tint alternation. */
+export function HomeSection({ band, children, className, id }: HomeSectionProps) {
   return (
     <section
+      id={id}
       className={cn(
         'py-16 sm:py-24',
         band === 'paper' && 'section-paper',
-        band === 'tint' &&
-          cn(
-            'section-tint section-textured',
-            tintAccent && 'section-tint-accent section-textured-full'
-          ),
+        band === 'tint' && 'section-tint section-textured',
         className
       )}
     >

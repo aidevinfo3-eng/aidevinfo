@@ -285,18 +285,16 @@ export function ServiceDetail({
           </aside>
         </div>
 
-        {/* CTA */}
-        <div className="mt-14">
-          <CTASection
-            title="Ready to Explore More?"
-            description="Discover more AI tools and services in our comprehensive directory."
-            primaryLabel="Browse All Services"
-            primaryHref="/services"
-            secondaryLabel="Read Our Blog"
-            secondaryHref="/blogs"
-          />
-        </div>
       </div>
+
+      <CTASection
+        title="Ready to Explore More?"
+        description="Discover more AI tools and services in our comprehensive directory."
+        primaryLabel="Browse All Services"
+        primaryHref="/services"
+        secondaryLabel="Read Our Blog"
+        secondaryHref="/blogs"
+      />
     </div>
   );
 }

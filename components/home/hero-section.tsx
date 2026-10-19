@@ -5,12 +5,16 @@ import { PageHeroBackdrop } from '@/components/shared/page-hero-backdrop';
 
 export function HeroSection() {
   return (
-    <section className="relative isolate min-h-[100svh] overflow-hidden bg-foreground">
+    <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
       <PageHeroBackdrop priority />
 
-      <div className="relative mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-end px-4 pb-12 pt-28 sm:px-6 sm:pb-16 sm:pt-32 lg:px-8 lg:pb-20">
+      {/* Extra top padding clears the fixed transparent navbar on home */}
+      <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8 lg:pb-24">
         <div className="max-w-2xl">
-          <h1 className="max-w-2xl font-display text-2xl font-normal leading-snug text-white/95 sm:text-3xl lg:text-[2.15rem] lg:leading-[1.25]">
+          <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-emerald-300/90">
+            AI Dev Info
+          </p>
+          <h1 className="mt-4 max-w-2xl font-display text-3xl font-normal leading-tight text-white sm:text-4xl lg:text-[2.75rem] lg:leading-[1.2]">
             Understand AI. Evaluate AI Tools. Build What Works.
           </h1>
 
