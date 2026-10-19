@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect, useSyncExternalStore } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { HeroSearch } from '@/components/home/hero-search';
+import { isHomePath } from '@/lib/paths';
 import { cn } from '@/lib/utils';
 
 const navLinks = [
@@ -16,45 +17,45 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
-function subscribeScroll(onStoreChange: () => void) {
-  const handler = () => onStoreChange();
-  window.addEventListener('scroll', handler, { passive: true });
-  window.addEventListener('resize', handler, { passive: true });
-  return () => {
-    window.removeEventListener('scroll', handler);
-    window.removeEventListener('resize', handler);
-  };
-}
-
-function getScrollSolid() {
-  return window.scrollY > 4 || document.documentElement.scrollTop > 4;
-}
-
-function getServerScrollSolid() {
-  return false;
-}
-
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const onHome = pathname === '/';
-  const scrolled = useSyncExternalStore(
-    subscribeScroll,
-    getScrollSolid,
-    getServerScrollSolid
-  );
+  const [onHome, setOnHome] = useState(() => isHomePath(pathname));
 
-  // Instant solid: any page that isn't the untouched home hero top
-  const solid = !onHome || scrolled || mobileOpen;
+  // Keep home detection in sync with the real URL (pathname alone can miss `/` on some hosts)
+  useEffect(() => {
+    const fromLocation =
+      typeof window !== 'undefined'
+        ? isHomePath(window.location.pathname)
+        : false;
+    setOnHome(isHomePath(pathname) || fromLocation);
+  }, [pathname]);
+
+  useEffect(() => {
+    const updateScroll = () => {
+      setScrolled(window.scrollY > 4 || document.documentElement.scrollTop > 4);
+    };
+    updateScroll();
+    window.addEventListener('scroll', updateScroll, { passive: true });
+    window.addEventListener('resize', updateScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', updateScroll);
+      window.removeEventListener('resize', updateScroll);
+    };
+  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
   }, [pathname]);
 
+  // Transparent only over the untouched home hero; solid everywhere else / when scrolled
+  const solid = !onHome || scrolled || mobileOpen;
+
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 border-b transition-all duration-200',
+        'fixed inset-x-0 top-0 z-50 border-b transition-[background-color,box-shadow,border-color,backdrop-filter] duration-200',
         solid ? 'border-neutral-200' : 'border-transparent'
       )}
       style={{
@@ -76,10 +77,9 @@ export function Navbar() {
 
         <ul className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
-            const isActive =
-              link.href === '/'
-                ? pathname === '/'
-                : pathname.startsWith(link.href);
+            const isActive = isHomePath(link.href)
+              ? onHome
+              : (pathname?.startsWith(link.href) ?? false);
             return (
               <li key={link.href}>
                 <Link
@@ -125,10 +125,9 @@ export function Navbar() {
         >
           <div className="space-y-1 px-4 py-4">
             {navLinks.map((link) => {
-              const isActive =
-                link.href === '/'
-                  ? pathname === '/'
-                  : pathname.startsWith(link.href);
+              const isActive = isHomePath(link.href)
+                ? onHome
+                : (pathname?.startsWith(link.href) ?? false);
               return (
                 <Link
                   key={link.href}
