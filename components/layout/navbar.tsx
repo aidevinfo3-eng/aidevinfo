@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { HeroSearch } from '@/components/home/hero-search';
+import { BrandLogo } from '@/components/shared/brand-logo';
 import { isHomePath } from '@/lib/paths';
 import { cn } from '@/lib/utils';
 
@@ -67,12 +68,7 @@ export function Navbar() {
     >
       <nav className="mx-auto flex h-[4.25rem] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         <Link href="/" className="shrink-0" aria-label="AI Dev Info home">
-          <span
-            className="font-display text-[1.65rem] leading-none tracking-tight transition-colors duration-200"
-            style={{ color: solid ? '#0a0a0a' : '#ffffff' }}
-          >
-            AI Dev Info
-          </span>
+          <BrandLogo size="nav" priority />
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">

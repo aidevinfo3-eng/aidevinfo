@@ -16,7 +16,7 @@ export default function SiteLayout({
     '@type': 'Organization',
     name: 'AI Dev Info',
     url: siteUrl,
-    logo: `${siteUrl}/logo.png`,
+    logo: `${siteUrl}/ai-dev-logo.png`,
     description:
       'A professional platform focused on Artificial Intelligence, AI tools, AI services, tutorials, news, reviews, and advertising opportunities.',
     email: 'aidevinfo3@gmail.com',

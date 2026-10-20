@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Mail } from 'lucide-react';
+import { BrandLogo } from '@/components/shared/brand-logo';
 
 const footerSections = [
   {
@@ -34,10 +35,8 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           <div className="col-span-2">
-            <Link href="/" className="inline-block">
-              <span className="font-display text-2xl tracking-tight text-foreground">
-                AI Dev Info
-              </span>
+            <Link href="/" className="inline-block" aria-label="AI Dev Info home">
+              <BrandLogo size="footer" />
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
               Your trusted platform for discovering AI services, tools, expert
