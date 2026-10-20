@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
@@ -20,24 +20,22 @@ const navLinks = [
 ];
 
 function readOverlay(pathname: string | null) {
-  if (hasNavOverlayAttribute()) return true;
-  if (pathHasHeroOverlay(pathname)) return true;
-  if (typeof window !== 'undefined' && pathHasHeroOverlay(window.location.pathname)) {
-    return true;
-  }
-  return false;
+  return (
+    hasNavOverlayAttribute() ||
+    pathHasHeroOverlay(pathname) ||
+    (typeof window !== 'undefined' && pathHasHeroOverlay(window.location.pathname))
+  );
 }
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  // Prefer path list so SSR/first paint on hero routes is already transparent
   const [overlay, setOverlay] = useState(() => pathHasHeroOverlay(pathname));
 
-  // Hero pages: transparent until scroll. Re-check path + hero marker after mount/nav.
-  useEffect(() => {
+  useLayoutEffect(() => {
     setOverlay(readOverlay(pathname));
-
     const sync = () => setOverlay(readOverlay(pathname));
     const mo = new MutationObserver(sync);
     mo.observe(document.documentElement, {
@@ -58,15 +56,11 @@ export function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
-    // Reset scroll state on route change (new page often loads at top)
     setScrolled(window.scrollY > 8 || document.documentElement.scrollTop > 8);
   }, [pathname]);
 
-  // Transparent over dark hero at top; white header as soon as you scroll
+  // Transparent over dark hero at top; solid cream/white as soon as you scroll
   const solid = !overlay || scrolled || mobileOpen;
-  const onHome =
-    isHomePath(pathname) ||
-    (typeof window !== 'undefined' && isHomePath(window.location.pathname));
 
   return (
     <header
@@ -85,7 +79,7 @@ export function Navbar() {
         <ul className="hidden items-center gap-1 md:flex">
           {navLinks.map((link) => {
             const isActive = isHomePath(link.href)
-              ? onHome || isHomePath(pathname)
+              ? isHomePath(pathname)
               : (pathname?.startsWith(link.href) ?? false);
             return (
               <li key={link.href}>
@@ -132,7 +126,7 @@ export function Navbar() {
           <div className="space-y-1 px-4 py-4">
             {navLinks.map((link) => {
               const isActive = isHomePath(link.href)
-                ? onHome || isHomePath(pathname)
+                ? isHomePath(pathname)
                 : (pathname?.startsWith(link.href) ?? false);
               return (
                 <Link

@@ -59,7 +59,7 @@ export default async function DevelopmentServicesPage() {
 
   return (
     <>
-      <section className="py-16 sm:py-24">
+      <section className="pb-16 pt-[calc(4.25rem+4rem)] sm:pb-24 sm:pt-[calc(4.25rem+6rem)]">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading

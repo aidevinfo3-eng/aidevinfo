@@ -19,7 +19,7 @@ export function LegalPage({
   children,
 }: LegalPageProps) {
   return (
-    <div>
+    <div className="pt-[4.25rem]">
       <section className="border-b border-border bg-card">
         <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
           <Breadcrumbs items={[{ label: breadcrumbLabel }]} className="mb-6" />

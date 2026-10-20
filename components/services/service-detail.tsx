@@ -43,7 +43,7 @@ export function ServiceDetail({
   const [bookmarked, setBookmarked] = useState(false);
 
   return (
-    <div className="bg-muted/20">
+    <div className="bg-muted/20 pt-[4.25rem]">
       {/* Hero */}
       <section className="gradient-hero border-b border-border">
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 sm:py-10">

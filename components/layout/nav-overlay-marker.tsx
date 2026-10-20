@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 const ATTR = 'data-nav-overlay';
 
 /**
- * Mount inside a full-bleed dark hero. Tells the fixed navbar to sit
- * transparent over the hero until the user scrolls.
+ * Mount inside a full-bleed dark hero. Runs before paint so Main/Navbar
+ * see overlay mode on the first frame (critical for production).
  */
 export function NavOverlayMarker() {
-  useEffect(() => {
+  useLayoutEffect(() => {
     document.documentElement.setAttribute(ATTR, 'true');
     return () => {
       document.documentElement.removeAttribute(ATTR);
