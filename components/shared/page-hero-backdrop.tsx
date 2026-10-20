@@ -1,3 +1,5 @@
+import { NavOverlayMarker } from '@/components/layout/nav-overlay-marker';
+
 export const HERO_BG_POSTER = '/poster-hero.png';
 export const HERO_BG_IMAGE = HERO_BG_POSTER;
 export const HERO_BG_VIDEO = '/hero-bg-2.mp4';
@@ -44,6 +46,7 @@ type PageHeroBackdropProps = {
 export function PageHeroBackdrop({ priority = false }: PageHeroBackdropProps) {
   return (
     <>
+      <NavOverlayMarker />
       <video
         className="absolute inset-0 h-full w-full object-cover object-center"
         autoPlay

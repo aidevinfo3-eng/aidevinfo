@@ -257,7 +257,7 @@ export function AboutClient({ stats }: AboutClientProps) {
       {/* Hero */}
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
         <PageHeroBackdrop />
-        <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8 lg:pb-24">
           <Breadcrumbs items={[{ label: 'About' }]} tone="light" className="mb-6" />
           <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-emerald-300/90">
             About AI Dev Info

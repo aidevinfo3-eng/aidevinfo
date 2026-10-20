@@ -240,7 +240,7 @@ export function ContactClient() {
     <div>
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
         <PageHeroBackdrop />
-        <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8 lg:pb-24">
           <Breadcrumbs items={[{ label: 'Contact' }]} tone="light" className="mb-6" />
           <p className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.22em] text-emerald-300/90">
             <MessageSquare className="h-3.5 w-3.5" />

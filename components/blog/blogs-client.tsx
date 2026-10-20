@@ -123,9 +123,9 @@ function BlogsContent({ allPosts, categories: blogCategories }: BlogsClientProps
       <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
         <PageHeroBackdrop />
 
-        <div className="relative mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+        <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8 lg:pb-24">
           <Breadcrumbs
-            items={[{ label: 'Blog' }]}
+            items={[{ label: 'Blogs' }]}
             tone="light"
             className="mb-6"
           />

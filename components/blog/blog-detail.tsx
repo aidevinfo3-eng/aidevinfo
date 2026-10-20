@@ -20,7 +20,7 @@ import { BlogCard } from '@/components/shared/blog-card';
 import { PortableText } from '@/components/blog/portable-text';
 import { FaqAccordion } from '@/components/shared/faq-accordion';
 import { BlogPost } from '@/lib/types';
-import { cn } from '@/lib/utils';
+import { cn, formatPublishedDate } from '@/lib/utils';
 
 function slugify(text: string) {
   return text
@@ -140,7 +140,10 @@ export function BlogDetail({
             <Breadcrumbs
               items={[
                 { label: 'Blogs', href: '/blogs' },
-                { label: post.category },
+                {
+                  label: post.category,
+                  href: `/blogs?category=${encodeURIComponent(post.category)}`,
+                },
                 { label: post.title },
               ]}
               className="mb-8"
@@ -184,11 +187,13 @@ export function BlogDetail({
                   <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1.5">
                       <Calendar className="h-3.5 w-3.5" />
-                      {new Date(post.date).toLocaleDateString('en-US', {
-                        month: 'long',
-                        day: 'numeric',
-                        year: 'numeric',
-                      })}
+                      <time dateTime={post.date.slice(0, 10)}>
+                        {formatPublishedDate(post.date, {
+                          month: 'long',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </time>
                     </span>
                   </div>
                 </div>

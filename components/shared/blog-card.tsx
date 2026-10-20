@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { ArrowRight, Calendar } from 'lucide-react';
+import { cn, formatPublishedDate } from '@/lib/utils';
 import { BlogPost } from '@/lib/types';
 
 export function BlogCard({
@@ -36,8 +36,14 @@ export function BlogCard({
           elevated ? 'border-0' : 'border border-t-0 border-border'
         )}
       >
-        <div className="text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
           <span className="text-primary">{post.category}</span>
+          <span className="inline-flex items-center gap-1 normal-case tracking-normal">
+            <Calendar className="h-3 w-3 shrink-0" aria-hidden />
+            <time dateTime={post.date.slice(0, 10)}>
+              {formatPublishedDate(post.date)}
+            </time>
+          </span>
         </div>
 
         <h3 className="mt-3 font-display text-xl leading-snug text-foreground transition-colors group-hover:text-primary">
