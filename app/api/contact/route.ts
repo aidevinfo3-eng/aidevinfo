@@ -10,13 +10,10 @@ type ContactBody = {
 
 export async function POST(request: Request) {
   try {
-    const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
-    if (!accessKey) {
-      return NextResponse.json(
-        { success: false, message: 'Form is not configured.' },
-        { status: 500 }
-      );
-    }
+    // Fallback for hosts where env vars can't be set yet; prefer WEB3FORMS_ACCESS_KEY in env when available.
+    const accessKey =
+      process.env.WEB3FORMS_ACCESS_KEY ||
+      '039cf111-e12b-449c-8f73-d0f3e6dc0c3a';
 
     const body = (await request.json()) as ContactBody;
 
