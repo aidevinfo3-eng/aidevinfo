@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xljjgaja';
+
 type ContactBody = {
   name?: string;
   email?: string;
@@ -10,11 +12,6 @@ type ContactBody = {
 
 export async function POST(request: Request) {
   try {
-    // Fallback for hosts where env vars can't be set yet; prefer WEB3FORMS_ACCESS_KEY in env when available.
-    const accessKey =
-      process.env.WEB3FORMS_ACCESS_KEY ||
-      '039cf111-e12b-449c-8f73-d0f3e6dc0c3a';
-
     const body = (await request.json()) as ContactBody;
 
     if (body.botcheck) {
@@ -36,34 +33,34 @@ export async function POST(request: Request) {
       );
     }
 
-    const response = await fetch('https://api.web3forms.com/submit', {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        access_key: accessKey,
         name,
         email,
-        subject: `[AI Dev Info] ${subject}`,
         message,
-        from_name: 'AI Dev Info Contact',
-        replyto: email,
+        _subject: `[AI Dev Info] ${subject}`,
+        _replyto: email,
       }),
     });
 
-    const result = (await response.json()) as {
-      success?: boolean;
-      message?: string;
-    };
+    if (!response.ok) {
+      const result = (await response.json().catch(() => null)) as {
+        error?: string;
+        errors?: Array<{ message?: string }>;
+      } | null;
 
-    if (!response.ok || !result.success) {
+      const messageFromFormspree =
+        result?.error ||
+        result?.errors?.[0]?.message ||
+        'Failed to send message. Please try again.';
+
       return NextResponse.json(
-        {
-          success: false,
-          message: result.message || 'Failed to send message. Please try again.',
-        },
+        { success: false, message: messageFromFormspree },
         { status: 502 }
       );
     }
