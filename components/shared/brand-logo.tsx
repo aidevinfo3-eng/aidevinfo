@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-export const BRAND_LOGO_SRC = '/ai-dev-logo.png';
+/** Resized WebP (~13KB) — original PNG was ~554KB at 2058px wide. */
+export const BRAND_LOGO_SRC = '/ai-dev-logo.webp';
 export const BRAND_NAME = 'AI Dev Info';
 
 type BrandLogoProps = {
@@ -26,9 +27,10 @@ export function BrandLogo({
     <Image
       src={BRAND_LOGO_SRC}
       alt={BRAND_NAME}
-      width={2058}
-      height={586}
+      width={410}
+      height={117}
       priority={priority}
+      sizes="(max-width: 640px) 144px, 160px"
       className={cn(
         'object-contain object-left',
         sizeClass[size],

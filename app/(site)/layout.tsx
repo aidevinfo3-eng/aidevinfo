@@ -2,7 +2,7 @@ import '../globals.css';
 import { Navbar } from '@/components/layout/navbar';
 import { Main } from '@/components/layout/main';
 import { Footer } from '@/components/layout/footer';
-import { ScrollToTop } from '@/components/layout/scroll-to-top';
+import { ScrollToTopLazy } from '@/components/layout/scroll-to-top-lazy';
 
 const siteUrl = 'https://aidevinfo.online';
 
@@ -16,7 +16,7 @@ export default function SiteLayout({
     '@type': 'Organization',
     name: 'AI Dev Info',
     url: siteUrl,
-    logo: `${siteUrl}/ai-dev-logo.png`,
+    logo: `${siteUrl}/ai-dev-logo.webp`,
     description:
       'A professional platform focused on Artificial Intelligence, AI tools, AI services, tutorials, news, reviews, and advertising opportunities.',
     email: 'aidevinfo3@gmail.com',
@@ -47,7 +47,7 @@ export default function SiteLayout({
         <Main>{children}</Main>
         <Footer />
       </div>
-      <ScrollToTop />
+      <ScrollToTopLazy />
     </>
   );
 }

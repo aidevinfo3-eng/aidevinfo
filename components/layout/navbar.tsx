@@ -1,14 +1,29 @@
 'use client';
 
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
-import { HeroSearch } from '@/components/home/hero-search';
 import { BrandLogo } from '@/components/shared/brand-logo';
-import { hasNavOverlayAttribute } from '@/components/layout/nav-overlay-marker';
 import { isHomePath, pathHasHeroOverlay } from '@/lib/paths';
 import { cn } from '@/lib/utils';
+
+const HeroSearch = dynamic(
+  () =>
+    import('@/components/home/hero-search').then((mod) => ({
+      default: mod.HeroSearch,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="h-9 w-[11rem] rounded-sm border border-white/15 bg-white/5 lg:w-64"
+        aria-hidden
+      />
+    ),
+  }
+);
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -19,35 +34,15 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ];
 
-function readOverlay(pathname: string | null) {
-  return (
-    hasNavOverlayAttribute() ||
-    pathHasHeroOverlay(pathname) ||
-    (typeof window !== 'undefined' && pathHasHeroOverlay(window.location.pathname))
-  );
-}
-
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  // Prefer path list so SSR/first paint on hero routes is already transparent
-  const [overlay, setOverlay] = useState(() => pathHasHeroOverlay(pathname));
-
-  useLayoutEffect(() => {
-    setOverlay(readOverlay(pathname));
-    const sync = () => setOverlay(readOverlay(pathname));
-    const mo = new MutationObserver(sync);
-    mo.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['data-nav-overlay'],
-    });
-    return () => mo.disconnect();
-  }, [pathname]);
+  const overlay = pathHasHeroOverlay(pathname);
 
   useEffect(() => {
     const updateScroll = () => {
-      setScrolled(window.scrollY > 8 || document.documentElement.scrollTop > 8);
+      setScrolled(window.scrollY > 8);
     };
     updateScroll();
     window.addEventListener('scroll', updateScroll, { passive: true });
@@ -56,7 +51,7 @@ export function Navbar() {
 
   useEffect(() => {
     setMobileOpen(false);
-    setScrolled(window.scrollY > 8 || document.documentElement.scrollTop > 8);
+    setScrolled(window.scrollY > 8);
   }, [pathname]);
 
   // Transparent over dark hero at top; solid cream/white as soon as you scroll

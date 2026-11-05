@@ -88,7 +88,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* AdSense requires this literal <script> in the initial HTML for site verification */}
+        {/* Keep AdSense in initial HTML while site is in verification */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4395627474100958"
