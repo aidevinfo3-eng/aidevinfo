@@ -17,7 +17,7 @@ export function HomeAtmosphereShell({
   return (
     <section
       className={cn(
-        'home-cta-banner cv-auto relative isolate overflow-hidden',
+        'home-cta-banner relative isolate overflow-hidden',
         compact ? 'py-16 sm:py-20' : 'py-16 sm:py-20 lg:py-24',
         className
       )}

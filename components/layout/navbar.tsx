@@ -44,7 +44,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 h-[4.25rem] border-b',
+        'fixed inset-x-0 top-0 z-50 h-[4.25rem] border-b transition-[background-color,box-shadow] duration-200',
         solid
           ? 'border-neutral-200 bg-[hsl(40_12%_97%)] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)]'
           : 'border-transparent bg-transparent shadow-none'

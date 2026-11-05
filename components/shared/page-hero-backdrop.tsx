@@ -1,6 +1,7 @@
+import { preload } from 'react-dom';
 import { DeferredHeroVideo } from '@/components/shared/deferred-hero-video';
 
-/** Optimized stills — desktop only (mobile uses CSS so LCP is text, not an image). */
+/** Optimized stills — desktop CSS background (media-gated; phones never download). */
 export const HERO_BG_POSTER = '/poster-hero.webp';
 export const HERO_BG_POSTER_MOBILE = '/poster-hero-mobile.webp';
 export const HERO_BG_IMAGE = HERO_BG_POSTER;
@@ -14,15 +15,21 @@ type PageHeroBackdropProps = {
 };
 
 /**
- * Mobile: CSS-only atmosphere (no image download → LCP is the headline).
- * Desktop: photo via CSS background (media-gated) + deferred video.
+ * Mobile: CSS-only atmosphere (LCP = text).
+ * Desktop: preloaded photo via CSS @media + deferred video.
  */
 export function PageHeroBackdrop({ priority = false }: PageHeroBackdropProps) {
-  void priority;
+  if (priority) {
+    preload(HERO_BG_POSTER, {
+      as: 'image',
+      type: 'image/webp',
+      fetchPriority: 'high',
+      media: '(min-width: 768px)',
+    });
+  }
 
   return (
     <>
-      {/* Solid base always paints instantly */}
       <div className="hero-media absolute inset-0" aria-hidden />
 
       <DeferredHeroVideo />
@@ -36,7 +43,6 @@ export function PageHeroBackdrop({ priority = false }: PageHeroBackdropProps) {
       />
       <div className="absolute inset-0 bg-emerald-950/35 mix-blend-multiply" aria-hidden />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_20%,hsl(162_55%_32%/0.38),transparent_55%)]" />
-      {/* Heavier effects only on desktop — grain/SVG hurt mobile paint */}
       <div className="absolute inset-0 hidden bg-[radial-gradient(ellipse_at_85%_70%,hsl(158_40%_28%/0.22),transparent_45%)] md:block" />
       <div className="absolute inset-0 hidden hero-backdrop-grid md:block" />
       <div

@@ -43,7 +43,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background font-sans text-foreground antialiased;
+    @apply bg-background text-foreground antialiased;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply tracking-tight text-foreground;
@@ -92,12 +92,6 @@
       background-size: cover;
       background-position: center;
     }
-  }
-
-  /* Below-fold sections: skip offscreen layout/paint work */
-  .cv-auto {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 720px;
   }
 
   /* Dark hero overlays — editorial grid, grain (shared PageHeroBackdrop) */

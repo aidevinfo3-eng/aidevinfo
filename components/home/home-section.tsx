@@ -15,7 +15,7 @@ export function HomeSection({ band, children, className, id }: HomeSectionProps)
     <section
       id={id}
       className={cn(
-        'cv-auto py-16 sm:py-24',
+        'py-16 sm:py-24',
         band === 'paper' && 'section-paper',
         band === 'tint' && 'section-tint section-textured',
         className
@@ -26,9 +26,9 @@ export function HomeSection({ band, children, className, id }: HomeSectionProps)
   );
 }
 
-/** Cards on white/cream bands — subtle inset (no color transitions → avoids CLS jank). */
+/** Cards on white/cream bands — subtle inset. */
 export const HOME_CARD_INSET =
-  'home-card-inset hover:border-foreground/20 hover:bg-card';
+  'home-card-inset transition-colors hover:border-foreground/20 hover:bg-card';
 
 /** Cards on tinted bands — elevated white. */
-export const HOME_CARD_ELEVATED = 'home-card hover:border-foreground/25';
+export const HOME_CARD_ELEVATED = 'home-card transition-colors hover:border-foreground/25';

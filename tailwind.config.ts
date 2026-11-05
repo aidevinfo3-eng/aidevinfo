@@ -10,12 +10,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        /* System stack only — no webfont CLS (PSI flagged DM Sans at 0.42 CLS) */
         sans: [
+          'var(--font-sans)',
           'ui-sans-serif',
           'system-ui',
-          '-apple-system',
-          'BlinkMacSystemFont',
           'Segoe UI',
           'Roboto',
           'Helvetica Neue',

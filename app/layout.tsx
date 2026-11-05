@@ -1,4 +1,17 @@
 import type { Metadata, Viewport } from 'next';
+import { DM_Sans } from 'next/font/google';
+
+/**
+ * swap + adjustFontFallback = next/font injects size-adjusted fallback so
+ * glyph metrics match and CLS stays low (unlike display:optional mid-load swap).
+ */
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+  adjustFontFallback: true,
+  preload: true,
+});
 
 const siteUrl = 'https://aidevinfo.online';
 
@@ -70,7 +83,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={dmSans.variable} suppressHydrationWarning>
       <head>
         {/* Keep AdSense in initial HTML while site is in verification */}
         <script
@@ -79,7 +92,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body>{children}</body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
