@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
 /** Resized WebP (~13KB) — original PNG was ~554KB at 2058px wide. */
@@ -18,19 +17,22 @@ const sizeClass = {
   lg: 'h-12 w-auto sm:h-14',
 } as const;
 
+/** Native img — skips next/image optimizer JS on every page. */
 export function BrandLogo({
   className,
   size = 'nav',
   priority = false,
 }: BrandLogoProps) {
   return (
-    <Image
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
       src={BRAND_LOGO_SRC}
       alt={BRAND_NAME}
       width={410}
       height={117}
-      priority={priority}
-      sizes="(max-width: 640px) 144px, 160px"
+      decoding="async"
+      loading={priority ? 'eager' : 'lazy'}
+      fetchPriority={priority ? 'low' : 'auto'}
       className={cn(
         'object-contain object-left',
         sizeClass[size],

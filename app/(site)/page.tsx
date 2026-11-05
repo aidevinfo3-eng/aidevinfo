@@ -1,16 +1,46 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { HeroSection } from '@/components/home/hero-section';
 import { PillarsSection } from '@/components/home/pillars-section';
-import { PopularCategoriesSection } from '@/components/home/popular-categories-section';
-import { TrendingToolsSection } from '@/components/home/trending-tools-section';
-import { EvaluateToolsSection } from '@/components/home/evaluate-tools-section';
-import { LearnTopicsSection } from '@/components/home/learn-topics-section';
-import { LifecycleSection } from '@/components/home/lifecycle-section';
-import { WhyAdevInfoSection } from '@/components/home/why-adev-info-section';
-import { ContactCtaSection } from '@/components/home/contact-cta-section';
 import { getFeaturedAiTools } from '@/lib/ai-tools';
 import { getHomeCategoriesWithCounts } from '@/lib/tool-categories';
 import { generateSEO } from '@/lib/seo';
+
+const PopularCategoriesSection = dynamic(() =>
+  import('@/components/home/popular-categories-section').then((m) => ({
+    default: m.PopularCategoriesSection,
+  }))
+);
+const TrendingToolsSection = dynamic(() =>
+  import('@/components/home/trending-tools-section').then((m) => ({
+    default: m.TrendingToolsSection,
+  }))
+);
+const EvaluateToolsSection = dynamic(() =>
+  import('@/components/home/evaluate-tools-section').then((m) => ({
+    default: m.EvaluateToolsSection,
+  }))
+);
+const LearnTopicsSection = dynamic(() =>
+  import('@/components/home/learn-topics-section').then((m) => ({
+    default: m.LearnTopicsSection,
+  }))
+);
+const LifecycleSection = dynamic(() =>
+  import('@/components/home/lifecycle-section').then((m) => ({
+    default: m.LifecycleSection,
+  }))
+);
+const WhyAdevInfoSection = dynamic(() =>
+  import('@/components/home/why-adev-info-section').then((m) => ({
+    default: m.WhyAdevInfoSection,
+  }))
+);
+const ContactCtaSection = dynamic(() =>
+  import('@/components/home/contact-cta-section').then((m) => ({
+    default: m.ContactCtaSection,
+  }))
+);
 
 export const metadata: Metadata = generateSEO({
   title: 'AI Dev Info — Understand AI, Evaluate Tools, Build What Works',
@@ -37,7 +67,6 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Visual rhythm: dark hero → paper → emerald bands → dark footer CTA */}
       <HeroSection />
       <PillarsSection />
       <PopularCategoriesSection categories={categories} />

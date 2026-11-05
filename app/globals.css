@@ -56,7 +56,8 @@
     text-wrap: balance;
   }
   .font-display {
-    font-family: var(--font-display), Georgia, "Times New Roman", serif;
+    /* System serif — no second webfont download (was Source Serif ~37KB) */
+    font-family: Georgia, "Times New Roman", ui-serif, serif;
     font-feature-settings: "ss01" 1;
   }
   .surface-paper {
@@ -76,6 +77,30 @@
     background-size: 48px 48px;
     mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%);
   }
+  /*
+   * Hero media: mobile = solid color only (instant LCP as text).
+   * Desktop photo is media-gated so phones never download it.
+   */
+  .hero-media {
+    background-color: hsl(0 0% 6%);
+    background-image:
+      radial-gradient(ellipse 80% 60% at 15% 20%, hsl(162 55% 28% / 0.45), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 90% 80%, hsl(158 40% 22% / 0.35), transparent 50%);
+  }
+  @media (min-width: 768px) {
+    .hero-media {
+      background-image: url('/poster-hero.webp');
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+  /* Below-fold sections: skip offscreen layout/paint work */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
+
   /* Dark hero overlays — editorial grid, grain (shared PageHeroBackdrop) */
   .hero-backdrop-grid {
     background-image:

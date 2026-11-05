@@ -6,7 +6,7 @@ const HERO_BG_VIDEO = '/hero-bg-2.mp4';
 
 /**
  * Loads the hero MP4 only on desktop, after idle, and never when the user
- * prefers reduced motion. Mobile keeps the static poster as LCP.
+ * prefers reduced motion. Mobile never downloads video or photo.
  */
 export function DeferredHeroVideo() {
   const [enabled, setEnabled] = useState(false);

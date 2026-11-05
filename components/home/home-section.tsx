@@ -15,7 +15,7 @@ export function HomeSection({ band, children, className, id }: HomeSectionProps)
     <section
       id={id}
       className={cn(
-        'py-16 sm:py-24',
+        'cv-auto py-16 sm:py-24',
         band === 'paper' && 'section-paper',
         band === 'tint' && 'section-tint section-textured',
         className

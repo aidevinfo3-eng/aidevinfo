@@ -1,21 +1,11 @@
 import type { Metadata, Viewport } from 'next';
-import { DM_Sans, Source_Serif_4 } from 'next/font/google';
+import { DM_Sans } from 'next/font/google';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
-  display: 'swap',
-  adjustFontFallback: true,
-});
-
-// optional = avoid CLS from late font swap on slow mobile (fallback keeps layout stable)
-const sourceSerif = Source_Serif_4({
-  subsets: ['latin'],
-  weight: ['400', '600'],
-  variable: '--font-display',
   display: 'optional',
   adjustFontFallback: true,
-  preload: true,
 });
 
 const siteUrl = 'https://aidevinfo.online';
@@ -25,8 +15,6 @@ export const metadata: Metadata = {
   title: 'AI Dev Info — AI Development Services, Tools & Insights',
   description:
     'AI Dev Info is your all-in-one platform for AI development services, AI tools discovery, expert tutorials, industry news, and sponsored AI promotions.',
-  // Keywords are intentionally set per page (see lib/seo.ts) so no two pages
-  // ship an identical list.
   authors: [{ name: 'AI Dev Info' }],
   creator: 'AI Dev Info',
   publisher: 'AI Dev Info',
@@ -99,7 +87,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={`${dmSans.variable} ${sourceSerif.variable}`}>
+      <body className={dmSans.variable}>
         {children}
       </body>
     </html>
