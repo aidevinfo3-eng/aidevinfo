@@ -1,29 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
+import { HeroSearch } from '@/components/home/hero-search';
 import { BrandLogo } from '@/components/shared/brand-logo';
 import { isHomePath, pathHasHeroOverlay } from '@/lib/paths';
 import { cn } from '@/lib/utils';
-
-const HeroSearch = dynamic(
-  () =>
-    import('@/components/home/hero-search').then((mod) => ({
-      default: mod.HeroSearch,
-    })),
-  {
-    ssr: false,
-    loading: () => (
-      <div
-        className="h-9 w-[11rem] rounded-sm border border-white/15 bg-white/5 lg:w-64"
-        aria-hidden
-      />
-    ),
-  }
-);
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -60,7 +44,7 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 border-b transition-[background-color,box-shadow,border-color,backdrop-filter] duration-200',
+        'fixed inset-x-0 top-0 z-50 h-[4.25rem] border-b transition-[background-color,box-shadow,border-color,backdrop-filter] duration-200',
         solid
           ? 'border-neutral-200 bg-[hsl(40_12%_97%)] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)] backdrop-blur-md'
           : 'border-transparent bg-transparent shadow-none'
@@ -98,7 +82,7 @@ export function Navbar() {
           })}
         </ul>
 
-        <div className="hidden shrink-0 md:block">
+        <div className="hidden h-9 w-[11rem] shrink-0 md:block lg:w-64">
           <HeroSearch variant="header" onDark={!solid} />
         </div>
 

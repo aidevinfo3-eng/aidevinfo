@@ -5,13 +5,17 @@ const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  adjustFontFallback: true,
 });
 
+// optional = avoid CLS from late font swap on slow mobile (fallback keeps layout stable)
 const sourceSerif = Source_Serif_4({
   subsets: ['latin'],
   weight: ['400', '600'],
   variable: '--font-display',
-  display: 'swap',
+  display: 'optional',
+  adjustFontFallback: true,
+  preload: true,
 });
 
 const siteUrl = 'https://aidevinfo.online';

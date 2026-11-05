@@ -1,8 +1,9 @@
-import Image from 'next/image';
+import { preload } from 'react-dom';
 import { DeferredHeroVideo } from '@/components/shared/deferred-hero-video';
 
-/** Optimized still used as LCP / video fallback (was ~1.9MB PNG). */
+/** Optimized stills — served directly (no /_next/image) so LCP is discoverable in HTML. */
 export const HERO_BG_POSTER = '/poster-hero.webp';
+export const HERO_BG_POSTER_MOBILE = '/poster-hero-mobile.webp';
 export const HERO_BG_IMAGE = HERO_BG_POSTER;
 export const HERO_BG_VIDEO = '/hero-bg-2.mp4';
 
@@ -46,17 +47,35 @@ type PageHeroBackdropProps = {
 
 /** Full-bleed hero still + deferred desktop video + overlays. */
 export function PageHeroBackdrop({ priority = false }: PageHeroBackdropProps) {
+  if (priority) {
+    // Discover LCP image in the document head immediately (mobile-first).
+    preload(HERO_BG_POSTER_MOBILE, {
+      as: 'image',
+      type: 'image/webp',
+      fetchPriority: 'high',
+    });
+  }
+
   return (
     <>
-      <Image
-        src={HERO_BG_POSTER}
-        alt=""
-        fill
-        priority={priority}
-        sizes="100vw"
-        className="absolute inset-0 object-cover object-center"
-        aria-hidden
-      />
+      <picture>
+        <source
+          media="(max-width: 767px)"
+          srcSet={HERO_BG_POSTER_MOBILE}
+          type="image/webp"
+        />
+        <img
+          src={HERO_BG_POSTER}
+          alt=""
+          width={1920}
+          height={1080}
+          fetchPriority={priority ? 'high' : 'auto'}
+          decoding={priority ? 'sync' : 'async'}
+          loading={priority ? 'eager' : 'lazy'}
+          className="absolute inset-0 h-full w-full object-cover object-center"
+          aria-hidden
+        />
+      </picture>
       <DeferredHeroVideo />
       <div
         className="absolute inset-0"

@@ -255,7 +255,7 @@ export function AboutClient({ stats }: AboutClientProps) {
   return (
     <div>
       {/* Hero */}
-      <section className="relative isolate overflow-hidden border-b border-border bg-foreground">
+      <section className="relative isolate min-h-[28rem] overflow-hidden border-b border-border bg-foreground sm:min-h-[32rem]">
         <PageHeroBackdrop />
         <div className="relative mx-auto max-w-7xl px-4 pb-14 pt-28 sm:px-6 sm:pb-20 sm:pt-32 lg:px-8 lg:pb-24">
           <Breadcrumbs items={[{ label: 'About' }]} tone="light" className="mb-6" />
