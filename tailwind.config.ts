@@ -10,7 +10,18 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        /* System stack only — no webfont CLS (PSI flagged DM Sans at 0.42 CLS) */
+        sans: [
+          'ui-sans-serif',
+          'system-ui',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif',
+        ],
         display: ['Georgia', 'Times New Roman', 'ui-serif', 'serif'],
       },
       backgroundImage: {

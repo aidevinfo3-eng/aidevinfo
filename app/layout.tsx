@@ -1,12 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import { DM_Sans } from 'next/font/google';
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'optional',
-  adjustFontFallback: true,
-});
 
 const siteUrl = 'https://aidevinfo.online';
 
@@ -87,9 +79,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className={dmSans.variable}>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

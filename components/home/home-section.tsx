@@ -26,9 +26,9 @@ export function HomeSection({ band, children, className, id }: HomeSectionProps)
   );
 }
 
-/** Cards on white/cream bands — subtle inset. */
+/** Cards on white/cream bands — subtle inset (no color transitions → avoids CLS jank). */
 export const HOME_CARD_INSET =
-  'home-card-inset transition-colors hover:border-foreground/20 hover:bg-card';
+  'home-card-inset hover:border-foreground/20 hover:bg-card';
 
 /** Cards on tinted bands — elevated white. */
-export const HOME_CARD_ELEVATED = 'home-card transition-colors hover:border-foreground/25';
+export const HOME_CARD_ELEVATED = 'home-card hover:border-foreground/25';

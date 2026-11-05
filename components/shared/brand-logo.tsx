@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-/** Resized WebP (~13KB) — original PNG was ~554KB at 2058px wide. */
+/** Nav-sized WebP (~5.5KB at 220px — displayed ~144–160px). */
 export const BRAND_LOGO_SRC = '/ai-dev-logo.webp';
 export const BRAND_NAME = 'AI Dev Info';
 
@@ -28,8 +28,8 @@ export function BrandLogo({
     <img
       src={BRAND_LOGO_SRC}
       alt={BRAND_NAME}
-      width={410}
-      height={117}
+      width={220}
+      height={63}
       decoding="async"
       loading={priority ? 'eager' : 'lazy'}
       fetchPriority={priority ? 'low' : 'auto'}
